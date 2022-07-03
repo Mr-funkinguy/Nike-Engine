@@ -269,37 +269,39 @@ class PlayState extends MusicBeatState
 		        bg.scrollFactor.set(0.1, 0.1);
 		        add(bg);
 
-	            var city:FlxSprite = new FlxSprite(-10).loadGraphic(Paths.image('philly/city'));
-		        city.scrollFactor.set(0.3, 0.3);
-		        city.setGraphicSize(Std.int(city.width * 0.85));
-		        city.updateHitbox();
-		        add(city);
+				if (!Settings.LowDetail) {
+					var city:FlxSprite = new FlxSprite(-10).loadGraphic(Paths.image('philly/city'));
+					city.scrollFactor.set(0.3, 0.3);
+					city.setGraphicSize(Std.int(city.width * 0.85));
+					city.updateHitbox();
+					add(city);
+	
+					phillyCityLights = new FlxTypedGroup<FlxSprite>();
+					add(phillyCityLights);
+	
+					for (i in 0...5) {
+						var light:FlxSprite = new FlxSprite(city.x).loadGraphic(Paths.image('philly/win' + i));
+						light.scrollFactor.set(0.3, 0.3);
+						light.visible = false;
+						light.setGraphicSize(Std.int(light.width * 0.85));
+						light.updateHitbox();
+						light.antialiasing = true;
+						phillyCityLights.add(light);
+					}
+	
+					var streetBehind:FlxSprite = new FlxSprite(-40, 50).loadGraphic(Paths.image('philly/behindTrain'));
+					add(streetBehind);
 
-		        phillyCityLights = new FlxTypedGroup<FlxSprite>();
-		        add(phillyCityLights);
-
-		        for (i in 0...5) {
-		            var light:FlxSprite = new FlxSprite(city.x).loadGraphic(Paths.image('philly/win' + i));
-		            light.scrollFactor.set(0.3, 0.3);
-		            light.visible = false;
-		            light.setGraphicSize(Std.int(light.width * 0.85));
-		            light.updateHitbox();
-		            light.antialiasing = true;
-		            phillyCityLights.add(light);
-		        }
-
-		        var streetBehind:FlxSprite = new FlxSprite(-40, 50).loadGraphic(Paths.image('philly/behindTrain'));
-		        add(streetBehind);
-
-	            phillyTrain = new FlxSprite(2000, 360).loadGraphic(Paths.image('philly/train'));
-		        add(phillyTrain);
-
-		        trainSound = new FlxSound().loadEmbedded(Paths.sound('train_passes'));
-		        FlxG.sound.list.add(trainSound);
+					phillyTrain = new FlxSprite(2000, 360).loadGraphic(Paths.image('philly/train'));
+					add(phillyTrain);
+	
+					trainSound = new FlxSound().loadEmbedded(Paths.sound('train_passes'));
+					FlxG.sound.list.add(trainSound);
+				}
 
 		        // var cityLights:FlxSprite = new FlxSprite().loadGraphic(AssetPaths.win0.png);
 
-		        var street:FlxSprite = new FlxSprite(-40, streetBehind.y).loadGraphic(Paths.image('philly/street'));
+		        var street:FlxSprite = new FlxSprite(-40, 50).loadGraphic(Paths.image('philly/street'));
 	            add(street);
 		    }
 		    case 'milf' | 'satin-panties' | 'high': {
@@ -2000,36 +2002,6 @@ class PlayState extends MusicBeatState
 				{
 					noteCheck(controlArray[daNote.noteData], daNote);
 				}
-				/* 
-					if (controlArray[daNote.noteData])
-						goodNoteHit(daNote);
-				 */
-				// trace(daNote.noteData);
-				/* 
-						switch (daNote.noteData)
-						{
-							case 2: // NOTES YOU JUST PRESSED
-								if (upP || rightP || downP || leftP)
-									noteCheck(upP, daNote);
-							case 3:
-								if (upP || rightP || downP || leftP)
-									noteCheck(rightP, daNote);
-							case 1:
-								if (upP || rightP || downP || leftP)
-									noteCheck(downP, daNote);
-							case 0:
-								if (upP || rightP || downP || leftP)
-									noteCheck(leftP, daNote);
-						}
-
-					//this is already done in noteCheck / goodNoteHit
-					if (daNote.wasGoodHit)
-					{
-						daNote.kill();
-						notes.remove(daNote, true);
-						daNote.destroy();
-					}
-				 */
 			}
 			else
 			{
@@ -2149,21 +2121,23 @@ class PlayState extends MusicBeatState
 
 	function badNoteCheck()
 	{
-		// just double pasting this shit cuz fuk u
-		// REDO THIS SYSTEM!
-		var upP = controls.UP_P;
-		var rightP = controls.RIGHT_P;
-		var downP = controls.DOWN_P;
-		var leftP = controls.LEFT_P;
+		if (!Settings.GhostTapping) {
+			// just double pasting this shit cuz fuk u
+		    // REDO THIS SYSTEM!
+			var upP = controls.UP_P;
+			var rightP = controls.RIGHT_P;
+			var downP = controls.DOWN_P;
+			var leftP = controls.LEFT_P;
 
-		if (leftP)
-			noteMiss(0);
-		if (downP)
-			noteMiss(1);
-		if (upP)
-			noteMiss(2);
-		if (rightP)
-			noteMiss(3);
+			if (leftP)
+				noteMiss(0);
+			if (downP)
+				noteMiss(1);
+			if (upP)
+				noteMiss(2);
+			if (rightP)
+				noteMiss(3);
+		}
 	}
 
 	function noteCheck(keyP:Bool, note:Note):Void
@@ -2433,21 +2407,25 @@ class PlayState extends MusicBeatState
 
 				if (curBeat % 4 == 0)
 				{
-					phillyCityLights.forEach(function(light:FlxSprite)
-					{
-						light.visible = false;
-					});
+					if (!Settings.LowDetail) {
+					    phillyCityLights.forEach(function(light:FlxSprite)
+						{
+							light.visible = false;
+					    });
 
-					curLight = FlxG.random.int(0, phillyCityLights.length - 1);
+					    curLight = FlxG.random.int(0, phillyCityLights.length - 1);
 
-					phillyCityLights.members[curLight].visible = true;
-					// phillyCityLights.members[curLight].alpha = 1;
+					    phillyCityLights.members[curLight].visible = true;
+					    // phillyCityLights.members[curLight].alpha = 1;
+				    }
 				}
 
 				if (curBeat % 8 == 4 && FlxG.random.bool(30) && !trainMoving && trainCooldown > 8)
 				{
 					trainCooldown = FlxG.random.int(-4, 0);
-					trainStart();
+					if (!Settings.LowDetail) {
+						trainStart();
+					}
 				}
 		}
 

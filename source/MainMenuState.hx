@@ -26,7 +26,7 @@ class MainMenuState extends MusicBeatState
 	var menuItems:FlxTypedGroup<FlxSprite>;
 
 	#if !switch
-	var optionShit:Array<String> = ['story mode', 'freeplay', 'options'];
+	var optionShit:Array<String> = ['story mode', 'freeplay', 'donate', 'options'];
 	#else
 	var optionShit:Array<String> = ['story mode', 'freeplay'];
 	#end
@@ -138,6 +138,15 @@ class MainMenuState extends MusicBeatState
 
 			if (controls.ACCEPT)
 			{
+				if (optionShit[curSelected] == 'donate')
+				{
+					#if linux
+					Sys.command('/usr/bin/xdg-open', ["https://ninja-muffin24.itch.io/funkin", "&"]);
+					#else
+					FlxG.openURL('https://ninja-muffin24.itch.io/funkin');
+					#end
+				}
+				else
 				{
 					selectedSomethin = true;
 					FlxG.sound.play(Paths.sound('confirmMenu'));
@@ -166,16 +175,21 @@ class MainMenuState extends MusicBeatState
 								{
 									case 'story mode':
 										FlxG.switchState(new StoryMenuState());
+										LoadingState.loadAndSwitchState(new StoryMenuState());
 										trace("Story Menu Selected");
 									case 'freeplay':
 										FlxG.switchState(new FreeplayState());
+										LoadingState.loadAndSwitchState(new FreeplayState());
 
 										trace("Freeplay Menu Selected");
 
 									case 'options':
+										/*
 										FlxTransitionableState.skipNextTransIn = true;
 										FlxTransitionableState.skipNextTransOut = true;
 										FlxG.switchState(new OptionsMenu());
+										*/
+										LoadingState.loadAndSwitchState(new OptionsSubState());
 								}
 							});
 						}

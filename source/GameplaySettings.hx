@@ -16,9 +16,9 @@ import flixel.FlxCamera;
 
 using StringTools;
 
-class OptionsSubState extends MusicBeatSubstate
+class GameplaySettings extends MusicBeatSubstate
 {
-	var textMenuItems:Array<String> = ['Gameplay', 'Controls', 'Misc'];
+	var textMenuItems:Array<String> = ['LowDetail', 'Controls', 'Misc'];
 	/*
 	var textMenuItem2:Array<String> = ['Controls'];
 	var textMenuItem3:Array<String> = ['Misc'];
@@ -27,7 +27,7 @@ class OptionsSubState extends MusicBeatSubstate
 
 	private var camGame:FlxCamera;
 
-	var money:Alphabet = new Alphabet(0, 0, 'Gameplay', false, false);
+	var money:Alphabet = new Alphabet(0, 0, 'LowDetail', false, false);
 	var money2:Alphabet = new Alphabet(0, 0, 'Controls', false, false);
 	var money3:Alphabet = new Alphabet(0, 0, 'Misc', false, false);
 
@@ -50,12 +50,6 @@ class OptionsSubState extends MusicBeatSubstate
 		menuBG.screenCenter();
 		menuBG.antialiasing = true;
 		add(menuBG);
-
-		grpOptionsTexts = new FlxTypedGroup<FlxText>();
-		add(grpOptionsTexts);
-
-		credGroup = new FlxGroup();
-		add(credGroup);
 	}
 
 	override public function create()
@@ -84,7 +78,7 @@ class OptionsSubState extends MusicBeatSubstate
 		super.update(elapsed);
 
 		if (controls.BACK) {
-			LoadingState.loadAndSwitchState(new MainMenuState());
+			LoadingState.loadAndSwitchState(new OptionsSubState());
 		}
 
 		if (controls.UP_P)
@@ -105,18 +99,37 @@ class OptionsSubState extends MusicBeatSubstate
 
 	function WaitingToAccept() {
 		if (controls.ACCEPT) {
+
 			FlxG.sound.play(Paths.sound('confirmMenu'));
 
 			if (money.ID == curSelected) {
-				LoadingState.loadAndSwitchState(new	GameplaySettings());
+				if (Settings.LowDetail) {
+					trace('changed to false!');
+					Settings.LowDetail = false;
+					Settings.SettingsSave();
+				}
+				else {
+					trace('changed to true!');
+					Settings.LowDetail = true;
+					Settings.SettingsSave();
+				}
 			}
 	
 			if (money2.ID == curSelected) {
-				LoadingState.loadAndSwitchState(new MainMenuState());
+				if (Settings.GhostTapping) {
+					trace('changed to false!');
+					Settings.GhostTapping = false;
+					Settings.SettingsSave();
+				}
+				else {
+					trace('changed to true!');
+					Settings.GhostTapping = true;
+					Settings.SettingsSave();
+				}
 			}
 	
 			if (money3.ID == curSelected) {
-				LoadingState.loadAndSwitchState(new MainMenuState());
+				LoadingState.loadAndSwitchState(new ControlsSubState());
 			}
 		}
 	}

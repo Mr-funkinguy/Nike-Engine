@@ -52,6 +52,8 @@ class TitleState extends MusicBeatState
 
 		PlayerSettings.init();
 
+		Settings.LoadSettings();
+
 		curWacky = FlxG.random.getObject(getIntroTextShit());
 
 		// DEBUG BULLSHIT
