@@ -64,7 +64,6 @@ class Paths
 	{
 		return getPath('editable/$key.txt', TEXT, library);
 	}
-
 	inline static public function xml(key:String, ?library:String)
 	{
 		return getPath('data/$key.xml', TEXT, library);

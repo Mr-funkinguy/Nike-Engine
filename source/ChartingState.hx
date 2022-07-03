@@ -224,6 +224,8 @@ class ChartingState extends MusicBeatState
 		stepperBPM.name = 'song_bpm';
 
 		var characters:Array<String> = CoolUtil.coolTextFile(Paths.txt('characterList'));
+		
+        //var MODstages:Array<String> = CoolUtil.coolTextFile(Paths.txt('stages/characterList', 'editable')); // I'll finish this later its 4 fucking am
 
 		//var MODstages:Array<String> = CoolUtil.coolTextFile(Paths.txt('stages/characterList', 'editable')); // I'll finish this later its 4 fucking am
 
