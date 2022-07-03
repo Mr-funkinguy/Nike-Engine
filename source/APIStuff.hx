@@ -1,6 +1,5 @@
 package;
 
-
 class APIStuff
 {
 	public static var API:String = "";

@@ -60,11 +60,6 @@ class Paths
 		return getPath('data/$key.txt', TEXT, library);
 	}
 
-	inline static public function MODtxt(key:String, ?library:String)
-	{
-		return getPath('editable/$key.txt', TEXT, library);
-	}
-
 	inline static public function xml(key:String, ?library:String)
 	{
 		return getPath('data/$key.xml', TEXT, library);
