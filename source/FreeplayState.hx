@@ -79,6 +79,12 @@ class FreeplayState extends MusicBeatState
 		if (StoryMenuState.weekUnlocked[6] || isDebug)
 			addWeek(['Senpai', 'Roses', 'Thorns'], 6, ['senpai', 'senpai', 'spirit']);
 
+		/*
+		if (sys.FileSystem.exists('assets/editable/weeks/week.txt')) {
+			addWeek([Assets.getText(Paths.txt('weeks/week1', [0], 'editable'))], 0, [Assets.getText(Paths.txt('weeks/week1', [1], 'editable'))]);
+		}
+		*/
+
 		// LOAD MUSIC
 
 		// LOAD CHARACTERS
