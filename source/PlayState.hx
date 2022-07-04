@@ -1873,7 +1873,7 @@ class PlayState extends MusicBeatState
 		comboSpr.velocity.y -= 150;
 
 		comboSpr.velocity.x += FlxG.random.int(1, 10);
-		if (combo > 10) {
+		if (combo >= 10) {
 			add(comboSpr);
 		}
 		add(rating);
