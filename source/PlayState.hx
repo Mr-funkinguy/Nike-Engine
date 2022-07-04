@@ -114,11 +114,15 @@ class PlayState extends MusicBeatState
 
 	var talking:Bool = true;
 	var songScore:Int = 0;
+	var missesTxt:FlxText;
 	var scoreTxt:FlxText;
+	var ratingTxt:FlxText;
 
 	public static var campaignScore:Int = 0;
 
 	var defaultCamZoom:Float = 1.05;
+
+	var misses:Int = 0;
 
 	// how big to stretch the pixel art assets
 	public static var daPixelZoom:Float = 6;
@@ -754,10 +758,23 @@ class PlayState extends MusicBeatState
 		// healthBar
 		add(healthBar);
 
-		scoreTxt = new FlxText(healthBarBG.x + healthBarBG.width - 190, healthBarBG.y + 30, 0, "", 20);
-		scoreTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT);
+		missesTxt = new FlxText(0, healthBarBG.y -30, 400, "", 24);
+		missesTxt.setFormat(Paths.font("vcr.ttf"), 24, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		missesTxt.borderSize = 3;
+		missesTxt.scrollFactor.set();
+		add(missesTxt);
+
+		scoreTxt = new FlxText(0, healthBarBG.y, 400, "", 24);
+		scoreTxt.setFormat(Paths.font("vcr.ttf"), 24, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		scoreTxt.borderSize = 3;
 		scoreTxt.scrollFactor.set();
 		add(scoreTxt);
+
+		ratingTxt = new FlxText(0, healthBarBG.y +30, 400, "", 24);
+		ratingTxt.setFormat(Paths.font("vcr.ttf"), 24, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		ratingTxt.borderSize = 3;
+		ratingTxt.scrollFactor.set();
+		add(ratingTxt);
 
 		iconP1 = new HealthIcon(SONG.player1, true);
 		iconP1.y = healthBar.y - (iconP1.height / 2);
@@ -773,7 +790,9 @@ class PlayState extends MusicBeatState
 		healthBarBG.cameras = [camHUD];
 		iconP1.cameras = [camHUD];
 		iconP2.cameras = [camHUD];
+		missesTxt.cameras = [camHUD];
 		scoreTxt.cameras = [camHUD];
+		ratingTxt.cameras = [camHUD];
 		doof.cameras = [camHUD];
 
 		// if (SONG.song == 'South')
@@ -1385,7 +1404,14 @@ class PlayState extends MusicBeatState
 
 		super.update(elapsed);
 
+		missesTxt.text = "Combo Breaks:" + misses;
 		scoreTxt.text = "Score:" + songScore;
+		if (misses == 0) {
+			ratingTxt.text = "FC";
+		}
+		else {
+			ratingTxt.text = "Clear";
+		}
 
 		if (FlxG.keys.justPressed.ENTER && startedCountdown && canPause)
 		{
@@ -1700,6 +1726,7 @@ class PlayState extends MusicBeatState
 					if (daNote.tooLate || !daNote.wasGoodHit)
 					{
 						combo = 0; //you lose your combo and miss when you don't click a note lol
+						misses += 1;
 						health -= 0.0475;
 						vocals.volume = 0;
 					}
@@ -1819,24 +1846,25 @@ class PlayState extends MusicBeatState
 		//
 
 		var rating:FlxSprite = new FlxSprite();
-		var score:Int = 350;
+		//var score:Int = 450;
+		var score:Int = 9999;
 
 		var daRating:String = "sick";
 
 		if (noteDiff > Conductor.safeZoneOffset * 0.9)
 		{
 			daRating = 'shit';
-			score = 50;
+			score = 75;
 		}
 		else if (noteDiff > Conductor.safeZoneOffset * 0.75)
 		{
 			daRating = 'bad';
-			score = 100;
+			score = 250;
 		}
 		else if (noteDiff > Conductor.safeZoneOffset * 0.2)
 		{
 			daRating = 'good';
-			score = 200;
+			score = 350;
 		}
 
 		songScore += score;
@@ -2136,6 +2164,7 @@ class PlayState extends MusicBeatState
 				gf.playAnim('sad');
 			}
 			combo = 0;
+			misses += 1;
 
 			songScore -= 10;
 
