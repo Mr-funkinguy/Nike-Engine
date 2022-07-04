@@ -201,13 +201,11 @@ class Alphabet extends FlxSpriteGroup
 					letter.x += 90;
 				}
 
-				/*
 				if (FlxG.random.bool(40))
 				{
 					var daSound:String = "GF_";
 					FlxG.sound.play(Paths.soundRandom(daSound, 1, 4));
 				}
-				*/
 
 				add(letter);
 

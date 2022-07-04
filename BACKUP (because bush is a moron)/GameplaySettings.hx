@@ -16,9 +16,9 @@ import flixel.FlxCamera;
 
 using StringTools;
 
-class OptionsSubState extends MusicBeatSubstate
+class GameplaySettings extends MusicBeatSubstate
 {
-	var textMenuItems:Array<String> = ['Gameplay', 'Controls', 'Misc'];
+	var textMenuItems:Array<String> = ['LowDetail', 'Controls', 'Misc'];
 	/*
 	var textMenuItem2:Array<String> = ['Controls'];
 	var textMenuItem3:Array<String> = ['Misc'];
@@ -27,7 +27,7 @@ class OptionsSubState extends MusicBeatSubstate
 
 	private var camGame:FlxCamera;
 
-	var money:Alphabet = new Alphabet(0, 0, 'Gameplay', false, false);
+	var money:Alphabet = new Alphabet(0, 0, 'LowDetail', false, false);
 	var money2:Alphabet = new Alphabet(0, 0, 'Controls', false, false);
 	var money3:Alphabet = new Alphabet(0, 0, 'Misc', false, false);
 
@@ -50,12 +50,27 @@ class OptionsSubState extends MusicBeatSubstate
 		menuBG.screenCenter();
 		menuBG.antialiasing = true;
 		add(menuBG);
+	}
 
-		grpOptionsTexts = new FlxTypedGroup<FlxText>();
-		add(grpOptionsTexts);
+	override public function create()
+	{
+		money.x += 50;
+		money.y += (1 * 80) += 150;
+		money.ID = 0;
+		money.cameras = [camGame];
+		add(money);
 
-		credGroup = new FlxGroup();
-		add(credGroup);
+		money2.x += 50;
+		money2.y += (1 * 80) += 300;
+		money2.ID = 1;
+		money2.cameras = [camGame];
+		add(money2);
+
+		money3.x += 50;
+		money3.y += (1 * 80) += 450;
+		money3.ID = 2;
+		money3.cameras = [camGame];
+		add(money3);
 	}
 
 	override function update(elapsed:Float)
@@ -63,7 +78,7 @@ class OptionsSubState extends MusicBeatSubstate
 		super.update(elapsed);
 
 		if (controls.BACK) {
-			LoadingState.loadAndSwitchState(new MainMenuState());
+			LoadingState.loadAndSwitchState(new OptionsSubState());
 		}
 
 		if (controls.UP_P)
@@ -78,45 +93,43 @@ class OptionsSubState extends MusicBeatSubstate
 		if (curSelected >= textMenuItems.length)
 			curSelected = 0; 
 
-		AddOptions();
 		WaitingToAccept();
 		AlphabetAlpha();
 	}
 
-	function AddOptions() {
-		money.x += 50;
-		money.y += (1 * 80) += 150;
-		money.ID = 0;
-		money.cameras = [camGame];
-		credGroup.add(money);
-
-		money2.x += 50;
-		money2.y += (1 * 80) += 300;
-		money2.ID = 1;
-		money2.cameras = [camGame];
-		credGroup.add(money2);
-
-		money3.x += 50;
-		money3.y += (1 * 80) += 450;
-		money3.ID = 2;
-		money3.cameras = [camGame];
-		credGroup.add(money3);
-	}
-
 	function WaitingToAccept() {
 		if (controls.ACCEPT) {
+
 			FlxG.sound.play(Paths.sound('confirmMenu'));
 
 			if (money.ID == curSelected) {
-				LoadingState.loadAndSwitchState(new	GameplaySettings());
+				if (Settings.LowDetail) {
+					trace('changed to false!');
+					Settings.LowDetail = false;
+					Settings.SettingsSave();
+				}
+				else {
+					trace('changed to true!');
+					Settings.LowDetail = true;
+					Settings.SettingsSave();
+				}
 			}
 	
 			if (money2.ID == curSelected) {
-				LoadingState.loadAndSwitchState(new MainMenuState());
+				if (Settings.GhostTapping) {
+					trace('changed to false!');
+					Settings.GhostTapping = false;
+					Settings.SettingsSave();
+				}
+				else {
+					trace('changed to true!');
+					Settings.GhostTapping = true;
+					Settings.SettingsSave();
+				}
 			}
 	
 			if (money3.ID == curSelected) {
-				LoadingState.loadAndSwitchState(new MainMenuState());
+				LoadingState.loadAndSwitchState(new ControlsSubState());
 			}
 		}
 	}
