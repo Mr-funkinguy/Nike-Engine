@@ -55,5 +55,7 @@ class Settings extends MusicBeatSubstate
 		if(FlxG.save.data.GhostTapping != null) {
 			GhostTapping = FlxG.save.data.GhostTapping;
 		}
+
+		SaveShit();
 	}
 }
