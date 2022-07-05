@@ -40,6 +40,8 @@
 
 	<classpath name="source" />
 
+	<define name="Doesn't work for now" if="linux" />
+
 	<assets path="assets/preload" rename="assets" exclude="*.ogg" if="web"/>
 	<assets path="assets/preload" rename="assets" exclude="*.mp3" unless="web"/>
 	
