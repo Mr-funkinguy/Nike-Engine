@@ -238,7 +238,7 @@ class PlayState extends MusicBeatState
 		// String that contains the mode defined here so it isn't necessary to call changePresence for each mode
 		if (isStoryMode)
 		{
-			detailsText = "Story Mode: Week " + storyWeek;
+			detailsText = "Story Mode: Week " + storyWeek + "(" +storyDifficulty + ")";
 		}
 		else
 		{
@@ -631,7 +631,7 @@ class PlayState extends MusicBeatState
 				if (isStoryMode)
 				{
 					camPos.x += 600;
-					tweenCamIn();
+					tweenCamIn(1.3);
 				}
 
 			case "spooky":
@@ -1282,9 +1282,9 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	function tweenCamIn():Void
+	function tweenCamIn(zoom:Float):Void
 	{
-		FlxTween.tween(FlxG.camera, {zoom: 1.3}, (Conductor.stepCrochet * 4 / 1000), {ease: FlxEase.elasticInOut});
+		FlxTween.tween(FlxG.camera, {zoom: zoom}, (Conductor.stepCrochet * 4 / 1000), {ease: FlxEase.elasticInOut});
 	}
 
 	override function openSubState(SubState:FlxSubState)
@@ -1418,6 +1418,8 @@ class PlayState extends MusicBeatState
 			ratingTxt.text = "Clear";
 		}
 
+		DiscordClient.changePresence(detailsText, SONG.song + " ("  +scoreTxt + " - " +ratingTxt +")", iconRPC);
+
 		if (FlxG.keys.justPressed.ENTER && startedCountdown && canPause)
 		{
 			persistentUpdate = false;
@@ -1543,7 +1545,7 @@ class PlayState extends MusicBeatState
 
 				if (SONG.song.toLowerCase() == 'tutorial')
 				{
-					tweenCamIn();
+					tweenCamIn(1.3);
 				}
 			}
 
@@ -1851,8 +1853,7 @@ class PlayState extends MusicBeatState
 		//
 
 		var rating:FlxSprite = new FlxSprite();
-		//var score:Int = 450;
-		var score:Int = 9999;
+		var score:Int = 450;
 
 		var daRating:String = "sick";
 
@@ -1864,7 +1865,7 @@ class PlayState extends MusicBeatState
 		else if (noteDiff > Conductor.safeZoneOffset * 0.75)
 		{
 			daRating = 'bad';
-			score = 250;
+			score = 160;
 		}
 		else if (noteDiff > Conductor.safeZoneOffset * 0.2)
 		{
