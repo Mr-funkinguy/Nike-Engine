@@ -41,6 +41,10 @@ import lime.utils.Assets;
 import openfl.display.BlendMode;
 import openfl.display.StageQuality;
 import openfl.filters.ShaderFilter;
+#if sys
+import sys.FileSystem;
+import sys.io.File;
+#end
 
 using StringTools;
 
@@ -527,7 +531,7 @@ class PlayState extends MusicBeatState
 		        add(bg);
 		    }
 
-		    default: {
+		    default:  {
 		        defaultCamZoom = 0.9;
 		        curStage = 'stage';
 
@@ -606,6 +610,7 @@ class PlayState extends MusicBeatState
 				gfVersion = 'gf-pixel';
 			case 'schoolEvil':
 				gfVersion = 'gf-pixel';
+			
 		}
 
 		if (curStage == 'limo')
