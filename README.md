@@ -38,15 +38,15 @@ If Building On Windows Please Install these tools
 * Windows SDK (10.0.17763.0)
 
 ### Normal building the game
-``
+```
 lime build mac
 lime build windows
 lime build linux
-``
+```
 ### building the game in debug
-``
+```
 lime build mac -debug
 lime build windows -debug
 lime build linux -debug
-
+```
 you can run FNF from the file under export\release\The platform you built on\bin
