@@ -2,11 +2,24 @@ package;
 
 import flixel.FlxGame;
 import flixel.FlxState;
+import flixel.FlxG;
 import openfl.Assets;
 import openfl.Lib;
 import openfl.display.FPS;
 import openfl.display.Sprite;
 import openfl.events.Event;
+import flixel.tweens.FlxTween;
+import openfl.display.StageScaleMode;
+#if CRASH_HANDLER
+import lime.app.Application;
+import openfl.events.UncaughtErrorEvent;
+import haxe.CallStack;
+import haxe.io.Path;
+import Discord.DiscordClient;
+import sys.FileSystem;
+import sys.io.File;
+import sys.io.Process;
+#end
 
 class Main extends Sprite
 {
@@ -73,4 +86,57 @@ class Main extends Sprite
 		addChild(new FPS(10, 3, 0xFFFFFF));
 		#end
 	}
+	#if CRASH_HANDLER
+	function onCrash(e:UncaughtErrorEvent):Void
+	{
+		var errMsg:String = "";
+		var path:String;
+		var callStack:Array<StackItem> = CallStack.exceptionStack(true);
+		var dateNow:String = Date.now().toString();
+	
+		//dateNow = dateNow.replace(" ", "_"); //THIS IS BROKEN FOR SOME REASON
+		//dateNow = dateNow.replace(":", "'"); //might have to fix this later
+	
+		path = "./crash/" + "Nike_" + dateNow + ".txt";
+	
+		for (stackItem in callStack)
+		{
+			switch (stackItem)
+			{
+				case FilePos(s, file, line, column):
+					errMsg += file + " (line " + line + ")\n";
+				default:
+					Sys.println(stackItem);
+			}
+		}
+	
+		errMsg += 
+		"\n
+		Uncaught Error: " 
+		+ 
+		e.error 
+		+ 
+		"\n
+		Please report this error to the Discord server: 
+		https://discord.gg/J2HMjaUqfr
+		\n
+		\n
+		> Crash Handler written by: sqirra-rng
+		\n
+		\n
+		> Engine by: JuniorNovoa and Bushtrain";
+	
+		if (!FileSystem.exists("./crash/"))
+			FileSystem.createDirectory("./crash/");
+	
+		File.saveContent(path, errMsg + "\n");
+	
+		Sys.println(errMsg);
+		Sys.println("Crash dump saved in " + Path.normalize(path));
+	
+		Application.current.window.alert(errMsg, "Error!");
+		DiscordClient.shutdown();
+		Sys.exit(1);
+	}
+	#end
 }

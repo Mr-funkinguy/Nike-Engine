@@ -41,6 +41,10 @@ import lime.utils.Assets;
 import openfl.display.BlendMode;
 import openfl.display.StageQuality;
 import openfl.filters.ShaderFilter;
+#if sys
+import sys.FileSystem;
+import sys.io.File;
+#end
 
 using StringTools;
 
@@ -114,11 +118,15 @@ class PlayState extends MusicBeatState
 
 	var talking:Bool = true;
 	var songScore:Int = 0;
+	var missesTxt:FlxText;
 	var scoreTxt:FlxText;
+	var ratingTxt:FlxText;
 
 	public static var campaignScore:Int = 0;
 
 	var defaultCamZoom:Float = 1.05;
+
+	var misses:Int = 0;
 
 	// how big to stretch the pixel art assets
 	public static var daPixelZoom:Float = 6;
@@ -230,7 +238,7 @@ class PlayState extends MusicBeatState
 		// String that contains the mode defined here so it isn't necessary to call changePresence for each mode
 		if (isStoryMode)
 		{
-			detailsText = "Story Mode: Week " + storyWeek;
+			detailsText = "Story Mode: Week " + storyWeek + "(" +storyDifficulty + ")";
 		}
 		else
 		{
@@ -523,7 +531,7 @@ class PlayState extends MusicBeatState
 		        add(bg);
 		    }
 
-		    default: {
+		    default:  {
 		        defaultCamZoom = 0.9;
 		        curStage = 'stage';
 
@@ -559,7 +567,10 @@ class PlayState extends MusicBeatState
 					trace('Loaded mod stage!');
 				}
 				else {
-					trace('False alarm, There is no mod stage. Loading\ndefault stage...');
+					trace('False alarm, 
+					There is no mod stage.
+					\n
+					Loading default stage...');
 					defaultCamZoom = 0.9;
 					curStage = 'stage';
 	
@@ -602,6 +613,7 @@ class PlayState extends MusicBeatState
 				gfVersion = 'gf-pixel';
 			case 'schoolEvil':
 				gfVersion = 'gf-pixel';
+			
 		}
 
 		if (curStage == 'limo')
@@ -622,7 +634,7 @@ class PlayState extends MusicBeatState
 				if (isStoryMode)
 				{
 					camPos.x += 600;
-					tweenCamIn();
+					tweenCamIn(1.3);
 				}
 
 			case "spooky":
@@ -754,10 +766,23 @@ class PlayState extends MusicBeatState
 		// healthBar
 		add(healthBar);
 
-		scoreTxt = new FlxText(healthBarBG.x + healthBarBG.width - 190, healthBarBG.y + 30, 0, "", 20);
-		scoreTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT);
+		missesTxt = new FlxText(0, healthBarBG.y -30, 400, "", 24);
+		missesTxt.setFormat(Paths.font("vcr.ttf"), 24, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		missesTxt.borderSize = 3;
+		missesTxt.scrollFactor.set();
+		add(missesTxt);
+
+		scoreTxt = new FlxText(0, healthBarBG.y, 400, "", 24);
+		scoreTxt.setFormat(Paths.font("vcr.ttf"), 24, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		scoreTxt.borderSize = 3;
 		scoreTxt.scrollFactor.set();
 		add(scoreTxt);
+
+		ratingTxt = new FlxText(0, healthBarBG.y +30, 400, "", 24);
+		ratingTxt.setFormat(Paths.font("vcr.ttf"), 24, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		ratingTxt.borderSize = 3;
+		ratingTxt.scrollFactor.set();
+		add(ratingTxt);
 
 		iconP1 = new HealthIcon(SONG.player1, true);
 		iconP1.y = healthBar.y - (iconP1.height / 2);
@@ -773,7 +798,9 @@ class PlayState extends MusicBeatState
 		healthBarBG.cameras = [camHUD];
 		iconP1.cameras = [camHUD];
 		iconP2.cameras = [camHUD];
+		missesTxt.cameras = [camHUD];
 		scoreTxt.cameras = [camHUD];
+		ratingTxt.cameras = [camHUD];
 		doof.cameras = [camHUD];
 
 		// if (SONG.song == 'South')
@@ -1258,9 +1285,9 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	function tweenCamIn():Void
+	function tweenCamIn(zoom:Float):Void
 	{
-		FlxTween.tween(FlxG.camera, {zoom: 1.3}, (Conductor.stepCrochet * 4 / 1000), {ease: FlxEase.elasticInOut});
+		FlxTween.tween(FlxG.camera, {zoom: zoom}, (Conductor.stepCrochet * 4 / 1000), {ease: FlxEase.elasticInOut});
 	}
 
 	override function openSubState(SubState:FlxSubState)
@@ -1385,7 +1412,16 @@ class PlayState extends MusicBeatState
 
 		super.update(elapsed);
 
+		missesTxt.text = "Combo Breaks:" + misses;
 		scoreTxt.text = "Score:" + songScore;
+		if (misses == 0) {
+			ratingTxt.text = "FC";
+		}
+		else {
+			ratingTxt.text = "Clear";
+		}
+
+		DiscordClient.changePresence(detailsText, SONG.song + " ("  +scoreTxt + " - " +ratingTxt +")", iconRPC);
 
 		if (FlxG.keys.justPressed.ENTER && startedCountdown && canPause)
 		{
@@ -1512,7 +1548,7 @@ class PlayState extends MusicBeatState
 
 				if (SONG.song.toLowerCase() == 'tutorial')
 				{
-					tweenCamIn();
+					tweenCamIn(1.3);
 				}
 			}
 
@@ -1700,6 +1736,7 @@ class PlayState extends MusicBeatState
 					if (daNote.tooLate || !daNote.wasGoodHit)
 					{
 						combo = 0; //you lose your combo and miss when you don't click a note lol
+						misses += 1;
 						health -= 0.0475;
 						vocals.volume = 0;
 					}
@@ -1819,24 +1856,24 @@ class PlayState extends MusicBeatState
 		//
 
 		var rating:FlxSprite = new FlxSprite();
-		var score:Int = 350;
+		var score:Int = 450;
 
 		var daRating:String = "sick";
 
 		if (noteDiff > Conductor.safeZoneOffset * 0.9)
 		{
 			daRating = 'shit';
-			score = 50;
+			score = 75;
 		}
 		else if (noteDiff > Conductor.safeZoneOffset * 0.75)
 		{
 			daRating = 'bad';
-			score = 100;
+			score = 160;
 		}
 		else if (noteDiff > Conductor.safeZoneOffset * 0.2)
 		{
 			daRating = 'good';
-			score = 200;
+			score = 350;
 		}
 
 		songScore += score;
@@ -1860,19 +1897,21 @@ class PlayState extends MusicBeatState
 
 		rating.loadGraphic(Paths.image(pixelShitPart1 + daRating + pixelShitPart2));
 		rating.screenCenter();
-		rating.x = coolText.x - 40;
+		rating.x = coolText.x -160;
 		rating.y -= 60;
 		rating.acceleration.y = 550;
 		rating.velocity.y -= FlxG.random.int(140, 175);
 		rating.velocity.x -= FlxG.random.int(0, 10);
+		rating.cameras = [camHUD];
 
 		var comboSpr:FlxSprite = new FlxSprite().loadGraphic(Paths.image(pixelShitPart1 + 'combo' + pixelShitPart2));
 		comboSpr.screenCenter();
-		comboSpr.x = coolText.x;
+		comboSpr.x = coolText.x -120;
 		comboSpr.acceleration.y = 600;
 		comboSpr.velocity.y -= 150;
 
 		comboSpr.velocity.x += FlxG.random.int(1, 10);
+		comboSpr.cameras = [camHUD];
 		if (combo >= 10) {
 			add(comboSpr);
 		}
@@ -1905,7 +1944,7 @@ class PlayState extends MusicBeatState
 		{
 			var numScore:FlxSprite = new FlxSprite().loadGraphic(Paths.image(pixelShitPart1 + 'num' + Std.int(i) + pixelShitPart2));
 			numScore.screenCenter();
-			numScore.x = coolText.x + (43 * daLoop) - 90;
+			numScore.x = coolText.x + (43 * daLoop) -210;
 			numScore.y += 80;
 
 			if (!curStage.startsWith('school'))
@@ -1922,6 +1961,7 @@ class PlayState extends MusicBeatState
 			numScore.acceleration.y = FlxG.random.int(200, 300);
 			numScore.velocity.y -= FlxG.random.int(140, 160);
 			numScore.velocity.x = FlxG.random.float(-5, 5);
+			numScore.cameras = [camHUD];
 
 			if (combo >= 10 || combo == 0)
 				add(numScore);
@@ -2136,6 +2176,7 @@ class PlayState extends MusicBeatState
 				gf.playAnim('sad');
 			}
 			combo = 0;
+			misses += 1;
 
 			songScore -= 10;
 
