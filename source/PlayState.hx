@@ -567,7 +567,10 @@ class PlayState extends MusicBeatState
 					trace('Loaded mod stage!');
 				}
 				else {
-					trace('False alarm, There is no mod stage. Loading\ndefault stage...');
+					trace('False alarm, 
+					There is no mod stage.
+					\n
+					Loading default stage...');
 					defaultCamZoom = 0.9;
 					curStage = 'stage';
 	
@@ -1894,19 +1897,21 @@ class PlayState extends MusicBeatState
 
 		rating.loadGraphic(Paths.image(pixelShitPart1 + daRating + pixelShitPart2));
 		rating.screenCenter();
-		rating.x = coolText.x - 40;
+		rating.x = coolText.x -160;
 		rating.y -= 60;
 		rating.acceleration.y = 550;
 		rating.velocity.y -= FlxG.random.int(140, 175);
 		rating.velocity.x -= FlxG.random.int(0, 10);
+		rating.cameras = [camHUD];
 
 		var comboSpr:FlxSprite = new FlxSprite().loadGraphic(Paths.image(pixelShitPart1 + 'combo' + pixelShitPart2));
 		comboSpr.screenCenter();
-		comboSpr.x = coolText.x;
+		comboSpr.x = coolText.x -120;
 		comboSpr.acceleration.y = 600;
 		comboSpr.velocity.y -= 150;
 
 		comboSpr.velocity.x += FlxG.random.int(1, 10);
+		comboSpr.cameras = [camHUD];
 		if (combo >= 10) {
 			add(comboSpr);
 		}
@@ -1939,7 +1944,7 @@ class PlayState extends MusicBeatState
 		{
 			var numScore:FlxSprite = new FlxSprite().loadGraphic(Paths.image(pixelShitPart1 + 'num' + Std.int(i) + pixelShitPart2));
 			numScore.screenCenter();
-			numScore.x = coolText.x + (43 * daLoop) - 90;
+			numScore.x = coolText.x + (43 * daLoop) -210;
 			numScore.y += 80;
 
 			if (!curStage.startsWith('school'))
@@ -1956,6 +1961,7 @@ class PlayState extends MusicBeatState
 			numScore.acceleration.y = FlxG.random.int(200, 300);
 			numScore.velocity.y -= FlxG.random.int(140, 160);
 			numScore.velocity.x = FlxG.random.float(-5, 5);
+			numScore.cameras = [camHUD];
 
 			if (combo >= 10 || combo == 0)
 				add(numScore);
