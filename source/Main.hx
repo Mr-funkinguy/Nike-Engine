@@ -94,6 +94,9 @@ class Main extends Sprite
 		var callStack:Array<StackItem> = CallStack.exceptionStack(true);
 		var dateNow:String = Date.now().toString();
 	
+		//dateNow = dateNow.replace(" ", "_"); //THIS IS BROKEN FOR SOME REASON
+		//dateNow = dateNow.replace(":", "'"); //might have to fix this later
+	
 		path = "./crash/" + "Nike_" + dateNow + ".txt";
 	
 		for (stackItem in callStack)
