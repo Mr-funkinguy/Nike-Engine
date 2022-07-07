@@ -1,7 +1,9 @@
 ## Nike Engine 
 Play The Original game here [Newgrounds](https://www.newgrounds.com/portal/view/770371) [Itch.io](https://ninja-muffin24.itch.io/funkin)
 
-IF YOU WANT TO COMPILE THE GAME YOURSELF, CONTINUE READING!!!                                                                                                               EVERY MOD YOU MAKE WITH THIS ENGINE HAS TO BE OPEN SOURCE
+### Every Modification Or If You Recreate This It HAS To Be Open Source
+
+IF YOU WANT TO COMPILE THE GAME YOURSELF, CONTINUE READING!!! 
 
 
 
