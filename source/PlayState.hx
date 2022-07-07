@@ -1421,7 +1421,7 @@ class PlayState extends MusicBeatState
 			ratingTxt.text = "Clear";
 		}
 
-		DiscordClient.changePresence(detailsText, SONG.song + " ("  +scoreTxt + " - " +ratingTxt +")", iconRPC);
+		//DiscordClient.changePresence(detailsText, SONG.song + " ("  +scoreTxt + " - " +ratingTxt +")", iconRPC);
 
 		if (FlxG.keys.justPressed.ENTER && startedCountdown && canPause)
 		{
