@@ -1469,15 +1469,20 @@ class PlayState extends MusicBeatState
 		if (health > 2)
 			health = 2;
 
-		if (healthBar.percent < 20)
+		if (healthBar.percent < 20) {
 			iconP1.animation.curAnim.curFrame = 1;
-		else
+		}
+		else {
 			iconP1.animation.curAnim.curFrame = 0;
+		}
 
-		if (healthBar.percent > 80)
+		if (healthBar.percent > 80) {
 			iconP2.animation.curAnim.curFrame = 1;
-		else
+		    //iconP1.animation.curAnim.curFrame = 3; //working winning icon for bf!!!!! but uh it looks bad (my drawing) so im not gonna include it lol
+		}
+		else {
 			iconP2.animation.curAnim.curFrame = 0;
+		}
 
 		/* if (FlxG.keys.justPressed.NINE)
 			FlxG.switchState(new Charting()); */
