@@ -56,6 +56,8 @@ class OptionsSubState extends MusicBeatSubstate
 
 		credGroup = new FlxGroup();
 		add(credGroup);
+
+		AddOptions();
 	}
 
 	override function update(elapsed:Float)
@@ -78,7 +80,6 @@ class OptionsSubState extends MusicBeatSubstate
 		if (curSelected >= textMenuItems.length)
 			curSelected = 0; 
 
-		AddOptions();
 		WaitingToAccept();
 		AlphabetAlpha();
 	}

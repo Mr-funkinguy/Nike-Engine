@@ -549,14 +549,16 @@ class PlayState extends MusicBeatState
 		        stageFront.active = false;
 		        add(stageFront);
 
-		        var stageCurtains:FlxSprite = new FlxSprite(-500, -300).loadGraphic(Paths.image('stagecurtains'));
-		        stageCurtains.setGraphicSize(Std.int(stageCurtains.width * 0.9));
-		        stageCurtains.updateHitbox();
-		        stageCurtains.antialiasing = true;
-		        stageCurtains.scrollFactor.set(1.3, 1.3);
-		        stageCurtains.active = false;
-
-		        add(stageCurtains);
+				if (!Settings.LowDetail) {
+					var stageCurtains:FlxSprite = new FlxSprite(-500, -300).loadGraphic(Paths.image('stagecurtains'));
+					stageCurtains.setGraphicSize(Std.int(stageCurtains.width * 0.9));
+					stageCurtains.updateHitbox();
+					stageCurtains.antialiasing = true;
+					stageCurtains.scrollFactor.set(1.3, 1.3);
+					stageCurtains.active = false;
+	
+					add(stageCurtains);
+				}
 		    }
 
 			//this is for mods lolllll
@@ -567,10 +569,7 @@ class PlayState extends MusicBeatState
 					trace('Loaded mod stage!');
 				}
 				else {
-					trace('False alarm, 
-					There is no mod stage.
-					\n
-					Loading default stage...');
+					trace('False alarm, There is no mod stage. \nLoading default stage...');
 					defaultCamZoom = 0.9;
 					curStage = 'stage';
 	
@@ -588,14 +587,16 @@ class PlayState extends MusicBeatState
 					stageFront.active = false;
 					add(stageFront);
 	
-					var stageCurtains:FlxSprite = new FlxSprite(-500, -300).loadGraphic(Paths.image('stagecurtains'));
-					stageCurtains.setGraphicSize(Std.int(stageCurtains.width * 0.9));
-					stageCurtains.updateHitbox();
-					stageCurtains.antialiasing = true;
-					stageCurtains.scrollFactor.set(1.3, 1.3);
-					stageCurtains.active = false;
-	
-					add(stageCurtains);
+					if (!Settings.LowDetail) {
+						var stageCurtains:FlxSprite = new FlxSprite(-500, -300).loadGraphic(Paths.image('stagecurtains'));
+						stageCurtains.setGraphicSize(Std.int(stageCurtains.width * 0.9));
+						stageCurtains.updateHitbox();
+						stageCurtains.antialiasing = true;
+						stageCurtains.scrollFactor.set(1.3, 1.3);
+						stageCurtains.active = false;
+		
+						add(stageCurtains);
+					}
 				}
 			}
 			//ok no more mods
@@ -1902,7 +1903,7 @@ class PlayState extends MusicBeatState
 
 		rating.loadGraphic(Paths.image(pixelShitPart1 + daRating + pixelShitPart2));
 		rating.screenCenter();
-		rating.x = coolText.x -160;
+		rating.x = coolText.x -360;
 		rating.y -= 60;
 		rating.acceleration.y = 550;
 		rating.velocity.y -= FlxG.random.int(140, 175);
@@ -1911,7 +1912,7 @@ class PlayState extends MusicBeatState
 
 		var comboSpr:FlxSprite = new FlxSprite().loadGraphic(Paths.image(pixelShitPart1 + 'combo' + pixelShitPart2));
 		comboSpr.screenCenter();
-		comboSpr.x = coolText.x -120;
+		comboSpr.x = coolText.x -320;
 		comboSpr.acceleration.y = 600;
 		comboSpr.velocity.y -= 150;
 
@@ -1949,7 +1950,7 @@ class PlayState extends MusicBeatState
 		{
 			var numScore:FlxSprite = new FlxSprite().loadGraphic(Paths.image(pixelShitPart1 + 'num' + Std.int(i) + pixelShitPart2));
 			numScore.screenCenter();
-			numScore.x = coolText.x + (43 * daLoop) -210;
+			numScore.x = coolText.x + (43 * daLoop) -360;
 			numScore.y += 80;
 
 			if (!curStage.startsWith('school'))
@@ -2476,7 +2477,7 @@ class PlayState extends MusicBeatState
 		switch (curStage)
 		{
 			case 'school':
-				if (Settings.LowDetail) {
+				if (!Settings.LowDetail) {
 					bgGirls.dance();
 				}
 

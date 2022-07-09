@@ -52,8 +52,6 @@ class TitleState extends MusicBeatState
 
 		PlayerSettings.init();
 
-		Settings.LoadSettings();
-
 		curWacky = FlxG.random.getObject(getIntroTextShit());
 
 		// DEBUG BULLSHIT
@@ -138,6 +136,8 @@ class TitleState extends MusicBeatState
 
 			FlxG.sound.music.fadeIn(4, 0, 0.7);
 		}
+
+		Settings.LoadSettings();
 
 		Conductor.changeBPM(102);
 		persistentUpdate = true;
