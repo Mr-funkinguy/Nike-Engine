@@ -20,6 +20,7 @@ class Settings extends MusicBeatSubstate
 {
 	public static var LowDetail:Bool = false;
 	public static var GhostTapping:Bool = true;
+	public static var Downscroll:Bool = true;
 
 	/*
     public static function ChangeSetting(setting:Bool, change:Bool) {
@@ -44,6 +45,7 @@ class Settings extends MusicBeatSubstate
 		trace('Saving settings...');
 		FlxG.save.data.LowDetail = LowDetail;
 		FlxG.save.data.GhostTapping = GhostTapping;
+		FlxG.save.data.Downscroll = Downscroll;
 	}
 
 	public static function LoadSettings() {
@@ -54,6 +56,10 @@ class Settings extends MusicBeatSubstate
 
 		if(FlxG.save.data.GhostTapping != null) {
 			GhostTapping = FlxG.save.data.GhostTapping;
+		}
+
+		if(FlxG.save.data.Downscroll != null) {
+			Downscroll = FlxG.save.data.Downscroll;
 		}
 
 		SaveShit();

@@ -18,7 +18,7 @@ using StringTools;
 
 class GameplaySettings extends MusicBeatSubstate
 {
-	var textMenuItems:Array<String> = ['LowDetail', 'Controls', 'Misc'];
+	var textMenuItems:Array<String> = ['Low Detail', 'Ghost Tapping', 'Downscroll'];
 	/*
 	var textMenuItem2:Array<String> = ['Controls'];
 	var textMenuItem3:Array<String> = ['Misc'];
@@ -27,9 +27,9 @@ class GameplaySettings extends MusicBeatSubstate
 
 	private var camGame:FlxCamera;
 
-	var money:Alphabet = new Alphabet(0, 0, 'LowDetail', false, false);
-	var money2:Alphabet = new Alphabet(0, 0, 'Controls', false, false);
-	var money3:Alphabet = new Alphabet(0, 0, 'Misc', false, false);
+	var money:Alphabet = new Alphabet(0, 0, 'Low Detail', false, false);
+	var money2:Alphabet = new Alphabet(0, 0, 'Ghost Tapping', false, false);
+	var money3:Alphabet = new Alphabet(0, 0, 'Downscroll', false, false);
 
 	var curSelected:Int = 0;
 
@@ -129,7 +129,16 @@ class GameplaySettings extends MusicBeatSubstate
 			}
 	
 			if (money3.ID == curSelected) {
-				LoadingState.loadAndSwitchState(new ControlsSubState());
+				if (Settings.Downscroll) {
+					trace('changed to false!');
+					Settings.Downscroll = false;
+					Settings.SettingsSave();
+				}
+				else {
+					trace('changed to true!');
+					Settings.Downscroll = true;
+					Settings.SettingsSave();
+				}
 			}
 		}
 	}

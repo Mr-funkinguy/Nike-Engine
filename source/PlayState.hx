@@ -785,6 +785,12 @@ class PlayState extends MusicBeatState
 		ratingTxt.scrollFactor.set();
 		add(ratingTxt);
 
+		if (Settings.Downscroll) {
+			missesTxt.y -= 200;
+			scoreTxt.y -= 200;
+			ratingTxt.y -= 200;
+		}
+
 		iconP1 = new HealthIcon(SONG.player1, true);
 		iconP1.y = healthBar.y - (iconP1.height / 2);
 		add(iconP1);
@@ -1263,6 +1269,10 @@ class PlayState extends MusicBeatState
 
 			babyArrow.updateHitbox();
 			babyArrow.scrollFactor.set();
+
+			if (Settings.Downscroll) {
+				babyArrow.y += 500;
+			}
 
 			if (!isStoryMode)
 			{

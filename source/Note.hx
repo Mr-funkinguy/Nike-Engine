@@ -144,6 +144,8 @@ class Note extends FlxSprite
 
 			x -= width / 2;
 
+			flipY = Settings.Downscroll;
+
 			if (PlayState.curStage.startsWith('school'))
 				x += 30;
 
