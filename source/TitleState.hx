@@ -27,6 +27,10 @@ import flixel.util.FlxTimer;
 import io.newgrounds.NG;
 import lime.app.Application;
 import openfl.Assets;
+#if desktop
+import sys.FileSystem;
+import sys.io.File;
+#end
 
 using StringTools;
 
@@ -46,7 +50,6 @@ class TitleState extends MusicBeatState
 
 	override public function create():Void
 	{
-
 		PlayerSettings.init();
 
 		curWacky = FlxG.random.getObject(getIntroTextShit());
@@ -60,7 +63,7 @@ class TitleState extends MusicBeatState
 		#if ng
 		var ng:NGio = new NGio(APIStuff.API, APIStuff.EncKey);
 		trace('NEWGROUNDS LOL');
-		#end
+		#end 
 
 		FlxG.save.bind('funkin', 'ninjamuffin99');
 
@@ -79,6 +82,14 @@ class TitleState extends MusicBeatState
 			if (!StoryMenuState.weekUnlocked[0])
 				StoryMenuState.weekUnlocked[0] = true;
 		}
+
+		#if mods
+		for (i in FileSystem.readDirectory(FileSystem.absolutePath("mods"))) //checks for mods instead of having to put the mods hardcoded.
+		{
+			polymod.Polymod.init({modRoot: "mods", dirs: [i]});
+			trace('Loaded mods:\n' + FileSystem.readDirectory(FileSystem.absolutePath("mods")));
+		}
+		#end
 
 		#if FREEPLAY
 		FlxG.switchState(new FreeplayState());

@@ -4,6 +4,10 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.animation.FlxBaseAnimation;
 import flixel.graphics.frames.FlxAtlasFrames;
+#if desktop
+import sys.FileSystem;
+import sys.io.File;
+#end
 
 using StringTools;
 
@@ -268,6 +272,12 @@ class Character extends FlxSprite
 
 			case 'bf':
 				var tex = Paths.getSparrowAtlas('characters/BOYFRIEND', 'shared');
+
+				if (sys.FileSystem.exists('assets/editables/images/characters/BOYFRIEND.png') && sys.FileSystem.exists('assets/editables/images/characters/BOYFRIEND.xml')) {
+					trace('Loading mod...');
+					tex = Paths.getSparrowAtlas('characters/BOYFRIEND', 'editable');
+					trace('Loaded mod!');
+				}
 				frames = tex;
 				animation.addByPrefix('idle', 'BF idle dance', 24, false);
 				animation.addByPrefix('singUP', 'BF NOTE UP0', 24, false);
