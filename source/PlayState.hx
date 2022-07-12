@@ -110,9 +110,17 @@ class PlayState extends MusicBeatState
 	var fastCar:FlxSprite;
 
 	//tankman shit
-	var tankWatchtower:BGSprite;
-	var tankGround:BGSprite;
+	var smokeL:FlxSprite;
+	var smokeR:FlxSprite;
+	var tankWatchtower:FlxSprite;
+	var tankGround:FlxSprite;
 	var tankmanRun:FlxTypedGroup<TankmenBG>;
+	var tankdude1:FlxSprite;
+	var tankdude2:FlxSprite;
+	var tankdude3:FlxSprite;
+	var tankdude4:FlxSprite;
+	var tankdude5:FlxSprite;
+	var tankdude6:FlxSprite;
 
 	var upperBoppers:FlxSprite;
 	var bottomBoppers:FlxSprite;
@@ -535,51 +543,117 @@ class PlayState extends MusicBeatState
 		        bg.scale.set(6, 6);
 		        add(bg);
 		    }
-			case 'guns' | 'stress' | 'ugh':
-				  {
-						defaultCamZoom = 0.9;
+			case 'guns' | 'stress' | 'ugh': {
+				defaultCamZoom = 0.9;
 
-						curStage = 'tank';
-						
-						var sky:BGSprite = new BGSprite('tankSky', -400, -400, 0, 0);
-						add(sky);
-						
-						var clouds:BGSprite = new BGSprite('tankClouds', FlxG.random.int(-700, -100), FlxG.random.int(-20, 20), 0.1, 0.1);
-						clouds.active = true;
-						clouds.velocity.x = FlxG.random.float(5, 15);
-						add(clouds);
-						
-						var mountains:BGSprite = new BGSprite('tankMountains', -300, -20, 0.2, 0.2);
-						mountains.setGraphicSize(Std.int(mountains.width * 1.2));
-						mountains.updateHitbox();
-						add(mountains);
-						
-						var buildings:BGSprite = new BGSprite('tankBuildings', -200, 0, 0.3, 0.3);
-						buildings.setGraphicSize(Std.int(buildings.width * 1.1));
-						buildings.updateHitbox();
-						add(buildings);
-						
-						var ruins:BGSprite = new BGSprite('tankRuins', -200, 0, 0.35, 0.35);
-						ruins.setGraphicSize(Std.int(ruins.width * 1.1));
-						ruins.updateHitbox();
-						add(ruins);
-						
-						var smokeL:BGSprite = new BGSprite('smokeLeft', -200, -100, 0.4, 0.4, ['SmokeBlurLeft'], true);
-						add(smokeL);
-						
-						var smokeR:BGSprite = new BGSprite('smokeRight', 1100, -100, 0.4, 0.4, ['SmokeRight'], true);
-						add(smokeR);
-						
-						tankWatchtower = new BGSprite('tankWatchtower', 100, 50, 0.5, 0.5, ['watchtower gradient color']);
-						add(tankWatchtower);
-						
-						tankGround = new BGSprite('tankRolling', 300, 300, 0.5, 0.5, ['BG tank w lighting'], true);
-						add(tankGround);
-						
-						tankmanRun = new FlxTypedGroup<TankmenBG>();
-						add(tankmanRun);
-				  }
+				curStage = 'tank';
 
+				var sky:FlxSprite = new FlxSprite(-400, -400).loadGraphic(Paths.image('tankSky', 'week7'));
+				sky.scale.set(1.3, 1.3);
+				add(sky);
+				
+				if (!Settings.LowDetail) {
+					var clouds:FlxSprite = new FlxSprite(FlxG.random.int(-700, -100), FlxG.random.int(-20, 20)).loadGraphic(Paths.image('tankClouds'));
+					clouds.scrollFactor.set(0.1, 0.1);
+					clouds.velocity.x = FlxG.random.float(5, 15);
+					add(clouds);
+				}
+
+				var mountains:FlxSprite = new FlxSprite(-300, -20).loadGraphic(Paths.image('tankMountains', 'week7'));
+				mountains.setGraphicSize(Std.int(mountains.width * 1.2));
+				mountains.updateHitbox();
+				mountains.scrollFactor.set(0.2, 0.2);
+				add(mountains);
+
+				if (!Settings.LowDetail) {
+					var buildings:FlxSprite = new FlxSprite(-200, 0).loadGraphic(Paths.image('tankBuildings', 'week7'));
+					buildings.setGraphicSize(Std.int(buildings.width * 1.1));
+					buildings.updateHitbox();
+					buildings.scrollFactor.set(0.3, 0.3);
+					add(buildings);
+	
+					var ruins:FlxSprite = new FlxSprite(-200, 0).loadGraphic(Paths.image('tankRuins', 'week7'));
+					ruins.setGraphicSize(Std.int(buildings.width * 1.1));
+					ruins.updateHitbox();
+					ruins.scrollFactor.set(0.3, 0.3);
+					add(ruins);
+	
+					smokeL = new FlxSprite(-200, -100);
+					smokeL.frames = Paths.getSparrowAtlas('smokeLeft', 'week7');
+					smokeL.animation.addByPrefix('smoke', 'SmokeBlurLeft', 24, true);
+					smokeL.animation.play('smoke');
+					smokeL.scrollFactor.set(0.4, 0.4);
+					add(smokeL);
+	
+					smokeR = new FlxSprite(1100, -100);
+					smokeR.frames = Paths.getSparrowAtlas('smokeRight', 'week7');
+					smokeR.animation.addByPrefix('smoke', 'SmokeRight', 24, true);
+					smokeR.animation.play('smoke');
+					smokeR.scrollFactor.set(0.4, 0.4);
+					add(smokeR);
+	
+					tankWatchtower = new FlxSprite(100, 50);
+					tankWatchtower.frames = Paths.getSparrowAtlas('tankWatchtower', 'week7');
+					tankWatchtower.animation.addByPrefix('watching', 'watchtower gradient color', 24, true);
+					tankWatchtower.animation.play('watching');
+					tankWatchtower.scrollFactor.set(0.5, 0.5);
+					add(tankWatchtower);
+
+				    tankGround = new FlxSprite(300, 350);
+				    tankGround.frames = Paths.getSparrowAtlas('tankRolling', 'week7');
+				    tankGround.animation.addByPrefix('tank', 'BG tank w lighting', 24, true);
+				    tankGround.animation.play('tank');
+					tankGround.scrollFactor.set(0.5, 0.5);
+					add(tankGround);
+				}
+
+				tankmanRun = new FlxTypedGroup<TankmenBG>();
+				add(tankmanRun);
+
+				var ground:FlxSprite = new FlxSprite(-420, -150).loadGraphic(Paths.image('tankGround', 'week7'));
+				ground.setGraphicSize(Std.int(1.15 * ground.width));
+				ground.updateHitbox();
+				add(ground);
+
+				if (!Settings.LowDetail) {
+					tankdude1 = new FlxSprite(-500, 650);
+					tankdude1.frames = Paths.getSparrowAtlas('tank0', 'week7');
+					tankdude1.animation.addByPrefix('tank', 'fg tankhead far right instance 1', 24, true);
+					tankdude1.animation.play('tank');
+					tankdude1.scrollFactor.set(1.7, 1.5);
+				
+					tankdude2 = new FlxSprite(-300, 750);
+					tankdude2.frames = Paths.getSparrowAtlas('tank1', 'week7');
+					tankdude2.animation.addByPrefix('tank', 'fg tankhead 5 instance 1', 24, true);
+					tankdude2.animation.play('tank');
+					tankdude2.scrollFactor.set(2, 0.2);
+				
+					tankdude3 = new FlxSprite(450, 940);
+					tankdude3.frames = Paths.getSparrowAtlas('tank2', 'week7');
+					tankdude3.animation.addByPrefix('tank', 'foreground man 3 instance 1', 24, true);
+					tankdude3.animation.play('tank');
+					tankdude3.scrollFactor.set(1.5, 1.5);
+				
+					tankdude4 = new FlxSprite(1300, 900);
+					tankdude4.frames = Paths.getSparrowAtlas('tank4', 'week7');
+					tankdude4.animation.addByPrefix('tank', 'fg tankman bobbin 3 instance 1', 24, true);
+					tankdude4.animation.play('tank');
+					tankdude4.scrollFactor.set(1.5, 1.5);
+				
+					tankdude5 = new FlxSprite(1620, 700);
+					tankdude5.frames = Paths.getSparrowAtlas('tank5', 'week7');
+					tankdude5.animation.addByPrefix('tank', 'fg tankhead far right instance 1', 24, true);
+					tankdude5.animation.play('tank');
+					tankdude5.scrollFactor.set(1.5, 1.5);
+				
+					tankdude6 = new FlxSprite(1300, 1200);
+					tankdude6.frames = Paths.getSparrowAtlas('tank3', 'week7');
+					tankdude6.animation.addByPrefix('tank', 'fg tankhead 4 instance 1', 24, true);
+					tankdude6.animation.play('tank');
+					tankdude6.scrollFactor.set(3.5, 2.5);
+				}
+				moveTank();
+			}
 		    default:  {
 		        defaultCamZoom = 0.9;
 		        curStage = 'stage';
@@ -709,7 +783,7 @@ class PlayState extends MusicBeatState
 				if (isStoryMode)
 				{
 					camPos.x += 600;
-					tweenCamIn(1.3);
+					tweenCamIn(1.3, (Conductor.stepCrochet * 4 / 1000));
 				}
 
 			case "spooky":
@@ -738,7 +812,7 @@ class PlayState extends MusicBeatState
 				dad.y += 100;
 				camPos.set(dad.getGraphicMidpoint().x + 300, dad.getGraphicMidpoint().y);
 			case "tankman":
-				dad.y += 180;
+				dad.y += 130;
 		}
 
 		boyfriend = new Boyfriend(770, 450, SONG.player1);
@@ -794,11 +868,28 @@ class PlayState extends MusicBeatState
 		add(gf);
 
 		// Shitty layering but whatev it works LOL
-		if (curStage == 'limo')
+
+		if (curStage == 'tank' && !Settings.LowDetail) {
+			add(dad);
+			add(boyfriend);
+
+			add(tankdude1);
+			add(tankdude2);
+			add(tankdude3);
+			add(tankdude4);
+			add(tankdude5);
+			add(tankdude6);
+		}
+		else if (curStage == 'limo') {
 			add(limo);
 
-		add(dad);
-		add(boyfriend);
+			add(dad);
+			add(boyfriend);
+		}
+		else {
+			add(dad);
+			add(boyfriend);
+		}
 
 		var doof:DialogueBox = new DialogueBox(false, dialogue);
 		// doof.x += 70;
@@ -874,9 +965,9 @@ class PlayState extends MusicBeatState
 		add(ratingTxt);
 
 		if (Settings.Downscroll) {
-			missesTxt.y -= 200;
-			scoreTxt.y -= 200;
-			ratingTxt.y -= 200;
+			missesTxt.y -= 600;
+			scoreTxt.y -= 600;
+			ratingTxt.y -= 600;
 		}
 
 		iconP1 = new HealthIcon(SONG.player1, true);
@@ -903,28 +994,35 @@ class PlayState extends MusicBeatState
 		// UI_camera.zoom = 1;
 
 		function playCutscene(name:String, atEndOfSong:Bool = false)
-			{
-				inCutscene = true;
-				FlxG.sound.music.stop();
+		{
+			var blackScreen:FlxSprite = new FlxSprite(0, 0).makeGraphic(Std.int(FlxG.width * 2), Std.int(FlxG.height * 2), FlxColor.BLACK);
+			blackScreen.cameras = [camHUD];
+			add(blackScreen);
+			blackScreen.scrollFactor.set();
 			
-				var video:VideoHandler = new VideoHandler();
-				video.finishCallback = function()
+			inCutscene = true;
+			FlxG.sound.music.stop();
+			
+			var video:VideoHandler = new VideoHandler();
+			video.finishCallback = function()
+			{
+				FlxTween.tween(blackScreen, {alpha: 0}, 1);
+
+				if (atEndOfSong)
 				{
-					if (atEndOfSong)
-					{
-						if (storyPlaylist.length <= 0)
-							FlxG.switchState(new StoryMenuState());
-						else
-						{
-							SONG = Song.loadFromJson(storyPlaylist[0].toLowerCase());
-							FlxG.switchState(new PlayState());
-						}
-					}
+					if (storyPlaylist.length <= 0)
+						FlxG.switchState(new StoryMenuState());
 					else
-						startCountdown();
+					{
+						SONG = Song.loadFromJson(storyPlaylist[0].toLowerCase());
+						FlxG.switchState(new PlayState());
+					}
 				}
-				video.playVideo(Paths.video(name));
+				else
+					startCountdown();
 			}
+			video.playVideo(Paths.video(name));
+		}
 
 		// cameras = [FlxG.cameras.list[1]];
 		startingSong = true;
@@ -969,22 +1067,17 @@ class PlayState extends MusicBeatState
 				case 'thorns':
 					schoolIntro(doof);
 				case 'ugh':
-					playCutscene('ughCutscene');
+					playCutscene('ughCutscene.mp4', false);
 				case 'guns':
-					playCutscene('gunsCutscene');
+					playCutscene('gunsCutscene.mp4', false);
 				case 'stress':
-					playCutscene('stressCutscene');
+					playCutscene('stressCutscene.mp4', false);
 				default:
 					startCountdown();
 			}
 		}
-		else
-		{
-			switch (curSong.toLowerCase())
-			{
-				default:
-					startCountdown();
-			}
+		else {
+			startCountdown();
 		}
 
 		super.create();
@@ -1414,9 +1507,14 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	function tweenCamIn(zoom:Float):Void
+	function tweenCam(zoom:Float, time:Float):Void
 	{
-		FlxTween.tween(FlxG.camera, {zoom: zoom}, (Conductor.stepCrochet * 4 / 1000), {ease: FlxEase.elasticInOut});
+		FlxTween.tween(FlxG.camera, {zoom: zoom}, time, {type: FlxTween.PERSIST});
+	}
+
+	function tweenCamIn(zoom:Float, time:Float):Void
+	{
+		FlxTween.tween(FlxG.camera, {zoom: zoom}, time, {ease: FlxEase.elasticInOut});
 	}
 
 	override function openSubState(SubState:FlxSubState)
@@ -1462,6 +1560,21 @@ class PlayState extends MusicBeatState
 		}
 
 		super.closeSubState();
+	}
+
+	var tankX:Float = 400;
+	var tankSpeed:Float = FlxG.random.float(5, 7);
+	var tankAngle:Float = FlxG.random.int(-90, 45);
+
+	function moveTank(?elapsed:Float = 0):Void
+	{
+		if(!inCutscene && !Settings.LowDetail)
+		{
+			tankAngle += elapsed * tankSpeed;
+			tankGround.angle = tankAngle - 90 + 15;
+			tankGround.x = tankX + 1500 * Math.cos(Math.PI / 180 * (1 * tankAngle + 180));
+			tankGround.y = 1300 + 1100 * Math.sin(Math.PI / 180 * (1 * tankAngle + 180));
+		}
 	}
 
 	override public function onFocus():Void
@@ -1525,6 +1638,8 @@ class PlayState extends MusicBeatState
 
 		switch (curStage)
 		{
+			case 'tank':
+				moveTank(elapsed);
 			case 'philly':
 				if (trainMoving)
 				{
@@ -1682,7 +1797,7 @@ class PlayState extends MusicBeatState
 
 				if (SONG.song.toLowerCase() == 'tutorial')
 				{
-					tweenCamIn(1.3);
+					tweenCamIn(1.3, (Conductor.stepCrochet * 4 / 1000));
 				}
 			}
 
@@ -2530,6 +2645,20 @@ class PlayState extends MusicBeatState
 		{
 			// dad.dance();
 		}
+
+		/* //doesn't stay zoomed in :()
+		if (SONG.song.toLowerCase() == 'guns') {
+			if (curStep == 896) {
+				//tweenCam(1.5, 4);
+				FlxG.camera.zoom = 1.5;
+			}
+
+			if (curStep == 1024) {
+				//tweenCam(0.9, 0.5);
+				FlxG.camera.zoom = 0.9;
+			}
+		}
+		*/
 	}
 
 	var lightningStrikeBeat:Int = 0;

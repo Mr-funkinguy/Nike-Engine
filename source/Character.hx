@@ -66,6 +66,19 @@ class Character extends FlxSprite
 
 				playAnim('danceRight');
 
+			case 'gf-tankmen':
+				// GIRLFRIEND CODE
+				tex = Paths.getSparrowAtlas('characters/gfTankmen', 'shared');
+				frames = tex;
+				animation.addByIndices('sad', 'GF Crying at Gunpoint 0', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], "", 24, false);
+				animation.addByIndices('danceLeft', 'GF Dancing at Gunpoint0', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
+				animation.addByIndices('danceRight', 'GF Dancing at Gunpoint0', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
+	
+				addOffset('sad', -2, -2);
+				addOffset('danceLeft', 0, -9);
+				addOffset('danceRight', 0, -9);
+	
+				playAnim('danceRight');
 			case 'gf-christmas':
 				tex = Paths.getSparrowAtlas('characters/gfChristmas', 'shared');
 				frames = tex;
@@ -143,6 +156,29 @@ class Character extends FlxSprite
 				addOffset("singDOWN", 0, -30);
 
 				playAnim('idle');
+			case 'tankman':
+				tex = Paths.getSparrowAtlas('characters/tankmanCaptain', 'shared');
+				frames = tex;
+				animation.addByPrefix('idle', 'Tankman Idle Dance 1', 24);
+				animation.addByPrefix('singUP', 'Tankman UP note 1', 24);
+				animation.addByPrefix('singRIGHT', 'Tankman Note Left 1', 24);
+				animation.addByPrefix('singDOWN', 'Tankman DOWN note 1', 24);
+				animation.addByPrefix('singLEFT', 'Tankman Right Note 1', 24);
+				animation.addByPrefix('singUP-alt', 'TANKMAN UGH 1', 24);
+				animation.addByPrefix('singDOWN-alt', 'PRETTY GOOD tankman 1', 24);
+	
+				addOffset('idle');
+				addOffset("singUP", 48, 54);
+				addOffset("singRIGHT", -21, -31);
+				addOffset("singLEFT", 84, -14);
+				addOffset("singDOWN", 76, -101);
+
+				addOffset("singUP-alt", -15, -8);
+				addOffset("singDOWN-alt", 1, 16);
+	
+				playAnim('idle');
+
+				flipX = true;
 			case 'spooky':
 				tex = Paths.getSparrowAtlas('characters/spooky_kids_assets', 'shared');
 				frames = tex;
@@ -610,6 +646,16 @@ class Character extends FlxSprite
 					{
 						danced = !danced;
 
+						if (danced)
+							playAnim('danceRight');
+						else
+							playAnim('danceLeft');
+					}
+				case 'gf-tankmen':
+					if (!animation.curAnim.name.startsWith('hair'))
+					{
+						danced = !danced;
+	
 						if (danced)
 							playAnim('danceRight');
 						else
