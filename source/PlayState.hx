@@ -688,7 +688,7 @@ class PlayState extends MusicBeatState
 			case songName: {
 				if (stageMOD) {
 				    trace('Loading mod stage...');
-					FlxG.random.getObject(getModStage());
+					//FlxG.random.getObject(getModStage()); //this is fucking broken i'll fix later
 					trace('Loaded mod stage!');
 				}
 				else {
@@ -771,9 +771,17 @@ class PlayState extends MusicBeatState
 		}
 	
 
+		boyfriend = new Boyfriend(770, 450, SONG.player1);
 		dad = new Character(100, 100, SONG.player2);
 
 		var camPos:FlxPoint = new FlxPoint(dad.getGraphicMidpoint().x, dad.getGraphicMidpoint().y);
+
+		switch (SONG.player1) {
+			case 'bf-holding-gf':
+				boyfriend.y -= 15;
+			default:
+				trace('No X/Y adjustment for the player.');
+		}
 
 		switch (SONG.player2)
 		{
@@ -813,9 +821,9 @@ class PlayState extends MusicBeatState
 				camPos.set(dad.getGraphicMidpoint().x + 300, dad.getGraphicMidpoint().y);
 			case "tankman":
 				dad.y += 130;
+			default:
+				trace('No X/Y adjustment for the opponent.');
 		}
-
-		boyfriend = new Boyfriend(770, 450, SONG.player1);
 
 		// REPOSITIONING PER STAGE
 		switch (curStage)

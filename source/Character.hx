@@ -79,6 +79,21 @@ class Character extends FlxSprite
 				addOffset('danceRight', 0, -9);
 	
 				playAnim('danceRight');
+			case 'pico-speaker':
+				// GIRLFRIEND CODE
+				tex = Paths.getSparrowAtlas('characters/picoSpeaker', 'shared');
+				frames = tex;
+				animation.addByPrefix('shoot1', 'Pico shoot 1', 24);
+				animation.addByPrefix('shoot2', 'Pico shoot 2', 24);
+				animation.addByPrefix('shoot3', 'Pico shoot 3', 24);
+				animation.addByPrefix('shoot4', 'Pico shoot 4', 24);
+		
+				addOffset('shoot1', 0, 0);
+				addOffset('shoot2', -1, -128);
+				addOffset('shoot3', 412, -64);
+				addOffset('shoot4', 439, -19);
+		
+				playAnim('shoot1');
 			case 'gf-christmas':
 				tex = Paths.getSparrowAtlas('characters/gfChristmas', 'shared');
 				frames = tex;
@@ -309,11 +324,13 @@ class Character extends FlxSprite
 			case 'bf':
 				var tex = Paths.getSparrowAtlas('characters/BOYFRIEND', 'shared');
 
+				/*
 				if (sys.FileSystem.exists('assets/editables/images/characters/BOYFRIEND.png') && sys.FileSystem.exists('assets/editables/images/characters/BOYFRIEND.xml')) {
 					trace('Loading mod...');
 					tex = Paths.getSparrowAtlas('characters/BOYFRIEND', 'editable');
 					trace('Loaded mod!');
 				}
+				*/
 				frames = tex;
 				animation.addByPrefix('idle', 'BF idle dance', 24, false);
 				animation.addByPrefix('singUP', 'BF NOTE UP0', 24, false);
@@ -350,7 +367,32 @@ class Character extends FlxSprite
 				playAnim('idle');
 
 				flipX = true;
+			case 'bf-holding-gf':
+				var tex = Paths.getSparrowAtlas('characters/bfAndGF', 'shared');
+				frames = tex;
+				animation.addByPrefix('idle', 'BF idle dance w gf', 24, false);
+				animation.addByPrefix('singUP', 'BF NOTE UP0', 24, false);
+				animation.addByPrefix('singLEFT', 'BF NOTE LEFT0', 24, false);
+				animation.addByPrefix('singRIGHT', 'BF NOTE RIGHT0', 24, false);
+				animation.addByPrefix('singDOWN', 'BF NOTE DOWN0', 24, false);
+				animation.addByPrefix('singUPmiss', 'BF NOTE UP MISS', 24, false);
+				animation.addByPrefix('singLEFTmiss', 'BF NOTE LEFT MISS', 24, false);
+				animation.addByPrefix('singRIGHTmiss', 'BF NOTE RIGHT MISS', 24, false);
+				animation.addByPrefix('singDOWNmiss', 'BF NOTE DOWN MISS', 24, false);
 
+				addOffset('idle', -5);
+				addOffset("singUP", -29, 10);
+				addOffset("singRIGHT", -41, 23);
+				addOffset("singLEFT", 12, 7);
+				addOffset("singDOWN", -10, -10);
+				addOffset("singUPmiss", -29, 10);
+				addOffset("singRIGHTmiss", -30, 21);
+				addOffset("singLEFTmiss", 12, 24);
+				addOffset("singDOWNmiss", -10, -10);
+	
+				playAnim('idle');
+	
+				flipX = true;
 			case 'bf-christmas':
 				var tex = Paths.getSparrowAtlas('characters/bfChristmas', 'shared');
 				frames = tex;
@@ -609,6 +651,13 @@ class Character extends FlxSprite
 		{
 			switch (curCharacter)
 			{
+				case 'tankman':
+					if (animation.curAnim.name == 'singDOWN-alt') {
+						trace('Preventing idle.');
+					}
+					else {
+						playAnim('idle');
+					}
 				case 'gf':
 					if (!animation.curAnim.name.startsWith('hair'))
 					{
@@ -661,7 +710,15 @@ class Character extends FlxSprite
 						else
 							playAnim('danceLeft');
 					}
-
+				/*
+				case 'pico-speaker':
+					danced = !danced;
+	
+					if (danced)
+						playAnim('shoot1');
+					else
+						playAnim('shoot1');
+				*/
 				case 'spooky':
 					danced = !danced;
 
