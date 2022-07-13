@@ -23,6 +23,7 @@ import flixel.addons.transition.FlxTransitionableState;
 import flixel.graphics.atlas.FlxAtlas;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.group.FlxGroup;
 import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
@@ -147,6 +148,8 @@ class PlayState extends MusicBeatState
 	var inCutscene:Bool = false;
 
 	//mod shit!!!!
+	var modSTAGE:FlxGroup;
+	var modStageFILE = CoolUtil.coolTextFile('assets/editable/stages/README.txt');
 	var stageMOD:Bool = false;
 	var songName:String = '';
 
@@ -183,7 +186,11 @@ class PlayState extends MusicBeatState
 		Conductor.mapBPMChanges(SONG);
 		Conductor.changeBPM(SONG.bpm);
 
+		modSTAGE = new FlxGroup();
+		add(modSTAGE);
+
 		if (sys.FileSystem.exists('assets/editable/stages/' +SONG.song.toLowerCase() +'.txt')) {
+			modStageFILE = CoolUtil.coolTextFile('assets/editable/stages/' +SONG.song.toLowerCase() +'.txt');
 			stageMOD = true;
 		}
 
@@ -645,12 +652,19 @@ class PlayState extends MusicBeatState
 					tankdude5.animation.addByPrefix('tank', 'fg tankhead far right instance 1', 24, true);
 					tankdude5.animation.play('tank');
 					tankdude5.scrollFactor.set(1.5, 1.5);
-				
+
 					tankdude6 = new FlxSprite(1300, 1200);
 					tankdude6.frames = Paths.getSparrowAtlas('tank3', 'week7');
 					tankdude6.animation.addByPrefix('tank', 'fg tankhead 4 instance 1', 24, true);
 					tankdude6.animation.play('tank');
 					tankdude6.scrollFactor.set(3.5, 2.5);
+					/*
+						//image, library, x, y, scrollfactor x, scrollfactor y, screencenter, animated, xml code, loops
+					    var bg:BackgroundHelper = new BackgroundHelper('tank3', 'week7', 1300, 1200, 3.5, 2.5, false, true, 'fg tankhead 4 instance 1', true);
+				     	add(bg);
+						//this doesn't work lol so uh ye
+					*/
+					
 				}
 				moveTank();
 			}
@@ -688,7 +702,7 @@ class PlayState extends MusicBeatState
 			case songName: {
 				if (stageMOD) {
 				    trace('Loading mod stage...');
-					//FlxG.random.getObject(getModStage()); //this is fucking broken i'll fix later
+					//modSTAGE.add(modStageFILE); //trying to find a way for modstages to be loaded
 					trace('Loaded mod stage!');
 				}
 				else {
