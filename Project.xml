@@ -42,6 +42,7 @@
 
 	<define name="Doesn't work for now" if="linux" />
 	<define name="CRASH_HANDLER" if="desktop" />
+	<define name="videos" if="desktop" />
 
 	<assets path="assets/preload" rename="assets" exclude="*.ogg" if="web"/>
 	<assets path="assets/preload" rename="assets" exclude="*.mp3" unless="web"/>
@@ -131,7 +132,7 @@
 	<haxelib name="faxe" if='switch'/>
 	<haxelib name="polymod"/>
 	<haxelib name="discord_rpc" if="desktop"/>
-	<haxelib name="hxCodec"/>
+	<haxelib name="hxCodec" if="videos"/>
 	<!-- <haxelib name="hxcpp-debug-server" if="desktop"/> -->
 
 	<!-- <haxelib name="markdown" /> -->
