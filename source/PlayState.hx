@@ -54,9 +54,11 @@ class PlayState extends MusicBeatState
 	public static var curStage:String = '';
 	public static var SONG:SwagSong;
 	public static var isStoryMode:Bool = false;
+	public static var practiceMode:Bool = false;
 	public static var storyWeek:Int = 0;
 	public static var storyPlaylist:Array<String> = [];
 	public static var storyDifficulty:Int = 1;
+	public static var deathCounter:Int = 0;
 
 	var halloweenLevel:Bool = false;
 
@@ -73,6 +75,7 @@ class PlayState extends MusicBeatState
 	private var curSection:Int = 0;
 
 	private var camFollow:FlxObject;
+	var lostfocuspause:FlxSprite;
 
 	private static var prevCamFollow:FlxObject;
 
@@ -1023,6 +1026,46 @@ class PlayState extends MusicBeatState
 		// FlxG.camera.alpha = 0.7;
 		// UI_camera.zoom = 1;
 
+		if (!inCutscene && !_exiting)
+			{
+				// RESET = Quick Game Over Screen
+				if (controls.RESET)
+				{
+					health = 0;
+					trace("RESET = True");
+				}
+	
+				// CHEAT = brandon's a pussy
+				// if (controls.CHEAT)
+				// {
+				// 	health += 1;
+				// 	trace("User is cheating!");
+				// }
+		
+				if (health <= 0 && !practiceMode)
+				{
+					boyfriend.stunned = true;
+		
+					persistentUpdate = false;
+					persistentDraw = false;
+					paused = true;
+		
+					vocals.stop();
+					FlxG.sound.music.stop();
+	
+					deathCounter += 1;
+		
+					openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
+		
+					// FlxG.switchState(new GameOverState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
+					
+					#if desktop
+					// Game Over doesn't get his own variable because it's only used here
+					DiscordClient.changePresence("Game Over - " + detailsText, SONG.song + " (" + storyDifficultyText + ")", iconRPC);
+					#end
+				}
+			}
+
 		function playCutscene(name:String, atEndOfSong:Bool = false)
 		{
 			var blackScreen:FlxSprite = new FlxSprite(0, 0).makeGraphic(Std.int(FlxG.width * 2), Std.int(FlxG.height * 2), FlxColor.BLACK);
@@ -1607,37 +1650,6 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	override public function onFocus():Void
-	{
-		#if desktop
-		if (health > 0 && !paused)
-		{
-			if (Conductor.songPosition > 0.0)
-			{
-				DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconRPC, true, songLength - Conductor.songPosition);
-			}
-			else
-			{
-				DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconRPC);
-			}
-		}
-		#end
-
-		super.onFocus();
-	}
-	
-	override public function onFocusLost():Void
-	{
-		#if desktop
-		if (health > 0 && !paused)
-		{
-			DiscordClient.changePresence(detailsPausedText, SONG.song + " (" + storyDifficultyText + ")", iconRPC);
-		}
-		#end
-
-		super.onFocusLost();
-	}
-
 	function resyncVocals():Void
 	{
 		vocals.pause();
@@ -2041,6 +2053,7 @@ class PlayState extends MusicBeatState
 
 	function endSong():Void
 	{
+		deathCounter = 0;
 		canPause = false;
 		FlxG.sound.music.volume = 0;
 		vocals.volume = 0;
@@ -2119,6 +2132,20 @@ class PlayState extends MusicBeatState
 	}
 
 	var endingSong:Bool = false;
+	
+	override public function onFocus()
+		{
+			super.onFocus();
+			FlxG.sound.music.resume();
+			trace("[SYSTEM] User Focused the window");
+		}
+		
+	override public function onFocusLost()
+		{
+			super.onFocusLost();
+			FlxG.sound.music.pause();
+			trace("[SYSTEM] User Lost Focus the window");
+		}
 
 	private function popUpScore(strumtime:Float, note:Note):Void
 	{

@@ -23,8 +23,7 @@ h1 {
 }
 
 body {
-    background-image: url('img/skin-funkin-cardbordtoast.jpg');
-    background-position: center center;
+    background-image: url('backgrounds/menuBG.png');
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
