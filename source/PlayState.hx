@@ -147,6 +147,13 @@ class PlayState extends MusicBeatState
 
 	var inCutscene:Bool = false;
 
+	//score
+	private var score:Int = 0;
+	private var daRating:String = "";
+
+	//noteslash
+	var notesplash:FlxSprite;
+
 	//mod shit!!!!
 	var modSTAGE:FlxGroup;
 	var modStageFILE = CoolUtil.coolTextFile('assets/editable/stages/README.txt');
@@ -703,6 +710,7 @@ class PlayState extends MusicBeatState
 				if (stageMOD) {
 				    trace('Loading mod stage...');
 					//modSTAGE.add(modStageFILE); //trying to find a way for modstages to be loaded
+					//.p-modStageFILE;
 					trace('Loaded mod stage!');
 				}
 				else {
@@ -2112,7 +2120,7 @@ class PlayState extends MusicBeatState
 
 	var endingSong:Bool = false;
 
-	private function popUpScore(strumtime:Float):Void
+	private function popUpScore(strumtime:Float, note:Note):Void
 	{
 		var noteDiff:Float = Math.abs(strumtime - Conductor.songPosition);
 		// boyfriend.playAnim('hey');
@@ -2126,24 +2134,26 @@ class PlayState extends MusicBeatState
 		//
 
 		var rating:FlxSprite = new FlxSprite();
-		var score:Int = 450;
-
-		var daRating:String = "sick";
 
 		if (noteDiff > Conductor.safeZoneOffset * 0.9)
 		{
-			daRating = 'shit';
+			daRating = "shit";
 			score = 75;
 		}
 		else if (noteDiff > Conductor.safeZoneOffset * 0.75)
 		{
-			daRating = 'bad';
+			daRating = "bad";
 			score = 160;
 		}
 		else if (noteDiff > Conductor.safeZoneOffset * 0.2)
 		{
-			daRating = 'good';
+			daRating = "good";
 			score = 350;
+		}
+		else {
+			daRating = "sick";
+			noteSplash(note);
+			score = 450;
 		}
 
 		songScore += score;
@@ -2269,7 +2279,44 @@ class PlayState extends MusicBeatState
 			startDelay: Conductor.crochet * 0.001
 		});
 
+		daRating = '';
+		score = 0;
+
 		curSection += 1;
+	}
+
+	function noteSplash(note:Note):Void
+    {
+		notesplash = new FlxSprite(300, 0);
+		notesplash.frames = Paths.getSparrowAtlas('noteSplashes', 'shared');
+		notesplash.animation.addByPrefix('note1-0', 'note impact 1  blue', 24, false);
+		notesplash.animation.addByPrefix('note1-1', 'note impact 2 blue', 24, false);
+		notesplash.animation.addByPrefix('note2-0', 'note impact 1 green', 24, false);
+		notesplash.animation.addByPrefix('note2-1', 'note impact 2 green', 24, false);
+		notesplash.animation.addByPrefix('note0-0', 'note impact 1 purple', 24, false);
+		notesplash.animation.addByPrefix('note0-1', 'note impact 2 purple', 24, false);
+		notesplash.animation.addByPrefix('note3-0', 'note impact 1 red', 24, false);
+		notesplash.animation.addByPrefix('note3-1', 'note impact 2 red', 24, false);
+		notesplash.cameras = [camHUD];
+
+		switch (note.noteData) {
+			case 0:
+				notesplash.animation.play('note0-' + FlxG.random.int(0, 1), true);
+			case 1:
+				//notesplash.x += 50;
+				//notesplash.animation.play('note1-' + FlxG.random.int(0, 1), true);
+			case 2:
+				//notesplash.x += 100;
+				//notesplash.animation.play('note2-' + FlxG.random.int(0, 1), true);
+			case 3:
+				//notesplash.x += 150;
+				//notesplash.animation.play('note3-' + FlxG.random.int(0, 1), true);
+		}
+		add(notesplash);
+
+		new FlxTimer().start(0.6, function(tmr:FlxTimer) {
+			notesplash.kill();
+		});
 	}
 
 	private function keyShit():Void
@@ -2511,7 +2558,7 @@ class PlayState extends MusicBeatState
 		{
 			if (!note.isSustainNote)
 			{
-				popUpScore(note.strumTime);
+				popUpScore(note.strumTime, note);
 				combo += 1;
 			}
 

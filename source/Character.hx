@@ -653,7 +653,7 @@ class Character extends FlxSprite
 			{
 				case 'tankman':
 					if (animation.curAnim.name == 'singDOWN-alt') {
-						trace('Preventing idle.');
+						trace('Preventing tankman from going idle.');
 					}
 					else {
 						playAnim('idle');

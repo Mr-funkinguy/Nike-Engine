@@ -50,7 +50,6 @@ class TitleState extends MusicBeatState
 
 	override public function create():Void
 	{
-		trace('HOLY SHIT IT WORKS');
 		PlayerSettings.init();
 
 		curWacky = FlxG.random.getObject(getIntroTextShit());
@@ -65,8 +64,6 @@ class TitleState extends MusicBeatState
 		var ng:NGio = new NGio(APIStuff.API, APIStuff.EncKey);
 		trace('NEWGROUNDS LOL');
 		#end 
-
-		trace('HOLY SHIT NG WORKS!!!');
 
 		FlxG.save.bind('funkin', 'ninjamuffin99');
 
@@ -86,13 +83,15 @@ class TitleState extends MusicBeatState
 				StoryMenuState.weekUnlocked[0] = true;
 		}
 
-		//#if mods
-		//for (i in FileSystem.readDirectory(FileSystem.absolutePath("mods"))) //checks for mods instead of having to put the mods hardcoded.
-		//{
-		//	polymod.Polymod.init({modRoot: "mods", dirs: [i]});
-		//	trace('Loaded mods:\n' + FileSystem.readDirectory(FileSystem.absolutePath("mods")));
-		//}
-		//#end
+		/*
+		#if mods
+		for (i in FileSystem.readDirectory(FileSystem.absolutePath("mods"))) //checks for mods instead of having to put the mods hardcoded.
+		{
+			polymod.Polymod.init({modRoot: "mods", dirs: [i]});
+			trace('Loaded mods:\n' + FileSystem.readDirectory(FileSystem.absolutePath("mods")));
+		}
+		#end
+		*/
 
 		#if FREEPLAY
 		FlxG.switchState(new FreeplayState());
@@ -121,7 +120,6 @@ class TitleState extends MusicBeatState
 
 	function startIntro()
 	{
-		trace('HOLY SHIT IT WORKS');
 		if (!initialized)
 		{
 			var diamond:FlxGraphic = FlxGraphic.fromClass(GraphicTransTileDiamond);
