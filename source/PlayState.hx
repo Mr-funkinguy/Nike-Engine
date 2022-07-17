@@ -1693,7 +1693,7 @@ class PlayState extends MusicBeatState
 				// phillyCityLights.members[curLight].alpha -= (Conductor.crochet / 1000) * FlxG.elapsed;
 		}
 
-		if (week7zoom && SONG.song.toLowerCase() == 'stress') {
+		if (week7zoom && SONG.song.toLowerCase() == 'guns' || SONG.song.toLowerCase() == 'stress') {
 			FlxTween.tween(FlxG.camera, {zoom: 1.25}, 0.35);
 		}
 		/*
@@ -2779,11 +2779,16 @@ class PlayState extends MusicBeatState
 		if (SONG.song.toLowerCase() == 'guns') {
 			if (curStep == 896) {
 				week7zoom = true;
-				trace('Haha zoom lol xd');
+
+				FlxTween.tween(camHUD, {alpha: 0}, 0.35);
+				trace('zoom lol');
 			}
 
-			if (curStep == 1024) {
+			if (curStep == 1020) {
 				week7zoom = false;
+
+				FlxTween.tween(camHUD, {alpha: 1}, 0.35);
+
 				trace('No more zoom :(');
 			}
 		}
