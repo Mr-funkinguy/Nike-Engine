@@ -1664,11 +1664,13 @@ class PlayState extends MusicBeatState
 		}
 
 		if (prettygood && SONG.song.toLowerCase() == 'stress') {
-			FlxG.camera.zoom = 1.25;
+			FlxTween.tween(FlxG.camera, {zoom: 1.25}, 0.35);
 		}
+		/*
 		else if (!prettygood && SONG.song.toLowerCase() == 'stress') {
-			FlxG.camera.zoom = 0.9;
+			FlxTween.tween(FlxG.camera, {zoom: 0.9}, 0.5);
 		}
+		*/
 
 		super.update(elapsed);
 
@@ -2760,39 +2762,13 @@ class PlayState extends MusicBeatState
 			if (curStep == 736) {
 				prettygood = true;
 
-				/*
-				for (i in 0...4) {
-					FlxTween.tween(babyArrow, {alpha: 0.4}, 0.35);
-				}
-				*/
-
 				FlxTween.tween(camHUD, {alpha: 0.4}, 0.35);
 
-				trace('Changing alpha to make more cool :cool:');
+				trace('Changing alpha to make more cool');
 			}
-
-			/*
-			if (curStep == 757) {
-				FlxG.camera.zoom = 1.15;
-			}
-
-			if (curStep == 759) {
-				FlxG.camera.zoom = 1.25;
-			}
-
-			if (curStep == 761) {
-				FlxG.camera.zoom = 1.5;
-			}
-			*/
 
 			if (curStep == 768) {
 				prettygood = false;
-
-				/*
-				for (i in 0...4) {
-					FlxTween.tween(babyArrow, {alpha: 1}, 0.35);
-				}
-				*/
 
 				FlxTween.tween(camHUD, {alpha: 1}, 0.35);
 
