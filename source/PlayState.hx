@@ -1066,15 +1066,29 @@ class PlayState extends MusicBeatState
 						FlxG.switchState(new PlayState());
 					}
 				}
-				else
+				else {
 					startCountdown();
+				}
 			}
 			video.playVideo(Paths.video(name));
 			#else
-			new FlxVideo(name).finishCallback = function()
+			new FlxVideo('videos/' + name).finishCallback = function()
 			{
 				FlxTween.tween(blackScreen, {alpha: 0}, 1);
-				startCountdown();
+
+				if (atEndOfSong)
+				{
+					if (storyPlaylist.length <= 0)
+						FlxG.switchState(new StoryMenuState());
+					else
+					{
+						SONG = Song.loadFromJson(storyPlaylist[0].toLowerCase());
+						FlxG.switchState(new PlayState());
+					}
+				}
+				else {
+					startCountdown();
+				}
 			};
 			#end
 		}
