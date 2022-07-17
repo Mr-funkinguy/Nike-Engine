@@ -1693,7 +1693,7 @@ class PlayState extends MusicBeatState
 				// phillyCityLights.members[curLight].alpha -= (Conductor.crochet / 1000) * FlxG.elapsed;
 		}
 
-		if (week7zoom && SONG.song.toLowerCase() == 'guns' || SONG.song.toLowerCase() == 'stress') {
+		if (week7zoom) {
 			FlxTween.tween(FlxG.camera, {zoom: 1.25}, 0.35);
 		}
 		/*
