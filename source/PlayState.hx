@@ -151,11 +151,13 @@ class PlayState extends MusicBeatState
 	var inCutscene:Bool = false;
 
 	//score
+	private var prettygood:Bool = false;
 	private var score:Int = 0;
 	private var daRating:String = "";
 
 	//noteslash
-	var notesplash:FlxSprite;
+	private var babyArrow:FlxSprite;
+	//var notesplash:FlxSprite;
 
 	//mod shit!!!!
 	var modSTAGE:FlxGroup;
@@ -1011,6 +1013,10 @@ class PlayState extends MusicBeatState
 		iconP2.y = healthBar.y - (iconP2.height / 2);
 		add(iconP2);
 
+		if (halloweenLevel) {
+			FlxTween.tween(camHUD, {alpha: 0.7}, 0.5);
+		}
+
 		strumLineNotes.cameras = [camHUD];
 		notes.cameras = [camHUD];
 		healthBar.cameras = [camHUD];
@@ -1025,46 +1031,6 @@ class PlayState extends MusicBeatState
 		// if (SONG.song == 'South')
 		// FlxG.camera.alpha = 0.7;
 		// UI_camera.zoom = 1;
-
-		if (!inCutscene && !_exiting)
-			{
-				// RESET = Quick Game Over Screen
-				if (controls.RESET)
-				{
-					health = 0;
-					trace("RESET = True");
-				}
-	
-				// CHEAT = brandon's a pussy
-				// if (controls.CHEAT)
-				// {
-				// 	health += 1;
-				// 	trace("User is cheating!");
-				// }
-		
-				if (health <= 0 && !practiceMode)
-				{
-					boyfriend.stunned = true;
-		
-					persistentUpdate = false;
-					persistentDraw = false;
-					paused = true;
-		
-					vocals.stop();
-					FlxG.sound.music.stop();
-	
-					deathCounter += 1;
-		
-					openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
-		
-					// FlxG.switchState(new GameOverState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
-					
-					#if desktop
-					// Game Over doesn't get his own variable because it's only used here
-					DiscordClient.changePresence("Game Over - " + detailsText, SONG.song + " (" + storyDifficultyText + ")", iconRPC);
-					#end
-				}
-			}
 
 		function playCutscene(name:String, atEndOfSong:Bool = false)
 		{
@@ -1477,7 +1443,8 @@ class PlayState extends MusicBeatState
 		for (i in 0...4)
 		{
 			// FlxG.log.add(i);
-			var babyArrow:FlxSprite = new FlxSprite(0, strumLine.y);
+
+			babyArrow = new FlxSprite(0, strumLine.y);
 
 			switch (curStage)
 			{
@@ -1694,6 +1661,13 @@ class PlayState extends MusicBeatState
 					}
 				}
 				// phillyCityLights.members[curLight].alpha -= (Conductor.crochet / 1000) * FlxG.elapsed;
+		}
+
+		if (prettygood && SONG.song.toLowerCase() == 'stress') {
+			FlxG.camera.zoom = 1.25;
+		}
+		else if (!prettygood && SONG.song.toLowerCase() == 'stress') {
+			FlxG.camera.zoom = 0.9;
 		}
 
 		super.update(elapsed);
@@ -1922,7 +1896,7 @@ class PlayState extends MusicBeatState
 			trace("User is cheating!");
 		}
 
-		if (health <= 0)
+		if (health <= 0 && !practiceMode)
 		{
 			boyfriend.stunned = true;
 
@@ -1932,6 +1906,8 @@ class PlayState extends MusicBeatState
 
 			vocals.stop();
 			FlxG.sound.music.stop();
+
+			deathCounter += 1;
 
 			openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 
@@ -2133,19 +2109,23 @@ class PlayState extends MusicBeatState
 
 	var endingSong:Bool = false;
 	
+	/*
 	override public function onFocus()
-		{
-			super.onFocus();
-			FlxG.sound.music.resume();
-			trace("[SYSTEM] User Focused the window");
-		}
+	{
+		super.onFocus();
+		FlxG.sound.music.resume();
+		trace("[SYSTEM] User Focused the window");
+	}
 		
 	override public function onFocusLost()
-		{
-			super.onFocusLost();
-			FlxG.sound.music.pause();
-			trace("[SYSTEM] User Lost Focus the window");
-		}
+	{
+		super.onFocusLost();
+		FlxG.sound.music.pause();
+		trace("[SYSTEM] User Lost Focus the window");
+	}
+	*/
+	
+	//this fucks up paused music
 
 	private function popUpScore(strumtime:Float, note:Note):Void
 	{
@@ -2179,7 +2159,7 @@ class PlayState extends MusicBeatState
 		}
 		else {
 			daRating = "sick";
-			noteSplash(note);
+			SpawnNoteSplash(note);
 			score = 450;
 		}
 
@@ -2219,10 +2199,13 @@ class PlayState extends MusicBeatState
 
 		comboSpr.velocity.x += FlxG.random.int(1, 10);
 		comboSpr.cameras = [camHUD];
-		if (combo >= 10) {
+		if (combo >= 10 && !prettygood) {
 			add(comboSpr);
 		}
-		add(rating);
+		
+		if (!prettygood) {
+			add(rating);			
+		}
 
 		if (!curStage.startsWith('school'))
 		{
@@ -2270,8 +2253,11 @@ class PlayState extends MusicBeatState
 			numScore.velocity.x = FlxG.random.float(-5, 5);
 			numScore.cameras = [camHUD];
 
-			if (combo >= 10 || combo == 0)
-				add(numScore);
+			if (combo >= 10 || combo == 0) {
+				if (!prettygood) {
+					add(numScore);
+				}
+			}
 
 			FlxTween.tween(numScore, {alpha: 0}, 0.2, {
 				onComplete: function(tween:FlxTween)
@@ -2312,9 +2298,10 @@ class PlayState extends MusicBeatState
 		curSection += 1;
 	}
 
-	function noteSplash(note:Note):Void
+	function SpawnNoteSplash(note:Note):Void
     {
-		notesplash = new FlxSprite(300, 0);
+		var notesplash:FlxSprite;
+		notesplash = new FlxSprite(0, 0);
 		notesplash.frames = Paths.getSparrowAtlas('noteSplashes', 'shared');
 		notesplash.animation.addByPrefix('note1-0', 'note impact 1  blue', 24, false);
 		notesplash.animation.addByPrefix('note1-1', 'note impact 2 blue', 24, false);
@@ -2325,25 +2312,38 @@ class PlayState extends MusicBeatState
 		notesplash.animation.addByPrefix('note3-0', 'note impact 1 red', 24, false);
 		notesplash.animation.addByPrefix('note3-1', 'note impact 2 red', 24, false);
 		notesplash.cameras = [camHUD];
+		notesplash.scale.set(0.85, 0.85);
+
+		notesplash.x = 615;
+		notesplash.y = -50;
 
 		switch (note.noteData) {
 			case 0:
 				notesplash.animation.play('note0-' + FlxG.random.int(0, 1), true);
 			case 1:
-				//notesplash.x += 50;
-				//notesplash.animation.play('note1-' + FlxG.random.int(0, 1), true);
+				notesplash.x += 100;
+				notesplash.animation.play('note1-' + FlxG.random.int(0, 1), true);
 			case 2:
-				//notesplash.x += 100;
-				//notesplash.animation.play('note2-' + FlxG.random.int(0, 1), true);
+				notesplash.x += 225;
+				notesplash.animation.play('note2-' + FlxG.random.int(0, 1), true);
 			case 3:
-				//notesplash.x += 150;
-				//notesplash.animation.play('note3-' + FlxG.random.int(0, 1), true);
+				notesplash.x += 350;
+				notesplash.animation.play('note3-' + FlxG.random.int(0, 1), true);
 		}
 		add(notesplash);
 
-		new FlxTimer().start(0.6, function(tmr:FlxTimer) {
-			notesplash.kill();
+		FlxTween.tween(notesplash, {alpha: 0}, 0.35);/*, {
+			onComplete: function(tween:FlxTween)
+			{
+				notesplash.destroy();
+			},
 		});
+
+		/*
+		if (notesplash.animation.curAnim.finished) {
+			notesplash.alpha = 0.00000000000000000000000000000000000000000000000000000000001;
+		}
+		*/
 	}
 
 	private function keyShit():Void
@@ -2755,6 +2755,50 @@ class PlayState extends MusicBeatState
 			}
 		}
 		*/
+
+		if (SONG.song.toLowerCase() == 'stress') {
+			if (curStep == 736) {
+				prettygood = true;
+
+				/*
+				for (i in 0...4) {
+					FlxTween.tween(babyArrow, {alpha: 0.4}, 0.35);
+				}
+				*/
+
+				FlxTween.tween(camHUD, {alpha: 0.4}, 0.35);
+
+				trace('Changing alpha to make more cool :cool:');
+			}
+
+			/*
+			if (curStep == 757) {
+				FlxG.camera.zoom = 1.15;
+			}
+
+			if (curStep == 759) {
+				FlxG.camera.zoom = 1.25;
+			}
+
+			if (curStep == 761) {
+				FlxG.camera.zoom = 1.5;
+			}
+			*/
+
+			if (curStep == 768) {
+				prettygood = false;
+
+				/*
+				for (i in 0...4) {
+					FlxTween.tween(babyArrow, {alpha: 1}, 0.35);
+				}
+				*/
+
+				FlxTween.tween(camHUD, {alpha: 1}, 0.35);
+
+				trace('Changing alpha back to normal for strums...');
+			}
+		}
 	}
 
 	var lightningStrikeBeat:Int = 0;
