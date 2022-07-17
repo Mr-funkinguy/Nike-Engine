@@ -76,12 +76,13 @@ class GameOverSubstate extends MusicBeatSubstate
 				FlxG.switchState(new FreeplayState());
 		}
 
-		if (PlayState.storyWeek == 7)
+		if (PlayState.storyWeek == 7 && PlayState.isStoryMode)
 		{
 			if (bf.animation.curAnim.name == 'firstDeath' && bf.animation.curAnim.finished && !playingDeathSound)
 			{
 				playingDeathSound = true;
-				FlxG.sound.play(Paths.sound('jeffGameover/jeffGameover-' + randomGameover), 1, false, null, true, function()
+				FlxG.sound.music.fadeOut(4, 0.2, 1);
+				FlxG.sound.play(Paths.sound('jeffGameover/jeffGameover-' + FlxG.random.int(1, 25)), 1, false, null, true, function()
 				{
 					FlxG.sound.music.fadeIn(4, 0.2, 1);
 				});
