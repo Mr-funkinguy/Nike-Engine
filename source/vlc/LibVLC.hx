@@ -1,7 +1,9 @@
 package vlc;
 
+#if !html5
 import cpp.Pointer;
 import cpp.UInt8;
+#end
 
 /**
  * ...

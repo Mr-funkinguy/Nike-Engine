@@ -151,7 +151,7 @@ class PlayState extends MusicBeatState
 	var inCutscene:Bool = false;
 
 	//score
-	private var prettygood:Bool = false;
+	private var week7zoom:Bool = false;
 	private var score:Int = 0;
 	private var daRating:String = "";
 
@@ -159,11 +159,13 @@ class PlayState extends MusicBeatState
 	private var babyArrow:FlxSprite;
 	//var notesplash:FlxSprite;
 
+	#if !html5
 	//mod shit!!!!
 	var modSTAGE:FlxGroup;
 	var modStageFILE = CoolUtil.coolTextFile('assets/editable/stages/README.txt');
 	var stageMOD:Bool = false;
 	var songName:String = '';
+	#end
 
 	#if desktop
 	// Discord RPC variables
@@ -198,6 +200,7 @@ class PlayState extends MusicBeatState
 		Conductor.mapBPMChanges(SONG);
 		Conductor.changeBPM(SONG.bpm);
 
+		#if !html5
 		modSTAGE = new FlxGroup();
 		add(modSTAGE);
 
@@ -208,6 +211,7 @@ class PlayState extends MusicBeatState
 
 		songName = '' + SONG.song;
 		songName.toLowerCase();
+		#end
 
 		/*
 		if (songName == 'tutorial' || 'bopeebo' || 'fresh' || 'dadbattle') {
@@ -710,6 +714,7 @@ class PlayState extends MusicBeatState
 				}
 		    }
 
+			#if !html5
 			//this is for mods lolllll
 			case songName: {
 				if (stageMOD) {
@@ -750,6 +755,7 @@ class PlayState extends MusicBeatState
 				}
 			}
 			//ok no more mods
+			#end
         }
 
 		var gfVersion:String = 'gf';
@@ -1044,6 +1050,7 @@ class PlayState extends MusicBeatState
 			inCutscene = true;
 			FlxG.sound.music.stop();
 			
+			#if !html5
 			var video:VideoHandler = new VideoHandler();
 			video.finishCallback = function()
 			{
@@ -1063,6 +1070,13 @@ class PlayState extends MusicBeatState
 					startCountdown();
 			}
 			video.playVideo(Paths.video(name));
+			#else
+			new FlxVideo(name).finishCallback = function()
+			{
+				FlxTween.tween(blackScreen, {alpha: 0}, 1);
+				startCountdown();
+			};
+			#end
 		}
 
 		// cameras = [FlxG.cameras.list[1]];
@@ -1665,11 +1679,11 @@ class PlayState extends MusicBeatState
 				// phillyCityLights.members[curLight].alpha -= (Conductor.crochet / 1000) * FlxG.elapsed;
 		}
 
-		if (prettygood && SONG.song.toLowerCase() == 'stress') {
+		if (week7zoom && SONG.song.toLowerCase() == 'stress') {
 			FlxTween.tween(FlxG.camera, {zoom: 1.25}, 0.35);
 		}
 		/*
-		else if (!prettygood && SONG.song.toLowerCase() == 'stress') {
+		else if (!week7zoom && SONG.song.toLowerCase() == 'stress') {
 			FlxTween.tween(FlxG.camera, {zoom: 0.9}, 0.5);
 		}
 		*/
@@ -2203,11 +2217,11 @@ class PlayState extends MusicBeatState
 
 		comboSpr.velocity.x += FlxG.random.int(1, 10);
 		comboSpr.cameras = [camHUD];
-		if (combo >= 10 && !prettygood) {
+		if (combo >= 10 && !week7zoom) {
 			add(comboSpr);
 		}
 		
-		if (!prettygood) {
+		if (!week7zoom) {
 			add(rating);			
 		}
 
@@ -2258,7 +2272,7 @@ class PlayState extends MusicBeatState
 			numScore.cameras = [camHUD];
 
 			if (combo >= 10 || combo == 0) {
-				if (!prettygood) {
+				if (!week7zoom) {
 					add(numScore);
 				}
 			}
@@ -2336,7 +2350,7 @@ class PlayState extends MusicBeatState
 		}
 		add(notesplash);
 
-		FlxTween.tween(notesplash, {alpha: 0}, 0.35);/*, {
+		FlxTween.tween(notesplash, {alpha: 0}, 0.4);/*, {
 			onComplete: function(tween:FlxTween)
 			{
 				notesplash.destroy();
@@ -2668,6 +2682,7 @@ class PlayState extends MusicBeatState
 
 	var startedMoving:Bool = false;
 
+	#if !html5
 	function getModStage():Array<Array<String>>
 	{
 		var fullText:String = Assets.getText(Paths.MODtxt('stages/' + songName));
@@ -2682,6 +2697,7 @@ class PlayState extends MusicBeatState
 	
 		return swagGoodArray;
 	}
+	#end
 
 	function updateTrainPos():Void
 	{
@@ -2746,23 +2762,21 @@ class PlayState extends MusicBeatState
 			// dad.dance();
 		}
 
-		/* //doesn't stay zoomed in :()
 		if (SONG.song.toLowerCase() == 'guns') {
 			if (curStep == 896) {
-				//tweenCam(1.5, 4);
-				FlxG.camera.zoom = 1.5;
+				week7zoom = true;
+				trace('Haha zoom lol xd');
 			}
 
 			if (curStep == 1024) {
-				//tweenCam(0.9, 0.5);
-				FlxG.camera.zoom = 0.9;
+				week7zoom = false;
+				trace('No more zoom :(');
 			}
 		}
-		*/
 
 		if (SONG.song.toLowerCase() == 'stress') {
 			if (curStep == 736) {
-				prettygood = true;
+				week7zoom = true;
 
 				FlxTween.tween(camHUD, {alpha: 0.4}, 0.35);
 
@@ -2770,7 +2784,7 @@ class PlayState extends MusicBeatState
 			}
 
 			if (curStep == 768) {
-				prettygood = false;
+				week7zoom = false;
 
 				FlxTween.tween(camHUD, {alpha: 1}, 0.35);
 

@@ -180,22 +180,27 @@ class MainMenuState extends MusicBeatState
 								switch (daChoice)
 								{
 									case 'story mode':
+										#if html5
 										FlxG.switchState(new StoryMenuState());
+										#else
 										LoadingState.loadAndSwitchState(new StoryMenuState());
+									    #end
 										trace("Story Menu Selected");
 									case 'freeplay':
+										#if html5
 										FlxG.switchState(new FreeplayState());
+										#else
 										LoadingState.loadAndSwitchState(new FreeplayState());
+										#end
 
 										trace("Freeplay Menu Selected");
 
 									case 'options':
-										/*
-										FlxTransitionableState.skipNextTransIn = true;
-										FlxTransitionableState.skipNextTransOut = true;
-										FlxG.switchState(new OptionsMenu());
-										*/
+										#if html5
+										FlxG.switchState(new OptionsSubState());
+										#else
 										LoadingState.loadAndSwitchState(new OptionsSubState());
+										#end
 								}
 							});
 						}

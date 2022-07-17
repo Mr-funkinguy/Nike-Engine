@@ -1,7 +1,9 @@
 package vlc;
 
+#if !html5
 import cpp.NativeArray;
 import cpp.UInt8;
+#end
 import openfl.Lib;
 import openfl.display.Bitmap;
 import openfl.display.BitmapData;

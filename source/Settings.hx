@@ -20,7 +20,7 @@ class Settings extends MusicBeatSubstate
 {
 	public static var LowDetail:Bool = false;
 	public static var GhostTapping:Bool = true;
-	public static var Downscroll:Bool = true;
+	public static var Downscroll:Bool = false;
 
 	/*
     public static function ChangeSetting(setting:Bool, change:Bool) {

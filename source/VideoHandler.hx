@@ -1,3 +1,4 @@
+#if !html5
 package;
 
 #if android
@@ -142,3 +143,4 @@ class VideoHandler extends VLCBitmap {
 		return 0;
 	}
 }
+#end
