@@ -1013,10 +1013,6 @@ class PlayState extends MusicBeatState
 		iconP2.y = healthBar.y - (iconP2.height / 2);
 		add(iconP2);
 
-		if (halloweenLevel) {
-			FlxTween.tween(camHUD, {alpha: 0.7}, 0.5);
-		}
-
 		strumLineNotes.cameras = [camHUD];
 		notes.cameras = [camHUD];
 		healthBar.cameras = [camHUD];
@@ -1028,9 +1024,15 @@ class PlayState extends MusicBeatState
 		ratingTxt.cameras = [camHUD];
 		doof.cameras = [camHUD];
 
-		// if (SONG.song == 'South')
-		// FlxG.camera.alpha = 0.7;
-		// UI_camera.zoom = 1;
+		/*
+		if (halloweenLevel) {
+			var blackScreen:FlxSprite = new FlxSprite(0, 0).makeGraphic(Std.int(FlxG.width * 2), Std.int(FlxG.height * 2), FlxColor.BLACK);
+			add(blackScreen);
+			blackScreen.alpha = 0.6;
+			blackScreen.cameras = [camHUD];
+			blackScreen.scrollFactor.set();
+		}
+		*/
 
 		function playCutscene(name:String, atEndOfSong:Bool = false)
 		{
