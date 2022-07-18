@@ -197,7 +197,7 @@ class MainMenuState extends MusicBeatState
 
 									case 'options':
 										#if html5
-										FlxG.switchState(new OptionsSubState());
+										FlxG.switchState(new OptionsState());
 										#else
 										LoadingState.loadAndSwitchState(new OptionsState());
 										#end

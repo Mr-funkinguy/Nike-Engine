@@ -66,7 +66,11 @@ class GameplaySettings extends MusicBeatSubstate
 		super.update(elapsed);
 
 		if (controls.BACK) {
+			#if html5
+			FlxG.switchState(new OptionsState());
+			#else
 			LoadingState.loadAndSwitchState(new OptionsState());
+			#end
 		}
 
 		if (controls.UP_P)

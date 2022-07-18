@@ -112,15 +112,27 @@ class OptionsState extends MusicBeatSubstate
 			FlxG.sound.play(Paths.sound('confirmMenu'));
 
 			if (money.ID == curSelected) {
+				#if html5
+				FlxG.switchState(new GameplaySettings());
+				#else
 				LoadingState.loadAndSwitchState(new	GameplaySettings());
+				#end
 			}
 	
 			if (money2.ID == curSelected) {
+				#if html5
+				FlxG.switchState(new MainMenuState());
+				#else
 				LoadingState.loadAndSwitchState(new MainMenuState());
+				#end
 			}
 	
 			if (money3.ID == curSelected) {
+				#if html5
+				FlxG.switchState(new MainMenuState());
+				#else
 				LoadingState.loadAndSwitchState(new MainMenuState());
+				#end
 			}
 		}
 	}
