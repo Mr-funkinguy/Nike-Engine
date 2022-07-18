@@ -16,16 +16,19 @@ class Paths
 		currentLevel = name.toLowerCase();
 	}
 
-	static public function getPath(file:String, type:AssetType, library:Null<String>)
+	public static function getPath(file:String, type:AssetType, ?library:Null<String> = null)
 	{
 		if (library != null)
 			return getLibraryPath(file, library);
 
 		if (currentLevel != null)
 		{
-			var levelPath = getLibraryPathForce(file, currentLevel);
-			if (OpenFlAssets.exists(levelPath, type))
-				return levelPath;
+			var levelPath:String = '';
+			if(currentLevel != 'shared') {
+				levelPath = getLibraryPathForce(file, currentLevel);
+				if (OpenFlAssets.exists(levelPath, type))
+					return levelPath;
+			}
 
 			levelPath = getLibraryPathForce(file, "shared");
 			if (OpenFlAssets.exists(levelPath, type))
@@ -112,6 +115,14 @@ class Paths
 	inline static public function video(key:String)
 	{
 		return 'assets/videos/$key';
+	}
+
+	inline static public function fileExists(key:String, type:AssetType, ?ignoreMods:Bool = false, ?library:String)
+	{	
+		if(OpenFlAssets.exists(getPath(key, type))) {
+			return true;
+		}
+		return false;
 	}
 
 	inline static public function getSparrowAtlas(key:String, ?library:String)
