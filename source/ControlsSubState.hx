@@ -40,7 +40,12 @@ class ControlsSubState extends FlxSubState
 
 		if (FlxG.keys.justPressed.ESCAPE || FlxG.keys.justPressed.BACKSPACE)
 			FlxG.state.closeSubState();
-		    FlxG.state.openSubState(new OptionsSubState());
+			#if html5
+			FlxG.state.openSubState(new OptionsState());
+			#else
+			LoadingState.loadAndSwitchState(new OptionsState());
+			#end
+
 	
 		if (FlxG.keys.justPressed.UP || FlxG.keys.justPressed.W)
 			curSelected -= 1;
