@@ -121,9 +121,9 @@ class OptionsState extends MusicBeatSubstate
 	
 			if (money2.ID == curSelected) {
 				#if html5
-				FlxG.switchState(new ControlsSubState());
+				FlxG.switchState(new MainMenuState());
 				#else
-				LoadingState.loadAndSwitchState(new ControlsSubState());
+				LoadingState.loadAndSwitchState(new MainMenuState());
 				#end
 			}
 	
