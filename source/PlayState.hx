@@ -988,19 +988,19 @@ class PlayState extends MusicBeatState
 		add(healthBar);
 
 		missesTxt = new FlxText(0, healthBarBG.y -30, 400, "", 24);
-		missesTxt.setFormat(Paths.font("vcr.ttf"), 24, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		missesTxt.setFormat(Paths.font("comic.ttf"), 24, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		missesTxt.borderSize = 3;
 		missesTxt.scrollFactor.set();
 		add(missesTxt);
 
 		scoreTxt = new FlxText(0, healthBarBG.y, 400, "", 24);
-		scoreTxt.setFormat(Paths.font("vcr.ttf"), 24, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		scoreTxt.setFormat(Paths.font("comic.ttf"), 24, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		scoreTxt.borderSize = 3;
 		scoreTxt.scrollFactor.set();
 		add(scoreTxt);
 
 		ratingTxt = new FlxText(0, healthBarBG.y +30, 400, "", 24);
-		ratingTxt.setFormat(Paths.font("vcr.ttf"), 24, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		ratingTxt.setFormat(Paths.font("comic.ttf"), 24, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		ratingTxt.borderSize = 3;
 		ratingTxt.scrollFactor.set();
 		add(ratingTxt);
