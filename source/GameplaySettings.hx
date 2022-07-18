@@ -35,10 +35,17 @@ class GameplaySettings extends MusicBeatSubstate
 
 	var grpOptionsTexts:FlxTypedGroup<FlxText>;
 
+	var checkbox:FlxSprite;
+	var checkbox2:FlxSprite;
+	var checkbox3:FlxSprite;
+
 	public function new()
 	{
 		super();
+	}
 
+	override public function create()
+	{
 		camGame = new FlxCamera();
 		FlxG.cameras.reset(camGame);
 		FlxG.cameras.add(camGame);
@@ -50,27 +57,8 @@ class GameplaySettings extends MusicBeatSubstate
 		menuBG.screenCenter();
 		menuBG.antialiasing = true;
 		add(menuBG);
-	}
 
-	override public function create()
-	{
-		money.x += 50;
-		money.y += (1 * 80) += 150;
-		money.ID = 0;
-		money.cameras = [camGame];
-		add(money);
-
-		money2.x += 50;
-		money2.y += (1 * 80) += 300;
-		money2.ID = 1;
-		money2.cameras = [camGame];
-		add(money2);
-
-		money3.x += 50;
-		money3.y += (1 * 80) += 450;
-		money3.ID = 2;
-		money3.cameras = [camGame];
-		add(money3);
+		AddOptions();
 	}
 
 	override function update(elapsed:Float)
@@ -78,7 +66,7 @@ class GameplaySettings extends MusicBeatSubstate
 		super.update(elapsed);
 
 		if (controls.BACK) {
-			LoadingState.loadAndSwitchState(new OptionsSubState());
+			LoadingState.loadAndSwitchState(new OptionsState());
 		}
 
 		if (controls.UP_P)
@@ -93,23 +81,119 @@ class GameplaySettings extends MusicBeatSubstate
 		if (curSelected >= textMenuItems.length)
 			curSelected = 0; 
 
+		switch (checkbox.animation.curAnim.name)
+		{
+			case 'selecting animation':
+				checkbox.offset.set(17, 70);
+			case 'selected':
+				checkbox.offset.set();
+		}
+
+		switch (checkbox2.animation.curAnim.name)
+		{
+			case 'selecting animation':
+				checkbox.offset.set(17, 70);
+			case 'selected':
+				checkbox.offset.set();
+		}
+
+		switch (checkbox3.animation.curAnim.name)
+		{
+			case 'selecting animation':
+				checkbox.offset.set(17, 70);
+			case 'selected':
+				checkbox.offset.set();
+		}
+
 		WaitingToAccept();
 		AlphabetAlpha();
 	}
 
+	function AddOptions() {
+		money.x += 50;
+		money.y += (1 * 80) += 150;
+		money.ID = 0;
+		money.cameras = [camGame];
+		add(money);
+
+		checkbox = new FlxSprite(money.x +325, money.y +15);
+		checkbox.frames = Paths.getSparrowAtlas('checkboxThingie');
+		checkbox.animation.addByPrefix('selected', 'Check Box Selected Static0', 24, false);
+		checkbox.animation.addByPrefix('unselected', 'Check Box unselected0', 24, false);
+		checkbox.animation.addByPrefix('selecting animation', 'Check Box selecting animation0', 24, false);
+		checkbox.cameras = [camGame];
+		checkbox.antialiasing = true;
+		checkbox.setGraphicSize(Std.int(checkbox.width * 0.7));
+		checkbox.updateHitbox();
+		add(checkbox);
+		if (Settings.LowDetail) {
+			checkbox.animation.play('selected');
+		}
+		else {
+			checkbox.animation.play('unselected');
+		}
+
+		money2.x += 50;
+		money2.y += (1 * 80) += 300;
+		money2.ID = 1;
+		money2.cameras = [camGame];
+		add(money2);
+
+		checkbox2 = new FlxSprite(money2.x +350, money2.y +15);
+		checkbox2.frames = Paths.getSparrowAtlas('checkboxThingie');
+		checkbox2.animation.addByPrefix('selected', 'Check Box Selected Static0', 24, false);
+		checkbox2.animation.addByPrefix('unselected', 'Check Box unselected0', 24, false);
+		checkbox2.animation.addByPrefix('selecting animation', 'Check Box selecting animation0', 24, false);
+		checkbox.cameras = [camGame];
+		checkbox2.antialiasing = true;
+		checkbox2.setGraphicSize(Std.int(checkbox2.width * 0.7));
+		checkbox2.updateHitbox();
+		add(checkbox2);
+		if (Settings.GhostTapping) {
+			checkbox2.animation.play('selected');
+		}
+		else {
+			checkbox2.animation.play('unselected');
+		}
+
+		money3.x += 50;
+		money3.y += (1 * 80) += 450;
+		money3.ID = 2;
+		money3.cameras = [camGame];
+		add(money3);
+
+		checkbox3 = new FlxSprite(money3.x +325, money3.y +15);
+		checkbox3.frames = Paths.getSparrowAtlas('checkboxThingie');
+		checkbox3.animation.addByPrefix('selected', 'Check Box Selected Static0', 24, false);
+		checkbox3.animation.addByPrefix('unselected', 'Check Box unselected0', 24, false);
+		checkbox3.animation.addByPrefix('selecting animation', 'Check Box selecting animation0', 24, false);
+		checkbox3.cameras = [camGame];
+		checkbox3.antialiasing = true;
+		checkbox3.setGraphicSize(Std.int(checkbox3.width * 0.7));
+		checkbox3.updateHitbox();
+		add(checkbox3);
+		if (Settings.Downscroll) {
+			checkbox3.animation.play('selected');
+		}
+		else {
+			checkbox3.animation.play('unselected');
+		}
+	}
+
 	function WaitingToAccept() {
 		if (controls.ACCEPT) {
-
 			FlxG.sound.play(Paths.sound('confirmMenu'));
 
 			if (money.ID == curSelected) {
 				if (Settings.LowDetail) {
 					trace('changed to false!');
+					checkbox.animation.play('unselected');
 					Settings.LowDetail = false;
 					Settings.SettingsSave();
 				}
 				else {
 					trace('changed to true!');
+					checkbox.animation.play('selecting animation');
 					Settings.LowDetail = true;
 					Settings.SettingsSave();
 				}
@@ -118,11 +202,13 @@ class GameplaySettings extends MusicBeatSubstate
 			if (money2.ID == curSelected) {
 				if (Settings.GhostTapping) {
 					trace('changed to false!');
+					checkbox2.animation.play('unselected');
 					Settings.GhostTapping = false;
 					Settings.SettingsSave();
 				}
 				else {
 					trace('changed to true!');
+					checkbox2.animation.play('selecting animation');
 					Settings.GhostTapping = true;
 					Settings.SettingsSave();
 				}
@@ -131,11 +217,13 @@ class GameplaySettings extends MusicBeatSubstate
 			if (money3.ID == curSelected) {
 				if (Settings.Downscroll) {
 					trace('changed to false!');
+					checkbox3.animation.play('unselected');
 					Settings.Downscroll = false;
 					Settings.SettingsSave();
 				}
 				else {
 					trace('changed to true!');
+					checkbox3.animation.play('selecting animation');
 					Settings.Downscroll = true;
 					Settings.SettingsSave();
 				}
@@ -148,16 +236,23 @@ class GameplaySettings extends MusicBeatSubstate
 		money2.alpha = 0.6;
 		money3.alpha = 0.6;
 
+		checkbox.alpha = 0.6;
+		checkbox2.alpha = 0.6;
+		checkbox3.alpha = 0.6;
+
 		if (money.ID == curSelected) {
 			money.alpha = 1;
+			checkbox.alpha = 1;
 		}
 
 		if (money2.ID == curSelected) {
 			money2.alpha = 1;
+			checkbox2.alpha = 1;
 		}
 
 		if (money3.ID == curSelected) {
 			money3.alpha = 1;
+			checkbox3.alpha = 1;
 		}
 	}
 }

@@ -16,7 +16,7 @@ import flixel.FlxCamera;
 
 using StringTools;
 
-class OptionsSubState extends MusicBeatSubstate
+class OptionsState extends MusicBeatSubstate
 {
 	var textMenuItems:Array<String> = ['Gameplay', 'Controls', 'Misc'];
 	/*
@@ -38,7 +38,10 @@ class OptionsSubState extends MusicBeatSubstate
 	public function new()
 	{
 		super();
+	}
 
+	override function create() 
+	{
 		camGame = new FlxCamera();
 		FlxG.cameras.reset(camGame);
 		FlxG.cameras.add(camGame);
@@ -50,13 +53,13 @@ class OptionsSubState extends MusicBeatSubstate
 		menuBG.screenCenter();
 		menuBG.antialiasing = true;
 		add(menuBG);
-
+	
 		grpOptionsTexts = new FlxTypedGroup<FlxText>();
 		add(grpOptionsTexts);
-
+	
 		credGroup = new FlxGroup();
 		add(credGroup);
-
+	
 		AddOptions();
 	}
 
@@ -91,13 +94,13 @@ class OptionsSubState extends MusicBeatSubstate
 		money.cameras = [camGame];
 		credGroup.add(money);
 
-		money2.x += 50;
+		money2.x += money.x +100;
 		money2.y += (1 * 80) += 300;
 		money2.ID = 1;
 		money2.cameras = [camGame];
 		credGroup.add(money2);
 
-		money3.x += 50;
+		money3.x += money2.x +100;
 		money3.y += (1 * 80) += 450;
 		money3.ID = 2;
 		money3.cameras = [camGame];

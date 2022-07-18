@@ -199,8 +199,10 @@ class MainMenuState extends MusicBeatState
 										#if html5
 										FlxG.switchState(new OptionsSubState());
 										#else
-										LoadingState.loadAndSwitchState(new OptionsSubState());
+										LoadingState.loadAndSwitchState(new OptionsState());
 										#end
+
+										trace("Options Menu Selected");
 								}
 							});
 						}
