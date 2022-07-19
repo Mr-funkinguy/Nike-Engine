@@ -18,10 +18,11 @@ using StringTools;
 
 class OptionsState extends MusicBeatSubstate
 {
-	var textMenuItems:Array<String> = ['Gameplay', 'Controls', 'Misc'];
+	var textMenuItems:Array<String> = ['Gameplay', 'Controls', 'Misc', 'Exit'];
 	/*
 	var textMenuItem2:Array<String> = ['Controls'];
 	var textMenuItem3:Array<String> = ['Misc'];
+	var textMenuItem4:Array<String> = ['Exit'];
 	*/
 	var credGroup:FlxGroup;
 
@@ -30,6 +31,7 @@ class OptionsState extends MusicBeatSubstate
 	var money:Alphabet = new Alphabet(0, 0, 'Gameplay', false, false);
 	var money2:Alphabet = new Alphabet(0, 0, 'Controls', false, false);
 	var money3:Alphabet = new Alphabet(0, 0, 'Misc', false, false);
+	var money4:Alphabet = new Alphabet(0, 0, 'Exit', false, false);
 
 	var curSelected:Int = 0;
 
@@ -89,22 +91,28 @@ class OptionsState extends MusicBeatSubstate
 
 	function AddOptions() {
 		money.x += 50;
-		money.y += (1 * 80) += 150;
+		money.y += (1 * 80) += -50;
 		money.ID = 0;
 		money.cameras = [camGame];
 		credGroup.add(money);
 
 		money2.x += 50;
-		money2.y += (1 * 80) += 300;
+		money2.y += (1 * 80) += 70;
 		money2.ID = 1;
 		money2.cameras = [camGame];
 		credGroup.add(money2);
 
 		money3.x += 50;
-		money3.y += (1 * 80) += 450;
+		money3.y += (1 * 80) += 195;
 		money3.ID = 2;
 		money3.cameras = [camGame];
 		credGroup.add(money3);
+
+		money4.x += 50;
+		money4.y += (1 * 80) += 350;
+		money4.ID = 3;
+		money4.cameras = [camGame];
+		credGroup.add(money4);
 	}
 
 	function WaitingToAccept() {
@@ -134,6 +142,14 @@ class OptionsState extends MusicBeatSubstate
 				LoadingState.loadAndSwitchState(new MainMenuState());
 				#end
 			}
+			
+			if (money4.ID == curSelected) {
+				#if html5
+				FlxG.switchState(new MainMenuState());
+				#else
+				LoadingState.loadAndSwitchState(new MainMenuState());
+				#end
+			}
 		}
 	}
 
@@ -141,6 +157,7 @@ class OptionsState extends MusicBeatSubstate
 		money.alpha = 0.6;
 		money2.alpha = 0.6;
 		money3.alpha = 0.6;
+		money4.alpha = 0.6;
 
 		if (money.ID == curSelected) {
 			money.alpha = 1;
@@ -152,6 +169,10 @@ class OptionsState extends MusicBeatSubstate
 
 		if (money3.ID == curSelected) {
 			money3.alpha = 1;
+		}
+
+		if (money4.ID == curSelected) {
+			money4.alpha = 1;
 		}
 	}
 }
