@@ -48,6 +48,8 @@ class ControlsState extends MusicBeatSubstate
 		
 		credGroup = new FlxGroup();
 		add(credGroup);
+
+		createCoolText(textMenuItems);
 	}
 
 	override function update(elapsed:Float)
