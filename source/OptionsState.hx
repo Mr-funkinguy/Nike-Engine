@@ -1,5 +1,6 @@
 package;
 
+import ControlsState;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.addons.transition.FlxTransitionableState;
@@ -129,9 +130,9 @@ class OptionsState extends MusicBeatSubstate
 	
 			if (money2.ID == curSelected) {
 				#if html5
-				FlxG.switchState(new MainMenuState());
+				FlxG.switchState(new ControlState());
 				#else
-				LoadingState.loadAndSwitchState(new MainMenuState());
+				LoadingState.loadAndSwitchState(new ControlsState());
 				#end
 			}
 	
