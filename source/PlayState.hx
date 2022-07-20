@@ -152,6 +152,7 @@ class PlayState extends MusicBeatState
 
 	//score
 	private var week7zoom:Bool = false;
+	//private var tankmanHEAVEN:Bool = false;
 	private var score:Int = 0;
 	private var daRating:String = "";
 
@@ -195,7 +196,7 @@ class PlayState extends MusicBeatState
 		persistentDraw = true;
 
 		if (SONG == null)
-			SONG = Song.loadFromJson('tutorial');
+			SONG = Song.loadFromJson('tutorial-hard', 'tutorial');
 
 		Conductor.mapBPMChanges(SONG);
 		Conductor.changeBPM(SONG.bpm);
@@ -572,7 +573,7 @@ class PlayState extends MusicBeatState
 				curStage = 'tank';
 
 				var sky:FlxSprite = new FlxSprite(-400, -400).loadGraphic(Paths.image('tankSky', 'week7'));
-				sky.scale.set(1.3, 1.3);
+				sky.scale.set(4, 9);
 				add(sky);
 				
 				if (!Settings.LowDetail) {
@@ -1018,6 +1019,9 @@ class PlayState extends MusicBeatState
 		iconP2 = new HealthIcon(SONG.player2, false);
 		iconP2.y = healthBar.y - (iconP2.height / 2);
 		add(iconP2);
+
+		iconP1.angle == 25;
+		iconP2.angle == 25;
 
 		strumLineNotes.cameras = [camHUD];
 		notes.cameras = [camHUD];
@@ -1693,12 +1697,17 @@ class PlayState extends MusicBeatState
 				// phillyCityLights.members[curLight].alpha -= (Conductor.crochet / 1000) * FlxG.elapsed;
 		}
 
-		if (week7zoom) {
-			FlxTween.tween(FlxG.camera, {zoom: 1.25}, 0.35);
-		}
 		/*
-		else if (!week7zoom && SONG.song.toLowerCase() == 'stress') {
-			FlxTween.tween(FlxG.camera, {zoom: 0.9}, 0.5);
+		var spam:Bool = false;
+		if (tankmanHEAVEN && SONG.song == 'guns' && !spam) {
+			spam = true;
+			FlxTween.tween(camFollow, {y: -2500}, 13, {
+				onComplete:function(twn:FlxTween)
+				{
+					//return down!!!!
+					FlxTween.tween(camFollow, {y: 0}, 8);
+				}
+			});
 		}
 		*/
 
@@ -1766,6 +1775,20 @@ class PlayState extends MusicBeatState
 		}
 		else {
 			iconP1.animation.curAnim.curFrame = 0;
+		}
+
+		if (iconP1.angle == 25) {
+			iconP1.angle == -25;
+		}
+		else if (iconP1.angle == -25) {
+			iconP1.angle == 25;
+		}
+
+		if (iconP2.angle == 25) {
+			iconP2.angle == -25;
+		}
+		else if (iconP2.angle == -25) {
+			iconP2.angle == 25;
 		}
 
 		if (healthBar.percent > 80) {
@@ -2756,6 +2779,44 @@ class PlayState extends MusicBeatState
 		gf.playAnim('scared', true);
 	}
 
+	var CAMGOINGUP:FlxTween;
+	//Cam zoom, alpha for camHUD, if tankman floats in guns
+	function TankmanSHITS(CAMZOOM:Bool, ?ALPHA:Float = 1, ?gunsFLOAT:Bool = false) {
+		if (CAMZOOM) {
+			week7zoom = true;
+
+			camFollow.x = 225;
+			FlxTween.tween(FlxG.camera, {zoom: 1.25}, 0.35);
+			FlxG.camera.focusOn(camFollow.getPosition());
+		}
+		else {
+			week7zoom = false;
+			
+			camFollow.x = 0;
+			camFollow.y = 0;
+			FlxTween.tween(FlxG.camera, {zoom: defaultCamZoom}, 0.35);
+		}
+		FlxTween.tween(camHUD, {alpha: ALPHA}, 0.35);
+
+		if (gunsFLOAT) {
+			FlxTween.tween(camHUD, {y: 1000}, 0.35);
+			CAMGOINGUP = FlxTween.tween(camFollow, {y: -2500}, 13);
+			
+			FlxTween.tween(dad, {y: -2500}, 12, {
+				onComplete:function(twn:FlxTween)
+				{
+					//230 is tankmans position but its not the same previously
+					FlxTween.tween(dad, {y: 285}, 8);
+				}
+			});
+			trace('TANKMAN IS FLOATING!!!!!!');
+		}
+		else {
+			//tankmanHEAVEN = false;
+			FlxTween.tween(FlxG.camera, {zoom: defaultCamZoom}, 0.35);
+		}
+	}
+
 	override function stepHit()
 	{
 		super.stepHit();
@@ -2771,16 +2832,18 @@ class PlayState extends MusicBeatState
 
 		if (SONG.song.toLowerCase() == 'guns') {
 			if (curStep == 896) {
-				week7zoom = true;
+				TankmanSHITS(true, 0, true);
 
-				FlxTween.tween(camHUD, {alpha: 0}, 0.35);
 				trace('zoom lol');
 			}
 
-			if (curStep == 1020) {
-				week7zoom = false;
+			if (curStep == 1022) {
+				TankmanSHITS(false, 1, false);
+				FlxTween.tween(camHUD, {y: 0}, 0.4);
 
-				FlxTween.tween(camHUD, {alpha: 1}, 0.35);
+				CAMGOINGUP.cancel();
+				//FlxTween.tween(camFollow, {y: 650}, 2.3);
+				FlxTween.tween(camFollow, {y: boyfriend.getMidpoint().y - 100}, 2.3);
 
 				trace('No more zoom :(');
 			}
@@ -2788,17 +2851,13 @@ class PlayState extends MusicBeatState
 
 		if (SONG.song.toLowerCase() == 'stress') {
 			if (curStep == 736) {
-				week7zoom = true;
-
-				FlxTween.tween(camHUD, {alpha: 0.4}, 0.35);
+				TankmanSHITS(true, 0.4);
 
 				trace('Changing alpha to make more cool');
 			}
 
 			if (curStep == 768) {
-				week7zoom = false;
-
-				FlxTween.tween(camHUD, {alpha: 1}, 0.35);
+				TankmanSHITS(false, 1);
 
 				trace('Changing alpha back to normal for strums...');
 			}
