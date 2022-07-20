@@ -56,7 +56,7 @@ class ControlsState extends MusicBeatSubstate
 	{
 		super.update(elapsed);
 
-		if (FlxG.keys.justPressed.BACKSPACE)
+		if (FlxG.keys.justPressed.ESCAPE || FlxG.keys.justPressed.BACKSPACE)
 			#if html5
 			FlxG.state.openSubState(new OptionsState());
 			#else
