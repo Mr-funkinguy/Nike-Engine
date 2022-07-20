@@ -1,33 +1,51 @@
 package;
 
 import flixel.FlxG;
-import flixel.FlxObject;
 import flixel.FlxSprite;
-import flixel.group.FlxGroup;
 import flixel.addons.transition.FlxTransitionableState;
-import flixel.effects.FlxFlicker;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.group.FlxGroup;
+import flixel.math.FlxMath;
 import flixel.text.FlxText;
-import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
-import io.newgrounds.NG;
+import flixel.util.FlxTimer;
+import lime.net.curl.CURLCode;
+import flixel.FlxCamera;
 import Controls.Control;
-import lime.app.Application;
-import flixel.FlxSubState;
 
-class ControlsSubState extends FlxSubState
+class ControlsState extends MusicBeatSubstate
 {
 	var textMenuItems:Array<String> = ['Left', 'Down', 'Up', 'Right'];
+	private var camGame:FlxCamera;
 	var credGroup:FlxGroup;
+
+	var grpOptionsTexts:FlxTypedGroup<FlxText>;
 
 	var curSelected:Int = 0;
 
-	public function new()
-	{
-		super();
+	var checkbox:FlxSprite;
+	var checkbox2:FlxSprite;
+	var checkbox3:FlxSprite;
 
+	override function create() 
+	{
+		camGame = new FlxCamera();
+		FlxG.cameras.reset(camGame);
+		FlxG.cameras.add(camGame);
+	
+		var menuBG:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
+		menuBG.color = 0xFFea71fd;
+		menuBG.setGraphicSize(Std.int(menuBG.width * 1.1));
+		menuBG.updateHitbox();
+		menuBG.screenCenter();
+		menuBG.antialiasing = true;
+		add(menuBG);
+		
+		grpOptionsTexts = new FlxTypedGroup<FlxText>();
+		add(grpOptionsTexts);
+		
 		credGroup = new FlxGroup();
 		add(credGroup);
 
@@ -38,8 +56,7 @@ class ControlsSubState extends FlxSubState
 	{
 		super.update(elapsed);
 
-		if (FlxG.keys.justPressed.ESCAPE || FlxG.keys.justPressed.BACKSPACE)
-			FlxG.state.closeSubState();
+		if (FlxG.keys.justPressed.BACKSPACE)
 			#if html5
 			FlxG.state.openSubState(new OptionsState());
 			#else
