@@ -71,7 +71,11 @@ class OptionsState extends MusicBeatSubstate
 		super.update(elapsed);
 
 		if (controls.BACK) {
+			#if html5
+			FlxG.switchState(new MainMenuState());
+			#else
 			LoadingState.loadAndSwitchState(new MainMenuState());
+			#end
 		}
 
 		if (controls.UP_P)

@@ -28,7 +28,8 @@ class ControlsState extends MusicBeatSubstate
 	//waiting shit
 	var blackScreen:FlxSprite;
 	var CanPress:Bool = false;
-	var waiting:Alphabet = new Alphabet(0, 0, 'Press a key to set your keybinds...', true, false);
+	var waiting:Alphabet = new Alphabet(0, 0, 'Press a key to set', true, false);
+	var waitingP2:Alphabet = new Alphabet(0, 0, 'your keybinds.', true, false);
 
 	var grpOptionsTexts:FlxTypedGroup<FlxText>;
 
@@ -67,11 +68,16 @@ class ControlsState extends MusicBeatSubstate
 		blackScreen.alpha = 0.4;
 		add(blackScreen);
 
-		waiting.scale.set(0.65, 0.65);
 		waiting.cameras = [camGame];
-		waiting.screenCenter();
 		waiting.visible = false;
+		waiting.screenCenter(X);
+		waiting.y = 250;
 		add(waiting);
+
+		waitingP2.cameras = [camGame];
+		waitingP2.visible = false;
+		waitingP2.screenCenter();
+		add(waitingP2);
 		//createCoolText(textMenuItems);
 	}
 
@@ -79,12 +85,16 @@ class ControlsState extends MusicBeatSubstate
 	{
 		super.update(elapsed);
 
-		if (FlxG.keys.justPressed.ESCAPE || FlxG.keys.justPressed.BACKSPACE)
+		if (FlxG.keys.justPressed.ESCAPE && !CanPress || FlxG.keys.justPressed.BACKSPACE && !CanPress)
 			#if html5
 			FlxG.state.openSubState(new OptionsState());
 			#else
 			LoadingState.loadAndSwitchState(new OptionsState());
 			#end
+		else if (FlxG.keys.justPressed.ESCAPE && CanPress || FlxG.keys.justPressed.BACKSPACE && CanPress) {
+			HideSHIT(false);
+			CanPress = false;
+		}
 
 	
 		if (FlxG.keys.justPressed.UP || FlxG.keys.justPressed.W)
@@ -116,6 +126,7 @@ class ControlsState extends MusicBeatSubstate
 			//trace('HOLY SHIT 0'); //did these cause game crashed lol!
 			blackScreen.visible = true;
 			waiting.visible = true;
+			waitingP2.visible = true;
 
 			new FlxTimer().start(0.05, function(tmr:FlxTimer) {
 				CanPress = true;
@@ -134,9 +145,7 @@ class ControlsState extends MusicBeatSubstate
 								PlayerSettings.player1.controls.replaceBinding(Control.LEFT, Keys, FlxG.keys.getIsDown()[0].ID, null);
 							}
 							trace('New LEFT KEY IS: ' + FlxG.keys.getIsDown()[0].ID);
-							blackScreen.visible = false;
-							waiting.visible = false;
-							CanPress = false;
+							HideSHIT();
 						}
 					case "Down":
 						if (!FlxG.keys.justPressed.ESCAPE && !FlxG.keys.justPressed.BACKSPACE && !FlxG.keys.justPressed.ENTER && !FlxG.keys.justPressed.DELETE) {
@@ -145,9 +154,7 @@ class ControlsState extends MusicBeatSubstate
 								PlayerSettings.player1.controls.replaceBinding(Control.DOWN, Keys, FlxG.keys.getIsDown()[0].ID, null);
 							}
 							trace('New DOWN KEY IS: ' + FlxG.keys.getIsDown()[0].ID);
-							blackScreen.visible = false;
-							waiting.visible = false;
-							CanPress = false;
+							HideSHIT();
 					    }
 					case "Up":
 						if (!FlxG.keys.justPressed.ESCAPE && !FlxG.keys.justPressed.BACKSPACE && !FlxG.keys.justPressed.ENTER && !FlxG.keys.justPressed.DELETE) {
@@ -156,9 +163,7 @@ class ControlsState extends MusicBeatSubstate
 								PlayerSettings.player1.controls.replaceBinding(Control.UP, Keys, FlxG.keys.getIsDown()[0].ID, null);
 							}
 							trace('New UP KEY IS: ' + FlxG.keys.getIsDown()[0].ID);
-							blackScreen.visible = false;
-							waiting.visible = false;
-							CanPress = false;
+							HideSHIT();
 					    }
 					case "Right":
 						if (!FlxG.keys.justPressed.ESCAPE && !FlxG.keys.justPressed.BACKSPACE && !FlxG.keys.justPressed.ENTER && !FlxG.keys.justPressed.DELETE) {
@@ -167,12 +172,23 @@ class ControlsState extends MusicBeatSubstate
 								PlayerSettings.player1.controls.replaceBinding(Control.RIGHT, Keys, FlxG.keys.getIsDown()[0].ID, null);
 							}
 							trace('New RIGHT KEY IS: ' + FlxG.keys.getIsDown()[0].ID);
-							blackScreen.visible = false;
-							waiting.visible = false;
-							CanPress = false;
+							HideSHIT();
 					    }
 				}
 			}
+		}
+	}
+
+	function HideSHIT(?sound:Bool = true) {
+		blackScreen.visible = false;
+		waiting.visible = false;
+		waitingP2.visible = false;
+		CanPress = false;
+		if (sound) {
+			FlxG.sound.play(Paths.sound('confirmMenu'));
+		}
+		else {
+			FlxG.sound.play(Paths.sound('cancelMenu'));
 		}
 	}
 
@@ -201,8 +217,8 @@ class ControlsState extends MusicBeatSubstate
 		money4.cameras = [camGame];
 		credGroup.add(money4);
 
-		trace('Waiting 0.75 seconds to load shit...');
-		new FlxTimer().start(0.75, function(tmr:FlxTimer) {
+		trace('Waiting 0.5 seconds to load shit...');
+		new FlxTimer().start(0.5, function(tmr:FlxTimer) {
 			LoadedIntoState = true;
 			trace('LOADED');
 		});
