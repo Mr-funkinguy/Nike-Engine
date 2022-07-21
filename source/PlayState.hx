@@ -2839,7 +2839,7 @@ class PlayState extends MusicBeatState
 
 			if (curStep == 1022) {
 				TankmanSHITS(false, 1, false);
-				FlxTween.tween(camHUD, {y: 0}, 0.13);
+				FlxTween.tween(camHUD, {y: 0}, 0.8);
 
 				CAMGOINGUP.cancel();
 				//FlxTween.tween(camFollow, {y: 650}, 2.3);
