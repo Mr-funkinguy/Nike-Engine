@@ -18,11 +18,12 @@ import flixel.FlxCamera;
 
 class ControlsState extends MusicBeatSubstate
 {
-	var textMenuItems:Array<String> = ['Left', 'Down', 'Up', 'Right'];
+	var textMenuItems:Array<String> = ['Left', 'Down', 'Up', 'Right', 'Reset to default.'];
 	var money:Alphabet = new Alphabet(0, 0, 'Left', false, false);
 	var money2:Alphabet = new Alphabet(0, 0, 'Down', false, false);
 	var money3:Alphabet = new Alphabet(0, 0, 'Up', false, false);
 	var money4:Alphabet = new Alphabet(0, 0, 'Right', false, false);
+	var money5:Alphabet = new Alphabet(0, 0, 'Reset to default.', false, false);
 	private var camGame:FlxCamera;
 	var credGroup:FlxGroup;
 
@@ -31,6 +32,9 @@ class ControlsState extends MusicBeatSubstate
 	var CanPress:Bool = false;
 	var waiting:Alphabet = new Alphabet(0, 0, 'Press a key to set', true, false);
 	var waitingP2:Alphabet = new Alphabet(0, 0, 'your keybinds.', true, false);
+
+	//keybind reset!!!
+	var keybindsreset:Alphabet = new Alphabet(0, 0, 'Keybinds have been reset', true, false);
 
 	var grpOptionsTexts:FlxTypedGroup<FlxText>;
 
@@ -79,6 +83,12 @@ class ControlsState extends MusicBeatSubstate
 		waitingP2.visible = false;
 		waitingP2.screenCenter();
 		add(waitingP2);
+
+		keybindsreset.cameras = [camGame];
+		keybindsreset.visible = false;
+		keybindsreset.screenCenter();
+		keybindsreset.alpha = 1;
+		add(keybindsreset);
 		//createCoolText(textMenuItems);
 	}
 
@@ -110,6 +120,16 @@ class ControlsState extends MusicBeatSubstate
 		if (curSelected >= textMenuItems.length)
 			curSelected = 0;
 
+		if (money5.ID == curSelected && FlxG.keys.justPressed.ENTER) {
+			Settings.LeftKEY = A;
+			Settings.DownKEY = S;
+			Settings.UpKEY = W;
+			Settings.RightKEY = D;
+
+			HideSHIT(true, true, true);
+			trace('Reset keys to default.');
+		}
+
 		/*
 		if (credGroup.money.ID == curSelected) {
 			credGroup.money.alpha = 1;
@@ -122,7 +142,7 @@ class ControlsState extends MusicBeatSubstate
 
 		AlphabetAlpha();
 	
-		if (FlxG.keys.justReleased.ENTER && LoadedIntoState)
+		if (FlxG.keys.justReleased.ENTER && money5.ID != curSelected && LoadedIntoState)
 		{
 			//trace('HOLY SHIT 0'); //did these cause game crashed lol!
 			blackScreen.visible = true;
@@ -180,7 +200,7 @@ class ControlsState extends MusicBeatSubstate
 		}
 	}
 
-	function HideSHIT(?sound:Bool = true, ?save:Bool = true) {
+	function HideSHIT(?sound:Bool = true, ?save:Bool = true, ?reset:Bool = false) {
 		blackScreen.visible = false;
 		waiting.visible = false;
 		waitingP2.visible = false;
@@ -195,6 +215,22 @@ class ControlsState extends MusicBeatSubstate
 		}
 		else {
 			FlxG.sound.play(Paths.sound('cancelMenu'));
+		}
+
+		if (reset) {
+			blackScreen.visible = true;
+			keybindsreset.visible = true;
+
+			FlxTween.tween(blackScreen, {alpha: 0}, 1.25);
+			FlxTween.tween(keybindsreset, {alpha: 0}, 1.25, {
+				onComplete: function(twn:FlxTween)
+				{
+					blackScreen.visible = false;
+					blackScreen.alpha = 0.4;
+					keybindsreset.visible = false;
+					keybindsreset.alpha = 1;
+				}
+			});
 		}
 	}
 
@@ -223,6 +259,12 @@ class ControlsState extends MusicBeatSubstate
 		money4.cameras = [camGame];
 		credGroup.add(money4);
 
+		money5.x += 50;
+		money5.y += (7 * 80) += -50;
+		money5.ID = 4;
+		money5.cameras = [camGame];
+		credGroup.add(money5);
+
 		trace('Waiting 0.5 seconds to load shit...');
 		new FlxTimer().start(0.5, function(tmr:FlxTimer) {
 			LoadedIntoState = true;
@@ -248,6 +290,7 @@ class ControlsState extends MusicBeatSubstate
 		money2.alpha = 0.6;
 		money3.alpha = 0.6;
 		money4.alpha = 0.6;
+		money5.alpha = 0.6;
 
 		if (money.ID == curSelected) {
 			money.alpha = 1;
@@ -263,6 +306,10 @@ class ControlsState extends MusicBeatSubstate
 
 		if (money4.ID == curSelected) {
 			money4.alpha = 1;
+		}
+
+		if (money5.ID == curSelected) {
+			money5.alpha = 1;
 		}
 	}
 }

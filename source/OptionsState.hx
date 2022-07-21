@@ -114,7 +114,7 @@ class OptionsState extends MusicBeatSubstate
 		credGroup.add(money3);
 
 		money4.x += 50;
-		money4.y += (1 * 80) += 350;
+		money4.y += (7 * 80);
 		money4.ID = 3;
 		money4.cameras = [camGame];
 		credGroup.add(money4);
