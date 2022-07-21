@@ -17,7 +17,7 @@ class PauseSubState extends MusicBeatSubstate
 {
 	var grpMenuShit:FlxTypedGroup<Alphabet>;
 
-	var menuItems:Array<String> = ['Resume', 'Restart Song', 'Toggle Practice Mode', 'Exit to menu'];
+	var menuItems:Array<String> = ['Resume', 'Restart Song', 'Toggle Practice Mode', 'Options', 'Exit to menu'];
 	var curSelected:Int = 0;
 
 	var pauseMusic:FlxSound;
@@ -152,8 +152,18 @@ class PauseSubState extends MusicBeatSubstate
 				case "Toggle Practice Mode":
 					PlayState.practiceMode = !PlayState.practiceMode;
 					practiceText.visible = PlayState.practiceMode;
+				case "Options":
+					#if html5
+			                FlxG.switchState(new OptionsState());
+			                #else
+			                LoadingState.loadAndSwitchState(new OptionsState());
+			                #end
 				case "Exit to menu":
+					#if html5
 					FlxG.switchState(new MainMenuState());
+					#else
+					LoadingState.loadAndSwitchState(new MainMenuState());
+					#end
 			}
 		}
 
