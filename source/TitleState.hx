@@ -85,7 +85,6 @@ class TitleState extends MusicBeatState
 				StoryMenuState.weekUnlocked[0] = true;
 		}
 
-        /*
 		#if mods
 		for (i in FileSystem.readDirectory(FileSystem.absolutePath("mods"))) //checks for mods instead of having to put the mods hardcoded.
 		{
@@ -93,7 +92,6 @@ class TitleState extends MusicBeatState
 			trace('Loaded mods:\n' + FileSystem.readDirectory(FileSystem.absolutePath("mods")));
 		}
 		#end
-		*/
 
 		#if FREEPLAY
 		FlxG.switchState(new FreeplayState());
