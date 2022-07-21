@@ -5,6 +5,8 @@ import flixel.FlxSprite;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxGroup.FlxTypedGroup;
+import Controls.KeyboardScheme;
+import Controls.Control;
 import flixel.group.FlxGroup;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
@@ -13,7 +15,6 @@ import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import lime.net.curl.CURLCode;
 import flixel.FlxCamera;
-import Controls.Control;
 
 class ControlsState extends MusicBeatSubstate
 {
@@ -92,7 +93,7 @@ class ControlsState extends MusicBeatSubstate
 			LoadingState.loadAndSwitchState(new OptionsState());
 			#end
 		else if (FlxG.keys.justPressed.ESCAPE && CanPress || FlxG.keys.justPressed.BACKSPACE && CanPress) {
-			HideSHIT(false);
+			HideSHIT(false, false);
 			CanPress = false;
 		}
 
@@ -141,8 +142,8 @@ class ControlsState extends MusicBeatSubstate
 					case "Left":
 						if (!FlxG.keys.justPressed.ESCAPE && !FlxG.keys.justPressed.BACKSPACE && !FlxG.keys.justPressed.ENTER && !FlxG.keys.justPressed.DELETE) {
 							if (FlxG.keys.getIsDown().length > 0) {
-								FlxG.save.data.LeftKEY = FlxG.keys.getIsDown()[0].ID;
-								PlayerSettings.player1.controls.replaceBinding(Control.LEFT, Keys, FlxG.keys.getIsDown()[0].ID, null);
+								Settings.LeftKEY = FlxG.keys.getIsDown()[0].ID;
+								//PlayerSettings.player1.controls.replaceBinding(Control.LEFT, Keys, FlxG.keys.getIsDown()[0].ID, null);
 							}
 							trace('New LEFT KEY IS: ' + FlxG.keys.getIsDown()[0].ID);
 							HideSHIT();
@@ -150,8 +151,8 @@ class ControlsState extends MusicBeatSubstate
 					case "Down":
 						if (!FlxG.keys.justPressed.ESCAPE && !FlxG.keys.justPressed.BACKSPACE && !FlxG.keys.justPressed.ENTER && !FlxG.keys.justPressed.DELETE) {
 							if (FlxG.keys.getIsDown().length > 0) {
-								FlxG.save.data.DownKEY = FlxG.keys.getIsDown()[0].ID;
-								PlayerSettings.player1.controls.replaceBinding(Control.DOWN, Keys, FlxG.keys.getIsDown()[0].ID, null);
+								Settings.DownKEY = FlxG.keys.getIsDown()[0].ID;
+								//PlayerSettings.player1.controls.replaceBinding(Control.DOWN, Keys, FlxG.keys.getIsDown()[0].ID, null);
 							}
 							trace('New DOWN KEY IS: ' + FlxG.keys.getIsDown()[0].ID);
 							HideSHIT();
@@ -159,8 +160,8 @@ class ControlsState extends MusicBeatSubstate
 					case "Up":
 						if (!FlxG.keys.justPressed.ESCAPE && !FlxG.keys.justPressed.BACKSPACE && !FlxG.keys.justPressed.ENTER && !FlxG.keys.justPressed.DELETE) {
 							if (FlxG.keys.getIsDown().length > 0) {
-								FlxG.save.data.UpKEY = FlxG.keys.getIsDown()[0].ID;
-								PlayerSettings.player1.controls.replaceBinding(Control.UP, Keys, FlxG.keys.getIsDown()[0].ID, null);
+								Settings.UpKEY = FlxG.keys.getIsDown()[0].ID;
+								//PlayerSettings.player1.controls.replaceBinding(Control.UP, Keys, FlxG.keys.getIsDown()[0].ID, null);
 							}
 							trace('New UP KEY IS: ' + FlxG.keys.getIsDown()[0].ID);
 							HideSHIT();
@@ -168,8 +169,8 @@ class ControlsState extends MusicBeatSubstate
 					case "Right":
 						if (!FlxG.keys.justPressed.ESCAPE && !FlxG.keys.justPressed.BACKSPACE && !FlxG.keys.justPressed.ENTER && !FlxG.keys.justPressed.DELETE) {
 							if (FlxG.keys.getIsDown().length > 0) {
-								FlxG.save.data.RightKEY = FlxG.keys.getIsDown()[0].ID;
-								PlayerSettings.player1.controls.replaceBinding(Control.RIGHT, Keys, FlxG.keys.getIsDown()[0].ID, null);
+								Settings.RightKEY = FlxG.keys.getIsDown()[0].ID;
+								//PlayerSettings.player1.controls.replaceBinding(Control.RIGHT, Keys, FlxG.keys.getIsDown()[0].ID, null);
 							}
 							trace('New RIGHT KEY IS: ' + FlxG.keys.getIsDown()[0].ID);
 							HideSHIT();
@@ -179,11 +180,16 @@ class ControlsState extends MusicBeatSubstate
 		}
 	}
 
-	function HideSHIT(?sound:Bool = true) {
+	function HideSHIT(?sound:Bool = true, ?save:Bool = true) {
 		blackScreen.visible = false;
 		waiting.visible = false;
 		waitingP2.visible = false;
 		CanPress = false;
+		if (save) {
+			controls.setKeyboardScheme(KeyboardScheme.Solo, true);
+			Settings.SettingsSave();
+		}
+
 		if (sound) {
 			FlxG.sound.play(Paths.sound('confirmMenu'));
 		}

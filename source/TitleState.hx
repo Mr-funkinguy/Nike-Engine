@@ -4,6 +4,8 @@ package;
 import Discord.DiscordClient;
 import sys.thread.Thread;
 #end
+import Controls.KeyboardScheme;
+import Controls.Control;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
@@ -148,6 +150,8 @@ class TitleState extends MusicBeatState
 		}
 
 		Settings.LoadSettings();
+		controls.setKeyboardScheme(KeyboardScheme.Solo, true);
+		trace("Loaded keybinds.");
 
 		Conductor.changeBPM(102);
 		persistentUpdate = true;

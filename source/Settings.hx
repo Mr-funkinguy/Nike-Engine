@@ -12,7 +12,9 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import lime.net.curl.CURLCode;
+import Controls.KeyboardScheme;
 import Controls.Control;
+import flixel.input.keyboard.FlxKey;
 import flixel.FlxCamera;
 
 using StringTools;
@@ -22,6 +24,11 @@ class Settings extends MusicBeatSubstate
 	public static var LowDetail:Bool = false;
 	public static var GhostTapping:Bool = true;
 	public static var Downscroll:Bool = false;
+
+	public static var LeftKEY:FlxKey = A;
+	public static var DownKEY:FlxKey = S;
+	public static var UpKEY:FlxKey = W;
+	public static var RightKEY:FlxKey = D;
 
 	/*
     public static function ChangeSetting(setting:Bool, change:Bool) {
@@ -34,7 +41,6 @@ class Settings extends MusicBeatSubstate
 	public static function LoadShit() {
 		trace('Funking with all settings...');
 		LoadSettings();
-		LoadKeys();
 	}
 
 	public static function SettingsSave() {
@@ -48,13 +54,11 @@ class Settings extends MusicBeatSubstate
 		FlxG.save.data.LowDetail = LowDetail;
 		FlxG.save.data.GhostTapping = GhostTapping;
 		FlxG.save.data.Downscroll = Downscroll;
-	}
 
-	public static function LoadKeys() {
-		PlayerSettings.player1.controls.replaceBinding(Control.LEFT, Keys, FlxG.save.data.LeftKEY, null);
-		PlayerSettings.player1.controls.replaceBinding(Control.DOWN, Keys, FlxG.save.data.DownKEY, null);
-		PlayerSettings.player1.controls.replaceBinding(Control.UP, Keys, FlxG.save.data.UpKEY, null);
-		PlayerSettings.player1.controls.replaceBinding(Control.RIGHT, Keys, FlxG.save.data.RightKEY, null);
+		FlxG.save.data.LeftKEY = LeftKEY;
+		FlxG.save.data.DownKEY = DownKEY;
+		FlxG.save.data.UpKEY = UpKEY;
+		FlxG.save.data.RightKEY = RightKEY;
 	}
 
 	public static function LoadSettings() {
@@ -69,6 +73,19 @@ class Settings extends MusicBeatSubstate
 
 		if(FlxG.save.data.Downscroll != null) {
 			Downscroll = FlxG.save.data.Downscroll;
+		}
+
+		if(FlxG.save.data.LeftKEY != null) {
+			LeftKEY = FlxG.save.data.LeftKEY;
+		}
+		if(FlxG.save.data.DownKEY != null) {
+			DownKEY = FlxG.save.data.DownKEY;
+		}
+		if(FlxG.save.data.UpKEY != null) {
+			UpKEY = FlxG.save.data.UpKEY;
+		}
+		if(FlxG.save.data.RightKEY != null) {
+			RightKEY = FlxG.save.data.RightKEY;
 		}
 
 		SaveShit();
