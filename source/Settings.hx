@@ -12,6 +12,7 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import lime.net.curl.CURLCode;
+import Controls.Control;
 import flixel.FlxCamera;
 
 using StringTools;
@@ -33,6 +34,7 @@ class Settings extends MusicBeatSubstate
 	public static function LoadShit() {
 		trace('Funking with all settings...');
 		LoadSettings();
+		LoadKeys();
 	}
 
 	public static function SettingsSave() {
@@ -46,6 +48,13 @@ class Settings extends MusicBeatSubstate
 		FlxG.save.data.LowDetail = LowDetail;
 		FlxG.save.data.GhostTapping = GhostTapping;
 		FlxG.save.data.Downscroll = Downscroll;
+	}
+
+	public static function LoadKeys() {
+		PlayerSettings.player1.controls.replaceBinding(Control.LEFT, Keys, FlxG.save.data.LeftKEY, null);
+		PlayerSettings.player1.controls.replaceBinding(Control.DOWN, Keys, FlxG.save.data.DownKEY, null);
+		PlayerSettings.player1.controls.replaceBinding(Control.UP, Keys, FlxG.save.data.UpKEY, null);
+		PlayerSettings.player1.controls.replaceBinding(Control.RIGHT, Keys, FlxG.save.data.RightKEY, null);
 	}
 
 	public static function LoadSettings() {

@@ -18,8 +18,17 @@ import Controls.Control;
 class ControlsState extends MusicBeatSubstate
 {
 	var textMenuItems:Array<String> = ['Left', 'Down', 'Up', 'Right'];
+	var money:Alphabet = new Alphabet(0, 0, 'Left', false, false);
+	var money2:Alphabet = new Alphabet(0, 0, 'Down', false, false);
+	var money3:Alphabet = new Alphabet(0, 0, 'Up', false, false);
+	var money4:Alphabet = new Alphabet(0, 0, 'Right', false, false);
 	private var camGame:FlxCamera;
 	var credGroup:FlxGroup;
+
+	//waiting shit
+	var blackScreen:FlxSprite;
+	var CanPress:Bool = false;
+	var waiting:Alphabet = new Alphabet(0, 0, 'Press a key to set your keybinds...', true, false);
 
 	var grpOptionsTexts:FlxTypedGroup<FlxText>;
 
@@ -28,6 +37,8 @@ class ControlsState extends MusicBeatSubstate
 	var checkbox:FlxSprite;
 	var checkbox2:FlxSprite;
 	var checkbox3:FlxSprite;
+
+	var LoadedIntoState:Bool = false;
 
 	override function create() 
 	{
@@ -49,7 +60,19 @@ class ControlsState extends MusicBeatSubstate
 		credGroup = new FlxGroup();
 		add(credGroup);
 
-		createCoolText(textMenuItems);
+		createText();
+
+		blackScreen = new FlxSprite(0, 0).makeGraphic(Std.int(FlxG.width * 2), Std.int(FlxG.height * 2), FlxColor.BLACK);
+		blackScreen.visible = false;
+		blackScreen.alpha = 0.4;
+		add(blackScreen);
+
+		waiting.scale.set(0.65, 0.65);
+		waiting.cameras = [camGame];
+		waiting.screenCenter();
+		waiting.visible = false;
+		add(waiting);
+		//createCoolText(textMenuItems);
 	}
 
 	override function update(elapsed:Float)
@@ -75,31 +98,117 @@ class ControlsState extends MusicBeatSubstate
 	
 		if (curSelected >= textMenuItems.length)
 			curSelected = 0;
+
+		/*
+		if (credGroup.money.ID == curSelected) {
+			credGroup.money.alpha = 1;
+		}
+
+		if (credGroup.money.ID != curSelected) {
+			credGroup.money.alpha = 0.6;
+		}
+		*/
+
+		AlphabetAlpha();
 	
-		if (FlxG.keys.justPressed.ENTER)
+		if (FlxG.keys.justReleased.ENTER && LoadedIntoState)
 		{
-			switch (textMenuItems[curSelected])
-			{
-				case "Left":
-					if (FlxG.keys.getIsDown().length > 0) {
-						PlayerSettings.player1.controls.replaceBinding(Control.LEFT, Keys, FlxG.keys.getIsDown()[0].ID, null);
-					}
-				case "Down":
-					if (FlxG.keys.getIsDown().length > 0) {
-						PlayerSettings.player1.controls.replaceBinding(Control.DOWN, Keys, FlxG.keys.getIsDown()[0].ID, null);
-					}
-				case "Up":
-					if (FlxG.keys.getIsDown().length > 0) {
-						PlayerSettings.player1.controls.replaceBinding(Control.UP, Keys, FlxG.keys.getIsDown()[0].ID, null);
-					}
-				case "Right":
-					if (FlxG.keys.getIsDown().length > 0) {
-						PlayerSettings.player1.controls.replaceBinding(Control.RIGHT, Keys, FlxG.keys.getIsDown()[0].ID, null);
-					}
+			//trace('HOLY SHIT 0'); //did these cause game crashed lol!
+			blackScreen.visible = true;
+			waiting.visible = true;
+
+			new FlxTimer().start(0.05, function(tmr:FlxTimer) {
+				CanPress = true;
+			});
+		}
+
+		if (CanPress && !FlxG.keys.justReleased.ENTER && !FlxG.keys.justPressed.ENTER && !FlxG.keys.pressed.ENTER) {
+			if (FlxG.keys.getIsDown().length > 0) {
+
+				switch (textMenuItems[curSelected])
+				{
+					case "Left":
+						if (!FlxG.keys.justPressed.ESCAPE && !FlxG.keys.justPressed.BACKSPACE && !FlxG.keys.justPressed.ENTER && !FlxG.keys.justPressed.DELETE) {
+							if (FlxG.keys.getIsDown().length > 0) {
+								FlxG.save.data.LeftKEY = FlxG.keys.getIsDown()[0].ID;
+								PlayerSettings.player1.controls.replaceBinding(Control.LEFT, Keys, FlxG.keys.getIsDown()[0].ID, null);
+							}
+							trace('New LEFT KEY IS: ' + FlxG.keys.getIsDown()[0].ID);
+							blackScreen.visible = false;
+							waiting.visible = false;
+							CanPress = false;
+						}
+					case "Down":
+						if (!FlxG.keys.justPressed.ESCAPE && !FlxG.keys.justPressed.BACKSPACE && !FlxG.keys.justPressed.ENTER && !FlxG.keys.justPressed.DELETE) {
+							if (FlxG.keys.getIsDown().length > 0) {
+								FlxG.save.data.DownKEY = FlxG.keys.getIsDown()[0].ID;
+								PlayerSettings.player1.controls.replaceBinding(Control.DOWN, Keys, FlxG.keys.getIsDown()[0].ID, null);
+							}
+							trace('New DOWN KEY IS: ' + FlxG.keys.getIsDown()[0].ID);
+							blackScreen.visible = false;
+							waiting.visible = false;
+							CanPress = false;
+					    }
+					case "Up":
+						if (!FlxG.keys.justPressed.ESCAPE && !FlxG.keys.justPressed.BACKSPACE && !FlxG.keys.justPressed.ENTER && !FlxG.keys.justPressed.DELETE) {
+							if (FlxG.keys.getIsDown().length > 0) {
+								FlxG.save.data.UpKEY = FlxG.keys.getIsDown()[0].ID;
+								PlayerSettings.player1.controls.replaceBinding(Control.UP, Keys, FlxG.keys.getIsDown()[0].ID, null);
+							}
+							trace('New UP KEY IS: ' + FlxG.keys.getIsDown()[0].ID);
+							blackScreen.visible = false;
+							waiting.visible = false;
+							CanPress = false;
+					    }
+					case "Right":
+						if (!FlxG.keys.justPressed.ESCAPE && !FlxG.keys.justPressed.BACKSPACE && !FlxG.keys.justPressed.ENTER && !FlxG.keys.justPressed.DELETE) {
+							if (FlxG.keys.getIsDown().length > 0) {
+								FlxG.save.data.RightKEY = FlxG.keys.getIsDown()[0].ID;
+								PlayerSettings.player1.controls.replaceBinding(Control.RIGHT, Keys, FlxG.keys.getIsDown()[0].ID, null);
+							}
+							trace('New RIGHT KEY IS: ' + FlxG.keys.getIsDown()[0].ID);
+							blackScreen.visible = false;
+							waiting.visible = false;
+							CanPress = false;
+					    }
+				}
 			}
 		}
 	}
 
+	function createText() {
+		money.x += 50;
+		money.y += (1 * 80) += -50;
+		money.ID = 0;
+		money.cameras = [camGame];
+		credGroup.add(money);
+
+		money2.x += 50;
+		money2.y += (2 * 80) += -50;
+		money2.ID = 1;
+		money2.cameras = [camGame];
+		credGroup.add(money2);
+
+		money3.x += 50;
+		money3.y += (3 * 80) += -50;
+		money3.ID = 2;
+		money3.cameras = [camGame];
+		credGroup.add(money3);
+
+		money4.x += 50;
+		money4.y += (4 * 80) += -50;
+		money4.ID = 3;
+		money4.cameras = [camGame];
+		credGroup.add(money4);
+
+		trace('Waiting 0.75 seconds to load shit...');
+		new FlxTimer().start(0.75, function(tmr:FlxTimer) {
+			LoadedIntoState = true;
+			trace('LOADED');
+		});
+	}
+
+	/*
 	function createCoolText(textArray:Array<String>)
 	{
 		for (i in 0...textArray.length) {
@@ -108,6 +217,30 @@ class ControlsState extends MusicBeatSubstate
 			money.y += (i * 80) + 200;
 			money.ID = i;
 			credGroup.add(money);
+		}
+	}
+	*/
+
+	function AlphabetAlpha() {
+		money.alpha = 0.6;
+		money2.alpha = 0.6;
+		money3.alpha = 0.6;
+		money4.alpha = 0.6;
+
+		if (money.ID == curSelected) {
+			money.alpha = 1;
+		}
+
+		if (money2.ID == curSelected) {
+			money2.alpha = 1;
+		}
+
+		if (money3.ID == curSelected) {
+			money3.alpha = 1;
+		}
+
+		if (money4.ID == curSelected) {
+			money4.alpha = 1;
 		}
 	}
 }
