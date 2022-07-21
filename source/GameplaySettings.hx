@@ -96,17 +96,17 @@ class GameplaySettings extends MusicBeatSubstate
 		switch (checkbox2.animation.curAnim.name)
 		{
 			case 'selecting animation':
-				checkbox.offset.set(17, 70);
+				checkbox2.offset.set(17, 70);
 			case 'selected':
-				checkbox.offset.set();
+				checkbox2.offset.set();
 		}
 
 		switch (checkbox3.animation.curAnim.name)
 		{
 			case 'selecting animation':
-				checkbox.offset.set(17, 70);
+				checkbox3.offset.set(17, 70);
 			case 'selected':
-				checkbox.offset.set();
+				checkbox3.offset.set();
 		}
 
 		WaitingToAccept();
