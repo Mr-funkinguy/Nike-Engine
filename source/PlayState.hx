@@ -151,6 +151,7 @@ class PlayState extends MusicBeatState
 	var inCutscene:Bool = false;
 
 	//score
+	private var PixelSONG:Bool = false;
 	private var week7zoom:Bool = false;
 	//private var tankmanHEAVEN:Bool = false;
 	private var score:Int = 0;
@@ -549,6 +550,8 @@ class PlayState extends MusicBeatState
 					bgGirls.updateHitbox();
 					add(bgGirls);
 				}
+
+				PixelSONG = true;
 		    }
 		    case 'thorns': {
 		        curStage = 'schoolEvil';
@@ -566,6 +569,8 @@ class PlayState extends MusicBeatState
 		        bg.scrollFactor.set(0.8, 0.9);
 		        bg.scale.set(6, 6);
 		        add(bg);
+
+				PixelSONG = true;
 		    }
 			case 'guns' | 'stress' | 'ugh': {
 				defaultCamZoom = 0.9;
@@ -989,19 +994,34 @@ class PlayState extends MusicBeatState
 		add(healthBar);
 
 		missesTxt = new FlxText(0, healthBarBG.y -30, 400, "", 24);
-		missesTxt.setFormat(Paths.font("comic.ttf"), 24, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		if (PixelSONG) {
+			missesTxt.setFormat(Paths.font("pixel.otf"), 18, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		}
+		else {
+			missesTxt.setFormat(Paths.font("comic.ttf"), 24, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		}
 		missesTxt.borderSize = 3;
 		missesTxt.scrollFactor.set();
 		add(missesTxt);
 
 		scoreTxt = new FlxText(0, healthBarBG.y, 400, "", 24);
-		scoreTxt.setFormat(Paths.font("comic.ttf"), 24, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		if (PixelSONG) {
+			scoreTxt.setFormat(Paths.font("pixel.otf"), 18, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		}
+		else {
+			scoreTxt.setFormat(Paths.font("comic.ttf"), 24, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		}
 		scoreTxt.borderSize = 3;
 		scoreTxt.scrollFactor.set();
 		add(scoreTxt);
 
 		ratingTxt = new FlxText(0, healthBarBG.y +30, 400, "", 24);
-		ratingTxt.setFormat(Paths.font("comic.ttf"), 24, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		if (PixelSONG) {
+			ratingTxt.setFormat(Paths.font("pixel.otf"), 18, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		}
+		else {
+			ratingTxt.setFormat(Paths.font("comic.ttf"), 24, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		}
 		ratingTxt.borderSize = 3;
 		ratingTxt.scrollFactor.set();
 		add(ratingTxt);
