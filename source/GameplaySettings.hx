@@ -89,7 +89,7 @@ class GameplaySettings extends MusicBeatSubstate
 		{
 			case 'selecting animation':
 				checkbox.offset.set(17, 70);
-			case 'selected':
+			case 'unselected':
 				checkbox.offset.set();
 		}
 
@@ -97,7 +97,7 @@ class GameplaySettings extends MusicBeatSubstate
 		{
 			case 'selecting animation':
 				checkbox2.offset.set(17, 70);
-			case 'selected':
+			case 'unselected':
 				checkbox2.offset.set();
 		}
 
@@ -105,7 +105,7 @@ class GameplaySettings extends MusicBeatSubstate
 		{
 			case 'selecting animation':
 				checkbox3.offset.set(17, 70);
-			case 'selected':
+			case 'unselected':
 				checkbox3.offset.set();
 		}
 
@@ -120,7 +120,7 @@ class GameplaySettings extends MusicBeatSubstate
 		money.cameras = [camGame];
 		add(money);
 
-		checkbox = new FlxSprite(money.x +325, money.y +15);
+		checkbox = new FlxSprite(money.width +50, money.y +15);
 		checkbox.frames = Paths.getSparrowAtlas('checkboxThingie');
 		checkbox.animation.addByPrefix('selected', 'Check Box Selected Static0', 24, false);
 		checkbox.animation.addByPrefix('unselected', 'Check Box unselected0', 24, false);
@@ -131,7 +131,7 @@ class GameplaySettings extends MusicBeatSubstate
 		checkbox.updateHitbox();
 		add(checkbox);
 		if (Settings.LowDetail) {
-			checkbox.animation.play('selected');
+			checkbox.animation.play('selecting animation');
 		}
 		else {
 			checkbox.animation.play('unselected');
@@ -143,7 +143,7 @@ class GameplaySettings extends MusicBeatSubstate
 		money2.cameras = [camGame];
 		add(money2);
 
-		checkbox2 = new FlxSprite(money2.x +350, money2.y +15);
+		checkbox2 = new FlxSprite(money2.width +50, money2.y +15);
 		checkbox2.frames = Paths.getSparrowAtlas('checkboxThingie');
 		checkbox2.animation.addByPrefix('selected', 'Check Box Selected Static0', 24, false);
 		checkbox2.animation.addByPrefix('unselected', 'Check Box unselected0', 24, false);
@@ -154,7 +154,7 @@ class GameplaySettings extends MusicBeatSubstate
 		checkbox2.updateHitbox();
 		add(checkbox2);
 		if (Settings.GhostTapping) {
-			checkbox2.animation.play('selected');
+			checkbox2.animation.play('selecting animation');
 		}
 		else {
 			checkbox2.animation.play('unselected');
@@ -166,7 +166,7 @@ class GameplaySettings extends MusicBeatSubstate
 		money3.cameras = [camGame];
 		add(money3);
 
-		checkbox3 = new FlxSprite(money3.x +325, money3.y +15);
+		checkbox3 = new FlxSprite(money3.width +50, money3.y +15);
 		checkbox3.frames = Paths.getSparrowAtlas('checkboxThingie');
 		checkbox3.animation.addByPrefix('selected', 'Check Box Selected Static0', 24, false);
 		checkbox3.animation.addByPrefix('unselected', 'Check Box unselected0', 24, false);
@@ -177,7 +177,7 @@ class GameplaySettings extends MusicBeatSubstate
 		checkbox3.updateHitbox();
 		add(checkbox3);
 		if (Settings.Downscroll) {
-			checkbox3.animation.play('selected');
+			checkbox3.animation.play('selecting animation');
 		}
 		else {
 			checkbox3.animation.play('unselected');
