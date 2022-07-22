@@ -1,3 +1,4 @@
+#if desktop
 package;
 
 import lime.app.Application;
@@ -162,3 +163,4 @@ class Caching extends MusicBeatState
 		FlxG.switchState(new TitleState());
 	}
 }
+#end
