@@ -88,7 +88,10 @@ class TitleState extends MusicBeatState
 		#if mods
 		for (i in FileSystem.readDirectory(FileSystem.absolutePath("mods"))) //checks for mods instead of having to put the mods hardcoded.
 		{
-			polymod.Polymod.init({modRoot: "mods", dirs: [i]});
+			polymod.Polymod.init({
+				modRoot: "./mods/",
+				dirs:[i]
+			   });
 			trace('Loaded mods:\n' + FileSystem.readDirectory(FileSystem.absolutePath("mods")));
 		}
 		#end
