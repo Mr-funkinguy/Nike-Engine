@@ -1,5 +1,6 @@
 package;
 
+import flixel.graphics.FlxGraphic;
 import flixel.FlxG;
 import flixel.graphics.frames.FlxAtlasFrames;
 import openfl.utils.AssetType;
@@ -36,6 +37,32 @@ class Paths
 		}
 
 		return getPreloadPath(file);
+	}
+
+	static public function loadImage(key:String, ?library:String):FlxGraphic
+	{
+		var path = image(key, library);
+	
+		if (Caching.bitmapData != null)
+		{
+			if (Caching.bitmapData.exists(key))
+			{
+				trace('Loading image from bitmap cache: $key');
+				// Get data from cache.
+				return Caching.bitmapData.get(key);
+			}
+		}
+	
+		if (OpenFlAssets.exists(path, IMAGE))
+		{
+			var bitmap = OpenFlAssets.getBitmapData(path);
+			return FlxGraphic.fromBitmapData(bitmap);
+		}
+		else
+		{
+			trace('Could not find image at path $path');
+			return null;
+		}
 	}
 
 	static public function getLibraryPath(file:String, library = "preload")
@@ -115,6 +142,13 @@ class Paths
 	inline static public function video(key:String)
 	{
 		return 'assets/videos/$key';
+	}
+
+	static public function SoundExist(path:String)
+	{
+		if (path == null || path == "")
+			return false;
+		return OpenFlAssets.exists(path, AssetType.SOUND) || OpenFlAssets.exists(path, AssetType.MUSIC);
 	}
 
 	inline static public function fileExists(key:String, type:AssetType, ?ignoreMods:Bool = false, ?library:String)
