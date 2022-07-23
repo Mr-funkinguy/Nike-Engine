@@ -19,10 +19,10 @@ import flixel.FlxCamera;
 class ControlsState extends MusicBeatSubstate
 {
 	var textMenuItems:Array<String> = ['Left', 'Down', 'Up', 'Right', 'Reset to default.'];
-	var money:Alphabet = new Alphabet(0, 0, 'Left', false, false);
-	var money2:Alphabet = new Alphabet(0, 0, 'Down', false, false);
-	var money3:Alphabet = new Alphabet(0, 0, 'Up', false, false);
-	var money4:Alphabet = new Alphabet(0, 0, 'Right', false, false);
+	var money:Alphabet = new Alphabet(0, 0, "Left Keybind is " +Settings.LeftKEY, false, false);
+	var money2:Alphabet = new Alphabet(0, 0, "Down Keybind is " +Settings.DownKEY, false, false);
+	var money3:Alphabet = new Alphabet(0, 0, "Up Keybind is " +Settings.UpKEY, false, false);
+	var money4:Alphabet = new Alphabet(0, 0, "Right Keybind is " +Settings.RightKEY, false, false);
 	var money5:Alphabet = new Alphabet(0, 0, 'Reset to default.', false, false);
 	private var camGame:FlxCamera;
 	var credGroup:FlxGroup;
@@ -38,7 +38,7 @@ class ControlsState extends MusicBeatSubstate
 
 	var grpOptionsTexts:FlxTypedGroup<FlxText>;
 
-	var curSelected:Int = 0;
+	public static var curSelected:Int = 0;
 
 	var checkbox:FlxSprite;
 	var checkbox2:FlxSprite;
@@ -107,6 +107,12 @@ class ControlsState extends MusicBeatSubstate
 			CanPress = false;
 		}
 
+		/*
+		money.text = "Left Keybind: " +Settings.LeftKEY;
+		money2.text = "Down Keybind: " +Settings.DownKEY;
+		money3.text = "Up Keybind: " +Settings.UpKEY;
+		money4.text = "Right Keybind: " +Settings.RightKEY;
+		*/
 	
 		if (FlxG.keys.justPressed.UP || FlxG.keys.justPressed.W)
 			curSelected -= 1;
@@ -205,10 +211,6 @@ class ControlsState extends MusicBeatSubstate
 		waiting.visible = false;
 		waitingP2.visible = false;
 		CanPress = false;
-		if (save) {
-			controls.setKeyboardScheme(KeyboardScheme.Solo, true);
-			Settings.SettingsSave();
-		}
 
 		if (sound) {
 			FlxG.sound.play(Paths.sound('confirmMenu'));
@@ -231,6 +233,14 @@ class ControlsState extends MusicBeatSubstate
 					keybindsreset.alpha = 1;
 				}
 			});
+		}
+
+		if (save) {
+			controls.setKeyboardScheme(KeyboardScheme.Solo, true);
+			Settings.SettingsSave();
+			var FuckMyLife:Int = curSelected;
+			FlxG.switchState(new ControlsState());
+			ControlsState.curSelected = FuckMyLife;
 		}
 	}
 
@@ -265,8 +275,8 @@ class ControlsState extends MusicBeatSubstate
 		money5.cameras = [camGame];
 		credGroup.add(money5);
 
-		trace('Waiting 0.5 seconds to load shit...');
-		new FlxTimer().start(0.5, function(tmr:FlxTimer) {
+		trace('Waiting 0.25 seconds to load shit...');
+		new FlxTimer().start(0.25, function(tmr:FlxTimer) {
 			LoadedIntoState = true;
 			trace('LOADED');
 		});

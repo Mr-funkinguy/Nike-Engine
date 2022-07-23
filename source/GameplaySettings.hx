@@ -73,11 +73,14 @@ class GameplaySettings extends MusicBeatSubstate
 			#end
 		}
 
-		if (controls.UP_P)
-			curSelected -= 1;
 
-		if (controls.DOWN_P)
+		if (controls.UP_P) {
+			curSelected -= 1;
+	    }
+
+		if (controls.DOWN_P) {
 			curSelected += 1;
+		}
 
 		if (curSelected < 0)
 			curSelected = textMenuItems.length - 1;
