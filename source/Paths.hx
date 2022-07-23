@@ -43,16 +43,6 @@ class Paths
 	{
 		var path = image(key, library);
 	
-		if (Caching.bitmapData != null)
-		{
-			if (Caching.bitmapData.exists(key))
-			{
-				trace('Loading image from bitmap cache: $key');
-				// Get data from cache.
-				return Caching.bitmapData.get(key);
-			}
-		}
-	
 		if (OpenFlAssets.exists(path, IMAGE))
 		{
 			var bitmap = OpenFlAssets.getBitmapData(path);
