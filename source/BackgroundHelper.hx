@@ -15,19 +15,17 @@ class BackgroundHelper extends MusicBeatSubstate
 	public function new(image:String, library:String = 'shared', x:Float = 0, y:Float = 0, scrollfactorX:Float = 0.9, scrollfactorY:Float = 0.9, screencenter:Bool = false, animated:Bool = false, xmlcode:String = null, loop:Bool = null)
 	{
 		if (animated = false) {
-			var bg:FlxSprite = new FlxSprite(x, y).loadGraphic(Paths.image(image, library));
-			bg.scrollFactor.set(scrollfactorX, scrollfactorY);
-			bg.antialiasing = true;
+			PlayState.bg = new FlxSprite(x, y).loadGraphic(Paths.image(image, library));
+			PlayState.bg.scrollFactor.set(scrollfactorX, scrollfactorY);
+			PlayState.bg.antialiasing = true;
 		}
 		else {
-			var bgTex = Paths.getSparrowAtlas(image, library);
-			bg = new FlxSprite(x, y);
-			bg.frames = bgTex;
-			bg.animation.addByPrefix('animation', xmlcode, 24, loop);
-			bg.animation.play('animation');
-			bg.scrollFactor.set(scrollfactorX, scrollfactorY);
-			bg.antialiasing = true;
-			add(bg);
+			PlayState.bg = new FlxSprite(x, y);
+			PlayState.bg.frames = Paths.getSparrowAtlas(image, library);
+			PlayState.bg.animation.addByPrefix('animation', xmlcode, 24, loop);
+			PlayState.bg.animation.play('animation');
+			PlayState.bg.scrollFactor.set(scrollfactorX, scrollfactorY);
+			PlayState.bg.antialiasing = true;
 		}
 
 		super();

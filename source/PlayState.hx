@@ -126,6 +126,9 @@ class PlayState extends MusicBeatState
 	var tankdude5:FlxSprite;
 	var tankdude6:FlxSprite;
 
+	//helper shit
+	public static var bg:FlxSprite;
+
 	var upperBoppers:FlxSprite;
 	var bottomBoppers:FlxSprite;
 	var santa:FlxSprite;
@@ -680,11 +683,12 @@ class PlayState extends MusicBeatState
 					tankdude6.animation.addByPrefix('tank', 'fg tankhead 4 instance 1', 24, true);
 					tankdude6.animation.play('tank');
 					tankdude6.scrollFactor.set(3.5, 2.5);
+
 					/*
-						//image, library, x, y, scrollfactor x, scrollfactor y, screencenter, animated, xml code, loops
-					    var bg:BackgroundHelper = new BackgroundHelper('tank3', 'week7', 1300, 1200, 3.5, 2.5, false, true, 'fg tankhead 4 instance 1', true);
-				     	add(bg);
-						//this doesn't work lol so uh ye
+					//image, library, x, y, scrollfactor x, scrollfactor y, screencenter, animated, xml code, loops
+					var bg:BackgroundHelper = new BackgroundHelper('tank3', 'week7', 1300, 1200, 3.5, 2.5, false, true, 'fg tankhead 4 instance 1', true);
+				    add(bg);
+					//this doesn't work lol so uh ye
 					*/
 					
 				}
@@ -726,7 +730,6 @@ class PlayState extends MusicBeatState
 				if (stageMOD) {
 				    trace('Loading mod stage...');
 					//modSTAGE.add(modStageFILE); //trying to find a way for modstages to be loaded
-					//.p-modStageFILE;
 					trace('Loaded mod stage!');
 				}
 				else {
