@@ -13,6 +13,7 @@ class GameOverSubstate extends MusicBeatSubstate
 	var camFollow:FlxObject;
 
 	var stageSuffix:String = "";
+	var playingDeathSound:Bool = false;
 
 	public function new(x:Float, y:Float)
 	{
@@ -28,6 +29,10 @@ class GameOverSubstate extends MusicBeatSubstate
 				daBf = 'bf-pixel-dead';
 			default:
 				daBf = 'bf';
+		}
+		if (PlayState.SONG.song.toLowerCase() == 'stress')
+		{
+			daBf = 'bf-holding-gf-dead';
 		}
 
 		super();
@@ -70,7 +75,19 @@ class GameOverSubstate extends MusicBeatSubstate
 				FlxG.switchState(new FreeplayState());
 		}
 
-		if (bf.animation.curAnim.name == 'firstDeath' && bf.animation.curAnim.curFrame == 12)
+		if (PlayState.storyWeek == 7 && PlayState.isStoryMode)
+		{
+			if (bf.animation.curAnim.name == 'firstDeath' && bf.animation.curAnim.finished && !playingDeathSound)
+			{
+				playingDeathSound = true;
+				FlxG.sound.music.fadeIn(13, 0.2, 1);
+				FlxG.sound.play(Paths.sound('jeffGameover/jeffGameover-' + FlxG.random.int(1, 25)), 1, false, null, true, function()
+				{
+					FlxG.sound.music.fadeIn(1, 0.2, 1);
+				});
+			}
+		}
+		else if (bf.animation.curAnim.name == 'firstDeath' && bf.animation.curAnim.curFrame == 12)
 		{
 			FlxG.camera.follow(camFollow, LOCKON, 0.01);
 		}

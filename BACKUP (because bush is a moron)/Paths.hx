@@ -1,5 +1,6 @@
 package;
 
+import flixel.graphics.FlxGraphic;
 import flixel.FlxG;
 import flixel.graphics.frames.FlxAtlasFrames;
 import openfl.utils.AssetType;
@@ -16,16 +17,19 @@ class Paths
 		currentLevel = name.toLowerCase();
 	}
 
-	static function getPath(file:String, type:AssetType, library:Null<String>)
+	public static function getPath(file:String, type:AssetType, ?library:Null<String> = null)
 	{
 		if (library != null)
 			return getLibraryPath(file, library);
 
 		if (currentLevel != null)
 		{
-			var levelPath = getLibraryPathForce(file, currentLevel);
-			if (OpenFlAssets.exists(levelPath, type))
-				return levelPath;
+			var levelPath:String = '';
+			if(currentLevel != 'shared') {
+				levelPath = getLibraryPathForce(file, currentLevel);
+				if (OpenFlAssets.exists(levelPath, type))
+					return levelPath;
+			}
 
 			levelPath = getLibraryPathForce(file, "shared");
 			if (OpenFlAssets.exists(levelPath, type))
@@ -33,6 +37,22 @@ class Paths
 		}
 
 		return getPreloadPath(file);
+	}
+
+	static public function loadImage(key:String, ?library:String):FlxGraphic
+	{
+		var path = image(key, library);
+	
+		if (OpenFlAssets.exists(path, IMAGE))
+		{
+			var bitmap = OpenFlAssets.getBitmapData(path);
+			return FlxGraphic.fromBitmapData(bitmap);
+		}
+		else
+		{
+			trace('Could not find image at path $path');
+			return null;
+		}
 	}
 
 	static public function getLibraryPath(file:String, library = "preload")
@@ -107,6 +127,26 @@ class Paths
 	inline static public function font(key:String)
 	{
 		return 'assets/fonts/$key';
+	}
+
+	inline static public function video(key:String)
+	{
+		return 'assets/videos/$key';
+	}
+
+	static public function SoundExist(path:String)
+	{
+		if (path == null || path == "")
+			return false;
+		return OpenFlAssets.exists(path, AssetType.SOUND) || OpenFlAssets.exists(path, AssetType.MUSIC);
+	}
+
+	inline static public function fileExists(key:String, type:AssetType, ?ignoreMods:Bool = false, ?library:String)
+	{	
+		if(OpenFlAssets.exists(getPath(key, type))) {
+			return true;
+		}
+		return false;
 	}
 
 	inline static public function getSparrowAtlas(key:String, ?library:String)

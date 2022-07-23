@@ -30,7 +30,6 @@ enum abstract Action(String) to String from String
 	var BACK = "back";
 	var PAUSE = "pause";
 	var RESET = "reset";
-	var CHEAT = "cheat";
 }
 #else
 @:enum
@@ -52,7 +51,6 @@ abstract Action(String) to String from String
 	var BACK = "back";
 	var PAUSE = "pause";
 	var RESET = "reset";
-	var CHEAT = "cheat";
 }
 #end
 
@@ -77,7 +75,6 @@ enum Control
 	ACCEPT;
 	BACK;
 	PAUSE;
-	CHEAT;
 }
 
 enum KeyboardScheme
@@ -110,7 +107,6 @@ class Controls extends FlxActionSet
 	var _back = new FlxActionDigital(Action.BACK);
 	var _pause = new FlxActionDigital(Action.PAUSE);
 	var _reset = new FlxActionDigital(Action.RESET);
-	var _cheat = new FlxActionDigital(Action.CHEAT);
 
 	#if (haxe >= "4.0.0")
 	var byName:Map<String, FlxActionDigital> = [];
@@ -201,11 +197,6 @@ class Controls extends FlxActionSet
 	inline function get_RESET()
 		return _reset.check();
 
-	public var CHEAT(get, never):Bool;
-
-	inline function get_CHEAT()
-		return _cheat.check();
-
 	#if (haxe >= "4.0.0")
 	public function new(name, scheme = None)
 	{
@@ -227,7 +218,6 @@ class Controls extends FlxActionSet
 		add(_back);
 		add(_pause);
 		add(_reset);
-		add(_cheat);
 
 		for (action in digitalActions)
 			byName[action.name] = action;
@@ -255,7 +245,6 @@ class Controls extends FlxActionSet
 		add(_back);
 		add(_pause);
 		add(_reset);
-		add(_cheat);
 
 		for (action in digitalActions)
 			byName[action.name] = action;
@@ -309,7 +298,6 @@ class Controls extends FlxActionSet
 			case BACK: _back;
 			case PAUSE: _pause;
 			case RESET: _reset;
-			case CHEAT: _cheat;
 		}
 	}
 
@@ -353,8 +341,6 @@ class Controls extends FlxActionSet
 				func(_pause, JUST_PRESSED);
 			case RESET:
 				func(_reset, JUST_PRESSED);
-			case CHEAT:
-				func(_cheat, JUST_PRESSED);
 		}
 	}
 
@@ -498,13 +484,13 @@ class Controls extends FlxActionSet
 		switch (scheme)
 		{
 			case Solo:
-				inline bindKeys(Control.UP, [W, FlxKey.UP]);
-				inline bindKeys(Control.DOWN, [S, FlxKey.DOWN]);
-				inline bindKeys(Control.LEFT, [A, FlxKey.LEFT]);
-				inline bindKeys(Control.RIGHT, [D, FlxKey.RIGHT]);
-				inline bindKeys(Control.ACCEPT, [Z, SPACE, ENTER]);
+				inline bindKeys(Control.UP, [Settings.UpKEY, FlxKey.UP]);
+				inline bindKeys(Control.DOWN, [Settings.DownKEY, FlxKey.DOWN]);
+				inline bindKeys(Control.LEFT, [Settings.LeftKEY, FlxKey.LEFT]);
+				inline bindKeys(Control.RIGHT, [Settings.RightKEY, FlxKey.RIGHT]);
+				inline bindKeys(Control.ACCEPT, [SPACE, ENTER]);
 				inline bindKeys(Control.BACK, [BACKSPACE, ESCAPE]);
-				inline bindKeys(Control.PAUSE, [P, ENTER, ESCAPE]);
+				inline bindKeys(Control.PAUSE, [ENTER, ESCAPE]);
 				inline bindKeys(Control.RESET, [R]);
 			case Duo(true):
 				inline bindKeys(Control.UP, [W]);

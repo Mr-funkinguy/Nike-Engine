@@ -4,6 +4,8 @@ package;
 import Discord.DiscordClient;
 import sys.thread.Thread;
 #end
+import Controls.KeyboardScheme;
+import Controls.Control;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
@@ -27,6 +29,10 @@ import flixel.util.FlxTimer;
 import io.newgrounds.NG;
 import lime.app.Application;
 import openfl.Assets;
+#if desktop
+import sys.FileSystem;
+import sys.io.File;
+#end
 
 using StringTools;
 
@@ -46,13 +52,7 @@ class TitleState extends MusicBeatState
 
 	override public function create():Void
 	{
-		#if polymod
-		polymod.Polymod.init({modRoot: "mods", dirs: ['introMod']});
-		#end
-
 		PlayerSettings.init();
-
-		Settings.LoadSettings();
 
 		curWacky = FlxG.random.getObject(getIntroTextShit());
 
@@ -65,7 +65,7 @@ class TitleState extends MusicBeatState
 		#if ng
 		var ng:NGio = new NGio(APIStuff.API, APIStuff.EncKey);
 		trace('NEWGROUNDS LOL');
-		#end
+		#end 
 
 		FlxG.save.bind('funkin', 'ninjamuffin99');
 
@@ -84,6 +84,17 @@ class TitleState extends MusicBeatState
 			if (!StoryMenuState.weekUnlocked[0])
 				StoryMenuState.weekUnlocked[0] = true;
 		}
+
+		#if mods
+		for (i in FileSystem.readDirectory(FileSystem.absolutePath("mods")))
+		{
+			polymod.Polymod.init({
+				modRoot: "./mods/",
+				dirs:[i]
+			   });
+			trace('Loaded mods:\n' + FileSystem.readDirectory(FileSystem.absolutePath("mods")));
+		}
+		#end
 
 		#if FREEPLAY
 		FlxG.switchState(new FreeplayState());
@@ -138,6 +149,10 @@ class TitleState extends MusicBeatState
 
 			FlxG.sound.music.fadeIn(4, 0, 0.7);
 		}
+
+		Settings.LoadSettings();
+		controls.setKeyboardScheme(KeyboardScheme.Solo, true);
+		trace("Loaded keybinds.");
 
 		Conductor.changeBPM(102);
 		persistentUpdate = true;
@@ -290,23 +305,7 @@ class TitleState extends MusicBeatState
 
 			new FlxTimer().start(2, function(tmr:FlxTimer)
 			{
-				// Check if version is outdated
-
-				var version:String = "v" + Application.current.meta.get('version');
-
-				if (version.trim() != NGio.GAME_VER_NUMS.trim() && !OutdatedSubState.leftState)
-				{
-					FlxG.switchState(new OutdatedSubState());
-					trace('OLD VERSION!');
-					trace('old ver');
-					trace(version.trim());
-					trace('cur ver');
-					trace(NGio.GAME_VER_NUMS.trim());
-				}
-				else
-				{
-					FlxG.switchState(new MainMenuState());
-				}
+				FlxG.switchState(new MainMenuState());
 			});
 			// FlxG.sound.play(Paths.music('titleShoot'), 0.7);
 		}
