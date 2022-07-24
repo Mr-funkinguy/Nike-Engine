@@ -36,6 +36,7 @@
 
 	<define name="CRASH_HANDLER" if="desktop" />
 	<define name="videos" if="desktop" />
+	<define name="MP4" if="windows || mac" />
 
 	<assets path="assets/preload" rename="assets" exclude="*.ogg" if="web"/>
 	<assets path="assets/preload" rename="assets" exclude="*.mp3" unless="web"/>
@@ -125,7 +126,7 @@
 	<haxelib name="faxe" if='switch'/>
 	<haxelib name="polymod"/>
 	<haxelib name="discord_rpc" if="desktop"/>
-	<haxelib name="hxCodec" if="videos"/>
+	<haxelib name="hxCodec" if="MP4"/>
 	<haxelib name="crashdumper"/>
 	<!-- <haxelib name="hxcpp-debug-server" if="desktop"/> -->
 
