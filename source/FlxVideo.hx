@@ -59,4 +59,10 @@ class FlxVideo extends FlxBasic
 			finishVideo();
 		}
 	}
+
+	override public function update(elapsed:Float) {
+		if (FlxG.keys.justPressed.ENTER) {
+			finishVideo();
+		}
+	}
 }

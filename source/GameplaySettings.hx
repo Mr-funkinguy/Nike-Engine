@@ -118,7 +118,7 @@ class GameplaySettings extends MusicBeatSubstate
 
 	function AddOptions() {
 		money.x += 50;
-		money.y += (1 * 80) += 150;
+		money.y += (1 * 80) += -50;
 		money.ID = 0;
 		money.cameras = [camGame];
 		add(money);
@@ -141,7 +141,7 @@ class GameplaySettings extends MusicBeatSubstate
 		}
 
 		money2.x += 50;
-		money2.y += (1 * 80) += 300;
+		money2.y += (2 * 80) += -50;
 		money2.ID = 1;
 		money2.cameras = [camGame];
 		add(money2);
@@ -164,7 +164,7 @@ class GameplaySettings extends MusicBeatSubstate
 		}
 
 		money3.x += 50;
-		money3.y += (1 * 80) += 450;
+		money3.y += (3 * 80) += -50;
 		money3.ID = 2;
 		money3.cameras = [camGame];
 		add(money3);
