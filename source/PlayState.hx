@@ -148,6 +148,8 @@ class PlayState extends MusicBeatState
 
 	var misses:Int = 0;
 
+	//
+
 	// how big to stretch the pixel art assets
 	public static var daPixelZoom:Float = 6;
 
