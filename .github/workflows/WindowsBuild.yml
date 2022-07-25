@@ -48,6 +48,7 @@ jobs:
           haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
           haxelib install hxcpp-debug-server
           haxelib git hxCodec https://github.com/polybiusproxy/hxCodec
+          haxelib git crashdumper http://github.com/larsiusprime/crashdumper
           haxelib list
         shell: cmd
       - name: Create Version Tag
