@@ -31,10 +31,20 @@ class StoryMenuState extends MusicBeatState
 		['Cocoa', 'Eggnog', 'Winter-Horrorland'],
 		['Senpai', 'Roses', 'Thorns'],
 		['Ugh', 'Guns', 'Stress']
+		//['Song1', 'Song2', 'Song3']
 	];
 	var curDifficulty:Int = 1;
 
-	public static var weekUnlocked:Array<Bool> = [true, true, true, true, true, true, true, true];
+	public static var weekUnlocked:Array<Bool> =[
+	true,//tutorial
+	true,//week 1
+	true,//week 2
+	true,//week 3
+	true,//week 4 
+	true,//week 5 
+	true,//week 6 
+	true];//week 7
+	//add another true if you are making another week
 
 	var weekCharacters:Array<Dynamic> = [
 		['dad', 'bf', 'gf'],
@@ -45,6 +55,7 @@ class StoryMenuState extends MusicBeatState
 		['parents-christmas', 'bf', 'gf'],
 		['senpai', 'bf', 'gf'],
 		['tankman', 'bf', 'gf']
+		//['opponent', 'bf', 'gf']
 	];
 
 	var weekNames:Array<String> = [
@@ -56,6 +67,7 @@ class StoryMenuState extends MusicBeatState
 		"RED SNOW",
 		"hating simulator ft. moawling",
 		"TANKMAN"
+		//"Custom Week"
 	];
 
 	var txtWeekTitle:FlxText;
@@ -81,6 +93,7 @@ class StoryMenuState extends MusicBeatState
 
 		if (FlxG.sound.music != null)
 		{
+			//change this if you want custom menu music on your mod
 			if (!FlxG.sound.music.playing)
 				FlxG.sound.playMusic(Paths.music('freakyMenu'));
 		}
@@ -192,6 +205,7 @@ class StoryMenuState extends MusicBeatState
 		sprDifficulty.animation.addByPrefix('easy', 'EASY');
 		sprDifficulty.animation.addByPrefix('normal', 'NORMAL');
 		sprDifficulty.animation.addByPrefix('hard', 'HARD');
+		//sprDifficulty.animation.addByPrefix('custom difficult', 'CUSTOM DIFFICULT');
 		sprDifficulty.animation.play('easy');
 		changeDifficulty();
 
@@ -319,6 +333,9 @@ class StoryMenuState extends MusicBeatState
 					diffic = '-easy';
 				case 2:
 					diffic = '-hard';
+				// if added difficulty
+				//case 3:
+				//	diffic = '-hard';
 			}
 
 			PlayState.storyDifficulty = curDifficulty;
@@ -355,6 +372,9 @@ class StoryMenuState extends MusicBeatState
 			case 2:
 				sprDifficulty.animation.play('hard');
 				sprDifficulty.offset.x = 20;
+			//case 3:
+			//	sprDifficulty.animation.play('custom');
+			//	sprDifficulty.offset.x = 20;
 		}
 
 		sprDifficulty.alpha = 0;
