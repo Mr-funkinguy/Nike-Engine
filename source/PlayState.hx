@@ -150,6 +150,7 @@ class PlayState extends MusicBeatState
 
 	var GITHUBWORK:Bool = false;
 	var GITHUBWORKPLEASE:Bool = false;
+	var GITHUBWORKPLEASEAGAIN:Bool = false;
 
 	// how big to stretch the pixel art assets
 	public static var daPixelZoom:Float = 6;
