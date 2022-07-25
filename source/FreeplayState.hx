@@ -6,6 +6,8 @@ import Discord.DiscordClient;
 import flash.text.TextField;
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 import flixel.addons.display.FlxGridOverlay;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
@@ -28,6 +30,7 @@ class FreeplayState extends MusicBeatState
 	var lerpScore:Int = 0;
 	var intendedScore:Int = 0;
 
+	var bg:FlxSprite;
 	private var coolColors = [0xFF9271FD, 0xFF9271FD, 0xFF223344, 0xFF941653, 0xFFFC96D7, 0xFFA0D1FF, 0xFFFF78BF, 0xFFF6B604];
 
 	private var grpSongs:FlxTypedGroup<Alphabet>;
@@ -86,7 +89,7 @@ class FreeplayState extends MusicBeatState
 
 		/*
 		if (sys.FileSystem.exists('assets/editable/weeks/week.txt')) {
-			addWeek([Assets.getText(Paths.txt('weeks/week1', [0], 'editable'))], 0, [Assets.getText(Paths.txt('weeks/week1', [1], 'editable'))]);
+			addWeek([Assets.getText(Paths.MODtxt('weeks/week1', [0], 'editable'))], 0, [Assets.getText(Paths.txt('weeks/week1', [1], 'editable'))]);
 		}
 		*/
 
@@ -94,7 +97,7 @@ class FreeplayState extends MusicBeatState
 
 		// LOAD CHARACTERS
 
-		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuBGBlue'));
+		bg = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
 		add(bg);
 
 		grpSongs = new FlxTypedGroup<Alphabet>();
@@ -206,6 +209,21 @@ class FreeplayState extends MusicBeatState
 		var upP = controls.UP_P;
 		var downP = controls.DOWN_P;
 		var accepted = controls.ACCEPT;
+
+		if (curSelected == 0 || curSelected == 1 || curSelected == 2 || curSelected == 3) {
+			/*
+			FlxTween.tween(bg, {color: 0xFF9271FD}, 0.2, {
+				ease: FlxEase.quadInOut
+			});
+			*/
+			bg.color = 0xFF9271FD;
+		}
+		else {
+			///*
+			FlxTween.tween(bg, {color: 0xFFF6B604}, 0.5);
+			//*/
+			//bg.color = 0xFFF6B604;
+		}
 
 		if (upP)
 		{

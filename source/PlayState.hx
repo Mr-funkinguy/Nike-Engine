@@ -730,6 +730,7 @@ class PlayState extends MusicBeatState
 				if (stageMOD) {
 				    trace('Loading mod stage...');
 					//modSTAGE.add(modStageFILE); //trying to find a way for modstages to be loaded
+					//var StageFILE:String = Assets.getText(Paths.MODtxt('stages/' + songName));
 					trace('Loaded mod stage!');
 				}
 				else {
