@@ -2443,6 +2443,24 @@ class PlayState extends MusicBeatState
 		{
 			boyfriend.holdTimer = 0;
 
+			if (Settings.RobloxFnFAnimation) {
+				if (leftP) {
+					boyfriend.playAnim('singLEFT', true);
+				}
+
+				if (downP) {
+					boyfriend.playAnim('singDOWN', true);
+				}
+
+				if (upP) {
+					boyfriend.playAnim('singUP', true);
+				}
+
+				if (rightP) {
+					boyfriend.playAnim('singRIGHT', true);
+				}
+			}
+
 			var possibleNotes:Array<Note> = [];
 
 			var ignoreList:Array<Int> = [];

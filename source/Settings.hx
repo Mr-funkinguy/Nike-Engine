@@ -24,6 +24,7 @@ class Settings extends MusicBeatSubstate
 	public static var LowDetail:Bool = false;
 	public static var GhostTapping:Bool = true;
 	public static var Downscroll:Bool = false;
+	public static var RobloxFnFAnimation:Bool = false;
 
 	public static var LeftKEY:FlxKey = A;
 	public static var DownKEY:FlxKey = S;
@@ -54,6 +55,7 @@ class Settings extends MusicBeatSubstate
 		FlxG.save.data.LowDetail = LowDetail;
 		FlxG.save.data.GhostTapping = GhostTapping;
 		FlxG.save.data.Downscroll = Downscroll;
+		FlxG.save.data.RobloxFnFAnimation = RobloxFnFAnimation;
 
 		FlxG.save.data.LeftKEY = LeftKEY;
 		FlxG.save.data.DownKEY = DownKEY;
@@ -73,6 +75,10 @@ class Settings extends MusicBeatSubstate
 
 		if(FlxG.save.data.Downscroll != null) {
 			Downscroll = FlxG.save.data.Downscroll;
+		}
+
+		if(FlxG.save.data.RobloxFnFAnimation != null) {
+			RobloxFnFAnimation = FlxG.save.data.RobloxFnFAnimation;
 		}
 
 		if(FlxG.save.data.LeftKEY != null) {

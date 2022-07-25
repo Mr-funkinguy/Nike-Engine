@@ -27,6 +27,7 @@ class GameplaySettings extends MusicBeatSubstate
 
 	private var camGame:FlxCamera;
 
+	var offset:Int = 50;
 	var money:Alphabet = new Alphabet(0, 0, 'Low Detail', false, false);
 	var money2:Alphabet = new Alphabet(0, 0, 'Ghost Tapping', false, false);
 	var money3:Alphabet = new Alphabet(0, 0, 'Downscroll', false, false);
@@ -118,7 +119,7 @@ class GameplaySettings extends MusicBeatSubstate
 
 	function AddOptions() {
 		money.x += 50;
-		money.y += (1 * 80) += -50;
+		money.y += (1 * 80);
 		money.ID = 0;
 		money.cameras = [camGame];
 		add(money);
@@ -141,7 +142,7 @@ class GameplaySettings extends MusicBeatSubstate
 		}
 
 		money2.x += 50;
-		money2.y += (2 * 80) += -50;
+		money2.y += (2 * 80) += offset;
 		money2.ID = 1;
 		money2.cameras = [camGame];
 		add(money2);
@@ -164,7 +165,7 @@ class GameplaySettings extends MusicBeatSubstate
 		}
 
 		money3.x += 50;
-		money3.y += (3 * 80) += -50;
+		money3.y += (3 * 80) += (2 * offset);
 		money3.ID = 2;
 		money3.cameras = [camGame];
 		add(money3);
