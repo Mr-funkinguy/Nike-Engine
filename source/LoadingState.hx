@@ -36,6 +36,7 @@ class LoadingState extends MusicBeatState
 	override function create()
 	{
 		bg = new FlxSprite().loadGraphic(Paths.image('funkay'));
+		bg.scale.set(0.75, 0.75);
 		bg.screenCenter();
 		add(bg);
 		

@@ -153,6 +153,11 @@ class PlayState extends MusicBeatState
 
 	var inCutscene:Bool = false;
 
+	//healthbar shit lol
+	private var OpponentHealthbar:Dynamic = 0xFFFF0000;
+	private var BFHealthbar:Dynamic = 0xFFA0D1FF;
+	//healthBar.createFilledBar(0xFFFF0000, 0xFF66FF33);
+
 	//score
 	private var PixelSONG:Bool = false;
 	private var week7zoom:Bool = false;
@@ -828,6 +833,9 @@ class PlayState extends MusicBeatState
 
 		switch (SONG.player2)
 		{
+			case 'dad':
+				camPos.x += 400;
+				OpponentHealthbar = 0xFF9271FD;
 			case 'gf':
 				dad.setPosition(gf.x, gf.y);
 				gf.visible = false;
@@ -836,34 +844,43 @@ class PlayState extends MusicBeatState
 					camPos.x += 600;
 					tweenCamIn(1.3, (Conductor.stepCrochet * 4 / 1000));
 				}
-
+				OpponentHealthbar = 0xFF800080;
 			case "spooky":
 				dad.y += 200;
+				OpponentHealthbar = 0xFFFFA500;
 			case "monster":
 				dad.y += 100;
+				OpponentHealthbar = 0xFFFFA500;
 			case 'monster-christmas':
 				dad.y += 130;
-			case 'dad':
-				camPos.x += 400;
+				OpponentHealthbar = 0xFFFFA500;
 			case 'pico':
 				camPos.x += 600;
 				dad.y += 300;
+				OpponentHealthbar = 0xFF00FF00;
+			case 'mom-car':
+				OpponentHealthbar = 0xFFFC96D7;
 			case 'parents-christmas':
 				dad.x -= 500;
+				OpponentHealthbar = 0xFF9271FD;
 			case 'senpai':
 				dad.x += 150;
 				dad.y += 360;
 				camPos.set(dad.getGraphicMidpoint().x + 300, dad.getGraphicMidpoint().y);
+				OpponentHealthbar = 0xFFFF78BF;
 			case 'senpai-angry':
 				dad.x += 150;
 				dad.y += 360;
 				camPos.set(dad.getGraphicMidpoint().x + 300, dad.getGraphicMidpoint().y);
+				OpponentHealthbar = 0xFFFF78BF;
 			case 'spirit':
 				dad.x -= 150;
 				dad.y += 100;
 				camPos.set(dad.getGraphicMidpoint().x + 300, dad.getGraphicMidpoint().y);
+				OpponentHealthbar = 0xFFFF78BF;
 			case "tankman":
 				dad.y += 130;
+				OpponentHealthbar = 0xFFF6B604;
 			default:
 				trace('No X/Y adjustment for the opponent.');
 		}
@@ -993,7 +1010,7 @@ class PlayState extends MusicBeatState
 		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), this,
 			'health', 0, 2);
 		healthBar.scrollFactor.set();
-		healthBar.createFilledBar(0xFFFF0000, 0xFF66FF33);
+		healthBar.createFilledBar(OpponentHealthbar, BFHealthbar);
 		// healthBar
 		add(healthBar);
 
