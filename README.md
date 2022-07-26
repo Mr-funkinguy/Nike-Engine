@@ -25,13 +25,10 @@ haxelib git polymod https://github.com/larsiusprime/polymod.git
 haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
 haxelib git hxCodec https://github.com/polybiusproxy/hxCodec
 haxelib git crashdumper http://github.com/larsiusprime/crashdumper
+haxelib git flixel-addons https://github.com/HaxeFlixel/flixel-addons  <--Optional to fix transitions bug in songs with zoomed-out cameras
 ```
 
 You should have everything ready for compiling the game! Follow the guide below to continue!
-
-At the moment, you can optionally fix the transition bug in songs with zoomed-out cameras.
-- Run `haxelib git flixel-addons https://github.com/HaxeFlixel/flixel-addons` in the terminal/command-prompt.
-
 
 ### Compiling game
 NOTE: If you see any messages relating to deprecated packages, ignore them. They're just warnings that don't affect compiling
