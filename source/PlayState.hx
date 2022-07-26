@@ -42,6 +42,7 @@ import lime.utils.Assets;
 import openfl.display.BlendMode;
 import openfl.display.StageQuality;
 import openfl.filters.ShaderFilter;
+import lime.utils.AssetCache;
 #if sys
 import sys.FileSystem;
 import sys.io.File;
@@ -209,6 +210,26 @@ class PlayState extends MusicBeatState
 
 		Conductor.mapBPMChanges(SONG);
 		Conductor.changeBPM(SONG.bpm);
+
+		if (Settings.Cache) {
+			var lolXD = Startup.images;
+			var lolXD2 = Startup.imagesSHARED;
+			var lolXD3 = Startup.imagesCHARS;
+
+			for (i in 0...lolXD.length) {
+				CacheIMAGE(lolXD[i]);
+			}
+
+			for (i in 0...lolXD2.length) {
+				CacheIMAGE(lolXD2[i], true);
+			}
+
+			for (i in 0...lolXD3.length) {
+				CacheIMAGE(lolXD3[i], true);
+			}
+
+			//load assets xd
+		}
 
 		#if !html5
 		modSTAGE = new FlxGroup();
@@ -3047,6 +3068,28 @@ class PlayState extends MusicBeatState
 		if (isHalloween && FlxG.random.bool(10) && curBeat > lightningStrikeBeat + lightningOffset)
 		{
 			lightningStrikeShit();
+		}
+	}
+
+	public function CacheIMAGE(graphic:Dynamic, ?sharedFolder:Bool = false)
+	{
+		if (!sharedFolder) {
+			var newthing:FlxSprite = new FlxSprite(9000,-9000).loadGraphic(Paths.image(graphic));
+			newthing.visible = false;
+			add(newthing);
+			remove(newthing);
+
+			//AssetCache('IMAGE', Paths.image(graphic)); //this isn't valid or something
+			trace('Cached image in normal folder: ' + graphic);
+		}
+		else if (sharedFolder) {
+			var newthing:FlxSprite = new FlxSprite(9000,-9000).loadGraphic(Paths.image(graphic, 'shared'));
+			newthing.visible = false;
+			add(newthing);
+			remove(newthing);
+
+			//AssetCache('IMAGE', Paths.image(graphic, 'shared')); //this isn't valid or something
+			trace('Cached image in shared folder: ' + graphic);
 		}
 	}
 
