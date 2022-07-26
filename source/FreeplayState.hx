@@ -197,7 +197,10 @@ class FreeplayState extends MusicBeatState
 
 			#if PRELOAD_ALL
 			if (Settings.Cache) {
-				FlxG.sound.cache(Paths.inst(song.toLowerCase()));
+
+				if (FileSystem.exists('assets/songs/' +song.toLowerCase() +'/Inst.ogg')) {
+				    FlxG.sound.cache(Paths.inst(song.toLowerCase()));
+				}
 
 				if (FileSystem.exists('assets/songs/' +song.toLowerCase() +'/Voices.ogg')) {
 					FlxG.sound.cache(Paths.voices(song.toLowerCase()));
@@ -276,6 +279,16 @@ class FreeplayState extends MusicBeatState
 
 		if (controls.BACK)
 		{
+			#if PRELOAD_ALL
+			if (Inst != null) {
+				Inst.destroy();
+			}
+	
+			if (Voices != null) {
+				Voices.destroy();
+			}
+			#end
+
 			FlxG.switchState(new MainMenuState());
 		}
 
