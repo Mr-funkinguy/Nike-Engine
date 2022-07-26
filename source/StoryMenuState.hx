@@ -429,23 +429,25 @@ class StoryMenuState extends MusicBeatState
 		switch (grpWeekCharacters.members[0].animation.curAnim.name) {
 			default:
 				grpWeekCharacters.members[0].flipX = false;
+				grpWeekCharacters.members[0].scale.set(1, 1);
 		}
 
 		switch (grpWeekCharacters.members[0].animation.curAnim.name)
 		{
 			case 'parents-christmas':
-				grpWeekCharacters.members[0].offset.set(300, 200);
-				grpWeekCharacters.members[0].setGraphicSize(Std.int(grpWeekCharacters.members[0].width * 1.1));
-				grpWeekCharacters.members[0].setGraphicSize(Std.int(grpWeekCharacters.members[0].height * 1.1));
+				grpWeekCharacters.members[0].offset.set(285, 200);
+				grpWeekCharacters.members[0].setGraphicSize(Std.int(grpWeekCharacters.members[0].width * 1));
+				grpWeekCharacters.members[0].scale.set(0.45, 0.45);
 
 			case 'senpai':
 				grpWeekCharacters.members[0].offset.set(130, 0);
+				grpWeekCharacters.members[0].scale.set(1.25, 1.25);
 				grpWeekCharacters.members[0].setGraphicSize(Std.int(grpWeekCharacters.members[0].width * 1.4));
 
 			case 'pico':
-				grpWeekCharacters.members[0].setGraphicSize(Std.int(grpWeekCharacters.members[0].width * 1.0001));
-				grpWeekCharacters.members[0].setGraphicSize(Std.int(grpWeekCharacters.members[0].height * 1.0001));
-				grpWeekCharacters.members[0].offset.set(200, -100);
+				grpWeekCharacters.members[0].setGraphicSize(Std.int(grpWeekCharacters.members[0].width * 1));
+				grpWeekCharacters.members[0].offset.set(200, 80);
+				grpWeekCharacters.members[0].scale.set(0.75, 0.75);
 				grpWeekCharacters.members[0].flipX = true;
 
 			case 'mom':
@@ -457,18 +459,19 @@ class StoryMenuState extends MusicBeatState
 				grpWeekCharacters.members[0].setGraphicSize(Std.int(grpWeekCharacters.members[0].width * 1));
 
 			case 'tankman':
-				grpWeekCharacters.members[0].offset.set(60, -20);
+				grpWeekCharacters.members[0].offset.set(100, -20);
+				grpWeekCharacters.members[0].scale.set(1.5, 1.5);
 				grpWeekCharacters.members[0].setGraphicSize(Std.int(grpWeekCharacters.members[0].width * 1));
 			
 			case 'spooky':
-				grpWeekCharacters.members[0].offset.set(150, 100);
-				grpWeekCharacters.members[0].setGraphicSize(Std.int(grpWeekCharacters.members[0].width * 1.0001));
-				grpWeekCharacters.members[0].setGraphicSize(Std.int(grpWeekCharacters.members[0].height * 1.0001));
+				grpWeekCharacters.members[0].offset.set(200, 125);
+				grpWeekCharacters.members[0].setGraphicSize(Std.int(grpWeekCharacters.members[0].width * 1));
+				grpWeekCharacters.members[0].scale.set(0.65, 0.65);
 
 			default:
 				grpWeekCharacters.members[0].offset.set(100, 100);
 				grpWeekCharacters.members[0].setGraphicSize(Std.int(grpWeekCharacters.members[0].width * 1));
-				grpWeekCharacters.members[0].setGraphicSize(Std.int(grpWeekCharacters.members[0].height * 1));
+				grpWeekCharacters.members[0].scale.set(1, 1);
 				// grpWeekCharacters.members[0].updateHitbox();
 		}
 
