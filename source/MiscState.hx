@@ -18,7 +18,7 @@ using StringTools;
 
 class MiscState extends MusicBeatSubstate
 {
-	var textMenuItems:Array<String> = ['1'];
+	var textMenuItems:Array<String> = ['1', '2'];
 	/*
 	var textMenuItem2:Array<String> = ['Controls'];
 	var textMenuItem3:Array<String> = ['Misc'];
@@ -28,7 +28,8 @@ class MiscState extends MusicBeatSubstate
 	private var camGame:FlxCamera;
 
 	var offset:Int = 50;
-	var money:Alphabet = new Alphabet(0, 0, 'Roblox FNF Mode', false, false);
+	var money:Alphabet = new Alphabet(0, 0, 'Cache Assets', false, false);
+	var money2:Alphabet = new Alphabet(0, 0, 'Roblox FNF Mode', false, false);
 
 	var curSelected:Int = 0;
 
@@ -36,7 +37,6 @@ class MiscState extends MusicBeatSubstate
 
 	var checkbox:FlxSprite;
 	var checkbox2:FlxSprite;
-	var checkbox3:FlxSprite;
 
 	public function new()
 	{
@@ -95,6 +95,14 @@ class MiscState extends MusicBeatSubstate
 				checkbox.offset.set();
 		}
 
+		switch (checkbox2.animation.curAnim.name)
+		{
+			case 'selecting animation':
+				checkbox2.offset.set(17, 70);
+			case 'unselected':
+				checkbox2.offset.set();
+		}
+
 		WaitingToAccept();
 		AlphabetAlpha();
 	}
@@ -116,11 +124,34 @@ class MiscState extends MusicBeatSubstate
 		checkbox.setGraphicSize(Std.int(checkbox.width * 0.7));
 		checkbox.updateHitbox();
 		add(checkbox);
-		if (Settings.RobloxFnFAnimation) {
+		if (Settings.Cache) {
 			checkbox.animation.play('selecting animation');
 		}
 		else {
 			checkbox.animation.play('unselected');
+		}
+
+		money2.x += 50;
+		money2.y += (2 * 80) += offset;
+		money2.ID = 1;
+		money2.cameras = [camGame];
+		add(money2);
+
+		checkbox2 = new FlxSprite(money2.width +50, money2.y +15);
+		checkbox2.frames = Paths.getSparrowAtlas('checkboxThingie');
+		checkbox2.animation.addByPrefix('selected', 'Check Box Selected Static0', 24, false);
+		checkbox2.animation.addByPrefix('unselected', 'Check Box unselected0', 24, false);
+		checkbox2.animation.addByPrefix('selecting animation', 'Check Box selecting animation0', 24, false);
+		checkbox2.cameras = [camGame];
+		checkbox2.antialiasing = true;
+		checkbox2.setGraphicSize(Std.int(checkbox2.width * 0.7));
+		checkbox2.updateHitbox();
+		add(checkbox2);
+		if (Settings.RobloxFnFAnimation) {
+			checkbox2.animation.play('selecting animation');
+		}
+		else {
+			checkbox2.animation.play('unselected');
 		}
 	}
 
@@ -129,15 +160,30 @@ class MiscState extends MusicBeatSubstate
 			FlxG.sound.play(Paths.sound('confirmMenu'));
 
 			if (money.ID == curSelected) {
-				if (Settings.RobloxFnFAnimation) {
+				if (Settings.Cache) {
 					trace('changed to false!');
 					checkbox.animation.play('unselected');
-					Settings.RobloxFnFAnimation = false;
+					Settings.Cache = false;
 					Settings.SettingsSave();
 				}
 				else {
 					trace('changed to true!');
 					checkbox.animation.play('selecting animation');
+					Settings.Cache = true;
+					Settings.SettingsSave();
+				}
+			}
+
+			if (money2.ID == curSelected) {
+				if (Settings.RobloxFnFAnimation) {
+					trace('changed to false!');
+					checkbox2.animation.play('unselected');
+					Settings.RobloxFnFAnimation = false;
+					Settings.SettingsSave();
+				}
+				else {
+					trace('changed to true!');
+					checkbox2.animation.play('selecting animation');
 					Settings.RobloxFnFAnimation = true;
 					Settings.SettingsSave();
 				}
@@ -147,12 +193,19 @@ class MiscState extends MusicBeatSubstate
 
 	function AlphabetAlpha() {
 		money.alpha = 0.6;
+		money2.alpha = 0.6;
 
 		checkbox.alpha = 0.6;
+		checkbox2.alpha = 0.6;
 
 		if (money.ID == curSelected) {
 			money.alpha = 1;
 			checkbox.alpha = 1;
+		}
+
+		if (money2.ID == curSelected) {
+			money2.alpha = 1;
+			checkbox2.alpha = 1;
 		}
 	}
 }

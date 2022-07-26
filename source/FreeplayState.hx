@@ -14,6 +14,11 @@ import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import lime.utils.Assets;
+import flixel.system.FlxSound;
+#if sys
+import sys.FileSystem;
+import sys.io.File;
+#end
 
 using StringTools;
 
@@ -36,6 +41,8 @@ class FreeplayState extends MusicBeatState
 	private var grpSongs:FlxTypedGroup<Alphabet>;
 	private var curPlaying:Bool = false;
 
+	private var Inst:FlxSound = null;
+	private var Voices:FlxSound = null;
 	private var iconArray:Array<HealthIcon> = [];
 
 	override function create()
@@ -53,7 +60,10 @@ class FreeplayState extends MusicBeatState
 				if (!FlxG.sound.music.playing)
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
 			}
-		 */
+		*/
+		#if !html5
+		FlxG.sound.music.stop();
+		#end
 
 		#if desktop
 		// Updating Discord Rich Presence
@@ -185,6 +195,18 @@ class FreeplayState extends MusicBeatState
 		{
 			addSong(song, weekNum, songCharacters[num]);
 
+			#if PRELOAD_ALL
+			if (Settings.Cache) {
+				FlxG.sound.cache(Paths.inst(song.toLowerCase()));
+
+				if (FileSystem.exists('assets/songs/' +song.toLowerCase() +'/Voices.ogg')) {
+					FlxG.sound.cache(Paths.voices(song.toLowerCase()));
+				}
+				trace('Just loaded: ' + song.toLowerCase());
+				//needed because lag sucks lol
+			}
+			#end
+
 			if (songCharacters.length != 1)
 				num++;
 		}
@@ -194,10 +216,13 @@ class FreeplayState extends MusicBeatState
 	{
 		super.update(elapsed);
 
+		#if html5
 		if (FlxG.sound.music.volume < 0.7)
 		{
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
 		}
+		#end
+		//FlxG.sound.music.volume == 0;
 
 		lerpScore = Math.floor(FlxMath.lerp(lerpScore, intendedScore, 0.4));
 
@@ -210,19 +235,29 @@ class FreeplayState extends MusicBeatState
 		var downP = controls.DOWN_P;
 		var accepted = controls.ACCEPT;
 
-		if (curSelected == 0 || curSelected == 1 || curSelected == 2 || curSelected == 3) {
-			/*
-			FlxTween.tween(bg, {color: 0xFF9271FD}, 0.2, {
-				ease: FlxEase.quadInOut
-			});
-			*/
-			bg.color = 0xFF9271FD;
+		if (curSelected == 0) { //tutorial
+			ChangeBGColor(coolColors[0]);
 		}
-		else {
-			///*
-			FlxTween.tween(bg, {color: 0xFFF6B604}, 0.5);
-			//*/
-			//bg.color = 0xFFF6B604;
+		else if (curSelected == 1 || curSelected == 2 || curSelected == 3) { //bopeebo, fresh, dadbattle
+			ChangeBGColor(coolColors[1]);
+		}
+		else if (curSelected == 4 || curSelected == 5 || curSelected == 6) { //spookeez, south, monster
+			ChangeBGColor(coolColors[2]);
+		}
+		else if (curSelected == 7 || curSelected == 8 || curSelected == 9) { //pico, philly, blammed
+			ChangeBGColor(coolColors[3]);
+		}
+		else if (curSelected == 10 || curSelected == 11 || curSelected == 12) { //satin-panties, high, milf
+			ChangeBGColor(coolColors[4]);
+		}
+		else if (curSelected == 13 || curSelected == 14 || curSelected == 15) { //cocoa, eggnog, winter-horrorland
+			ChangeBGColor(coolColors[5]);
+		}
+		else if (curSelected == 16 || curSelected == 17 || curSelected == 18) { //senpai, roses, thorns
+			ChangeBGColor(coolColors[6]);
+		}
+		else if (curSelected == 19 || curSelected == 20 || curSelected == 21) { //ugh, guns, stress
+			ChangeBGColor(coolColors[7]);
 		}
 
 		if (upP)
@@ -246,6 +281,16 @@ class FreeplayState extends MusicBeatState
 
 		if (accepted)
 		{
+			#if PRELOAD_ALL
+			if (Inst != null) {
+				Inst.destroy();
+			}
+	
+			if (Voices != null) {
+				Voices.destroy();
+			}
+			#end
+
 			var poop:String = Highscore.formatSong(songs[curSelected].songName.toLowerCase(), curDifficulty);
 
 			trace(poop);
@@ -258,6 +303,11 @@ class FreeplayState extends MusicBeatState
 			trace('CUR WEEK' + PlayState.storyWeek);
 			LoadingState.loadAndSwitchState(new PlayState());
 		}
+	}
+
+	function ChangeBGColor(color:Dynamic) {
+		bg.color = color;
+		//FlxTween.tween(bg, {color: color}, 0.2);
 	}
 
 	function changeDiff(change:Int = 0)
@@ -286,7 +336,6 @@ class FreeplayState extends MusicBeatState
 
 	function changeSelection(change:Int = 0)
 	{
-
 		// NGio.logEvent('Fresh');
 		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
 
@@ -305,7 +354,27 @@ class FreeplayState extends MusicBeatState
 		#end
 
 		#if PRELOAD_ALL
-		FlxG.sound.playMusic(Paths.inst(songs[curSelected].songName), 0);
+		//Inst.pause();
+
+		if (Inst != null) {
+			Inst.destroy();
+		}
+		Inst = new FlxSound().loadEmbedded(Paths.inst(songs[curSelected].songName));
+		Inst.persist = true;
+
+		if (Voices != null) {
+			Voices.destroy();
+		}
+
+		if (curSelected != 0) {
+			Voices = new FlxSound().loadEmbedded(Paths.voices(songs[curSelected].songName));
+			Voices.persist = true;
+		}
+
+		Inst.play();
+		if (curSelected != 0) {
+			Voices.play();
+		}
 		#end
 
 		var bullShit:Int = 0;

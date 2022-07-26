@@ -52,8 +52,6 @@ class TitleState extends MusicBeatState
 
 	override public function create():Void
 	{
-		PlayerSettings.init();
-
 		curWacky = FlxG.random.getObject(getIntroTextShit());
 
 		// DEBUG BULLSHIT
@@ -66,10 +64,6 @@ class TitleState extends MusicBeatState
 		var ng:NGio = new NGio(APIStuff.API, APIStuff.EncKey);
 		trace('NEWGROUNDS LOL');
 		#end 
-
-		FlxG.save.bind('funkin', 'ninjamuffin99');
-
-		Highscore.load();
 
 		if (FlxG.save.data.weekUnlocked != null)
 		{
@@ -106,14 +100,6 @@ class TitleState extends MusicBeatState
 			startIntro();
 		});
 		#end
-
-		#if desktop
-		DiscordClient.initialize();
-		
-		Application.current.onExit.add (function (exitCode) {
-			DiscordClient.shutdown();
-		 });
-		#end
 	}
 
 	var logoBl:FlxSprite;
@@ -149,10 +135,6 @@ class TitleState extends MusicBeatState
 
 			FlxG.sound.music.fadeIn(4, 0, 0.7);
 		}
-
-		Settings.LoadSettings();
-		controls.setKeyboardScheme(KeyboardScheme.Solo, true);
-		trace("Loaded keybinds.");
 
 		Conductor.changeBPM(102);
 		persistentUpdate = true;
