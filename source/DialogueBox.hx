@@ -294,6 +294,16 @@ class DialogueBox extends FlxSpriteGroup
 
 	var isEnding:Bool = false;
 
+	function ChangeDialogueCHAR(CHAR:String, ?Y:Int = 200) {
+		remove(portraitLeft);
+		portraitLeft = new FlxSprite(-20, 40).loadGraphic(Paths.image('portraits/' + CHAR, 'shared'));
+		portraitLeft.updateHitbox();
+		portraitLeft.scrollFactor.set();
+		portraitLeft.y += Y;
+		portraitLeft.x += 200;
+		add(portraitLeft);
+	}
+
 	function startDialogue():Void
 	{
 		cleanDialog();
@@ -307,6 +317,46 @@ class DialogueBox extends FlxSpriteGroup
 
 		switch (curCharacter)
 		{
+			case 'monster':
+				ChangeDialogueCHAR('monster', 200);
+				portraitRight.visible = false;
+				if (!portraitLeft.visible)
+				{
+					portraitLeft.visible = true;
+					if (PixelSONG) {
+						portraitLeft.animation.play('enter');
+					}
+				}
+			case 'spooky':
+				ChangeDialogueCHAR('spooky', 100);
+				portraitRight.visible = false;
+				if (!portraitLeft.visible)
+				{
+					portraitLeft.visible = true;
+					if (PixelSONG) {
+						portraitLeft.animation.play('enter');
+					}
+				}
+			case 'gf':
+				ChangeDialogueCHAR('gf');
+				portraitRight.visible = false;
+				if (!portraitLeft.visible)
+				{
+					portraitLeft.visible = true;
+					if (PixelSONG) {
+						portraitLeft.animation.play('enter');
+					}
+				}
+			case 'sore':
+				ChangeDialogueCHAR('sore', 100);
+				portraitRight.visible = false;
+				if (!portraitLeft.visible)
+				{
+					portraitLeft.visible = true;
+					if (PixelSONG) {
+						portraitLeft.animation.play('enter');
+					}
+				}
 			case 'dad':
 				portraitRight.visible = false;
 				if (!portraitLeft.visible)
