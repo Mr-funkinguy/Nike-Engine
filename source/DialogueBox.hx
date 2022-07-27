@@ -302,6 +302,16 @@ class DialogueBox extends FlxSpriteGroup
 		portraitLeft.y += Y;
 		portraitLeft.x += 200;
 		add(portraitLeft);
+
+		portraitRight.visible = false;
+		if (!portraitLeft.visible)
+		{
+			portraitLeft.visible = true;
+			if (PixelSONG) {
+				portraitLeft.animation.play('enter');
+			}
+		}
+		trace('new char!');
 	}
 
 	function startDialogue():Void
@@ -318,45 +328,13 @@ class DialogueBox extends FlxSpriteGroup
 		switch (curCharacter)
 		{
 			case 'monster':
-				ChangeDialogueCHAR('monster', 200);
-				portraitRight.visible = false;
-				if (!portraitLeft.visible)
-				{
-					portraitLeft.visible = true;
-					if (PixelSONG) {
-						portraitLeft.animation.play('enter');
-					}
-				}
+				ChangeDialogueCHAR('monster');
 			case 'spooky':
 				ChangeDialogueCHAR('spooky', 100);
-				portraitRight.visible = false;
-				if (!portraitLeft.visible)
-				{
-					portraitLeft.visible = true;
-					if (PixelSONG) {
-						portraitLeft.animation.play('enter');
-					}
-				}
 			case 'gf':
 				ChangeDialogueCHAR('gf');
-				portraitRight.visible = false;
-				if (!portraitLeft.visible)
-				{
-					portraitLeft.visible = true;
-					if (PixelSONG) {
-						portraitLeft.animation.play('enter');
-					}
-				}
 			case 'sore':
 				ChangeDialogueCHAR('sore', 100);
-				portraitRight.visible = false;
-				if (!portraitLeft.visible)
-				{
-					portraitLeft.visible = true;
-					if (PixelSONG) {
-						portraitLeft.animation.play('enter');
-					}
-				}
 			case 'dad':
 				portraitRight.visible = false;
 				if (!portraitLeft.visible)
