@@ -166,6 +166,8 @@ class PlayState extends MusicBeatState
 	private var score:Int = 0;
 	private var daRating:String = "";
 
+	private var DialoguePath:Array<String> = CoolUtil.coolTextFile(Paths.txt(SONG.song.toLowerCase() + '/' +SONG.song.toLowerCase() + 'Dialogue'));
+
 	//noteslash
 	private var babyArrow:FlxSprite;
 	//var notesplash:FlxSprite;
@@ -253,22 +255,19 @@ class PlayState extends MusicBeatState
 		switch (SONG.song.toLowerCase())
 		{
 			case 'tutorial':
-				dialogue = ["Hey you're pretty cute.", 'Use the arrow keys to keep up \nwith me singing.'];
+				dialogue = DialoguePath;
 			case 'bopeebo':
-				dialogue = [
-					'HEY!',
-					"You think you can just sing\nwith my daughter like that?",
-					"If you want to date her...",
-					"You're going to have to go \nthrough ME first!"
-				];
+				dialogue = DialoguePath;
 			case 'fresh':
-				dialogue = ["Not too shabby boy.", ""];
+				dialogue = DialoguePath;
 			case 'dadbattle':
-				dialogue = [
-					"gah you think you're hot stuff?",
-					"If you can beat me here...",
-					"Only then I will even CONSIDER letting you\ndate my daughter!"
-				];
+				dialogue = DialoguePath;
+			case 'spookeez':
+				dialogue = DialoguePath;
+			case 'south':
+				dialogue = DialoguePath;
+			case 'monster':
+				dialogue = DialoguePath;
 			case 'senpai':
 				dialogue = CoolUtil.coolTextFile(Paths.txt('senpai/senpaiDialogue'));
 			case 'roses':
@@ -984,7 +983,7 @@ class PlayState extends MusicBeatState
 		// doof.x += 70;
 		// doof.y = FlxG.height * 0.5;
 		doof.scrollFactor.set();
-		doof.finishThing = startCountdown;
+		doof.finishThing = DialogueEnd;
 
 		Conductor.songPosition = -5000;
 
@@ -1166,6 +1165,20 @@ class PlayState extends MusicBeatState
 		{
 			switch (curSong.toLowerCase())
 			{
+				case 'tutorial':
+					startDialogue(doof);
+				case 'bopeebo':
+					startDialogue(doof);
+				case 'fresh':
+					startDialogue(doof);
+				case 'dadbattle':
+					startDialogue(doof);
+				case 'spookeez':
+					startDialogue(doof);
+				case 'south':
+					startDialogue(doof);
+				case 'monster':
+					startDialogue(doof);
 				case "winter-horrorland":
 					var blackScreen:FlxSprite = new FlxSprite(0, 0).makeGraphic(Std.int(FlxG.width * 2), Std.int(FlxG.height * 2), FlxColor.BLACK);
 					add(blackScreen);
@@ -1216,6 +1229,24 @@ class PlayState extends MusicBeatState
 		}
 
 		super.create();
+	}
+
+	function startDialogue(?dialogueBox:DialogueBox) {
+		if (dialogueBox != null) {
+			trace('Started dialogue!');
+			inCutscene = true;
+			add(dialogueBox);
+		}
+		else {
+			trace('Ending dialogue!');
+			DialogueEnd();
+		}
+	}
+
+	function DialogueEnd() {
+		inCutscene = false;
+		startCountdown();
+		trace('Ended dialogue!');
 	}
 
 	function schoolIntro(?dialogueBox:DialogueBox):Void
@@ -1295,7 +1326,7 @@ class PlayState extends MusicBeatState
 					}
 				}
 				else
-					startCountdown();
+					DialogueEnd();
 
 				remove(black);
 			}
@@ -1305,7 +1336,7 @@ class PlayState extends MusicBeatState
 	var startTimer:FlxTimer;
 	var perfectMode:Bool = false;
 
-	function startCountdown():Void
+	function startCountdown(?dialogueBox:DialogueBox):Void
 	{
 		inCutscene = false;
 
