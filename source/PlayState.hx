@@ -166,7 +166,7 @@ class PlayState extends MusicBeatState
 	private var score:Int = 0;
 	private var daRating:String = "";
 
-	private var DialoguePath:Array<String> = CoolUtil.coolTextFile(Paths.txt(SONG.song.toLowerCase() + '/' +SONG.song.toLowerCase() + 'Dialogue'));
+	private var DialoguePath:Array<String> = CoolUtil.coolTextFile(Paths.txt('tutorial/tutorialDialogue'));
 
 	//noteslash
 	private var babyArrow:FlxSprite;
@@ -255,18 +255,25 @@ class PlayState extends MusicBeatState
 		switch (SONG.song.toLowerCase())
 		{
 			case 'tutorial':
+				DialoguePath = CoolUtil.coolTextFile(Paths.txt(SONG.song.toLowerCase() + '/' +SONG.song.toLowerCase() + 'Dialogue'));
 				dialogue = DialoguePath;
 			case 'bopeebo':
+				DialoguePath = CoolUtil.coolTextFile(Paths.txt(SONG.song.toLowerCase() + '/' +SONG.song.toLowerCase() + 'Dialogue'));
 				dialogue = DialoguePath;
 			case 'fresh':
+				DialoguePath = CoolUtil.coolTextFile(Paths.txt(SONG.song.toLowerCase() + '/' +SONG.song.toLowerCase() + 'Dialogue'));
 				dialogue = DialoguePath;
 			case 'dadbattle':
+				DialoguePath = CoolUtil.coolTextFile(Paths.txt(SONG.song.toLowerCase() + '/' +SONG.song.toLowerCase() + 'Dialogue'));
 				dialogue = DialoguePath;
 			case 'spookeez':
+				DialoguePath = CoolUtil.coolTextFile(Paths.txt(SONG.song.toLowerCase() + '/' +SONG.song.toLowerCase() + 'Dialogue'));
 				dialogue = DialoguePath;
 			case 'south':
+				DialoguePath = CoolUtil.coolTextFile(Paths.txt(SONG.song.toLowerCase() + '/' +SONG.song.toLowerCase() + 'Dialogue'));
 				dialogue = DialoguePath;
 			case 'monster':
+				DialoguePath = CoolUtil.coolTextFile(Paths.txt(SONG.song.toLowerCase() + '/' +SONG.song.toLowerCase() + 'Dialogue'));
 				dialogue = DialoguePath;
 			case 'senpai':
 				dialogue = CoolUtil.coolTextFile(Paths.txt('senpai/senpaiDialogue'));
