@@ -39,7 +39,7 @@ class Startup extends MusicBeatState
 	'funkay', 'FNF_main_menu_assets', 'num0', 'num1', 'num2', 'num3', 'num4', 'num5', 'num6', 'num7', 'num8', 'num9', e + 'bf', e + 'gf', e + 'dad', e + 'spooky',
 	e + 'monster', e + 'pico', e + 'mom', e + 'parents-christmas', e + 'bf-pixel', e + 'gf-pixel', e + 'senpai-pixel', e + 'spirit-pixel', e + 'tankman', e + 'face'];
 
-	public static var imagesSHARED = ['sick', 'good', 'bad', 'shit', 'noteSplashes', 'NOTE_assets', 'ready', 'set', 'go'];
+	public static var imagesSHARED = ['sick', 'good', 'bad', 'shit', 'noteSplashes', 'NOTE_assets', 'ready', 'set', 'go', 'speech_bubble_talking'];
 
 	public static var imagesCHARS = ['characters/BOYFRIEND', 'characters/GF_assets', 'characters/DADDY_DEAREST', 'characters/spooky_kids_assets', 'characters/Monster_Assets', 
 	'characters/Pico_FNF_assetss', 'characters/bfCar', 'characters/gfCar', 'characters/Mom_Assets', 'characters/bfChristmas', 'characters/gfChristmas', 'characters/mom_dad_christmas_assets', 
