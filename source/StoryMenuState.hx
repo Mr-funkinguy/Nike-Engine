@@ -35,16 +35,7 @@ class StoryMenuState extends MusicBeatState
 	];
 	var curDifficulty:Int = 1;
 
-	public static var weekUnlocked:Array<Bool> =[
-	true,//tutorial
-	true,//week 1
-	true,//week 2
-	true,//week 3
-	true,//week 4 
-	true,//week 5 
-	true,//week 6 
-	true];//week 7
-	//add another true if you are making another week
+	public static var weekUnlocked:Array<Bool> = [];
 
 	var weekCharacters:Array<Dynamic> = [
 		['dad', 'bf', 'gf'],
@@ -90,6 +81,18 @@ class StoryMenuState extends MusicBeatState
 	{
 		transIn = FlxTransitionableState.defaultTransIn;
 		transOut = FlxTransitionableState.defaultTransOut;
+
+		Settings.LoadSettings();
+
+		weekUnlocked = [
+		    true,//tutorial
+			true,//week 1
+			Settings.Week2Unlocked,//week 2
+			Settings.Week3Unlocked,//week 3
+			Settings.Week4Unlocked,//week 4 
+			Settings.Week5Unlocked,//week 5 
+			Settings.Week6Unlocked,//week 6 
+			Settings.Week7Unlocked];//week 7
 
 		if (FlxG.sound.music != null)
 		{
@@ -347,6 +350,20 @@ class StoryMenuState extends MusicBeatState
 			{
 				LoadingState.loadAndSwitchState(new PlayState(), true);
 			});
+		}
+		else {
+			trace('Not unlocked xd');
+
+			if (stopspamming == false)
+			{
+				FlxG.sound.play(Paths.sound('cancelMenu'));
+
+				stopspamming = true;
+
+				new FlxTimer().start(0.4, function(tmr:FlxTimer) {
+					stopspamming = false;
+				});
+			}
 		}
 	}
 

@@ -32,6 +32,13 @@ class Settings extends MusicBeatSubstate
 	public static var UpKEY:FlxKey = W;
 	public static var RightKEY:FlxKey = D;
 
+	public static var Week2Unlocked:Bool = false;
+	public static var Week3Unlocked:Bool = false;
+	public static var Week4Unlocked:Bool = false;
+	public static var Week5Unlocked:Bool = false;
+	public static var Week6Unlocked:Bool = false;
+	public static var Week7Unlocked:Bool = false;
+
 	/*
     public static function ChangeSetting(setting:Bool, change:Bool) {
 		trace('Changing setting: ' +setting +' to ' +change);
@@ -63,6 +70,13 @@ class Settings extends MusicBeatSubstate
 		FlxG.save.data.DownKEY = DownKEY;
 		FlxG.save.data.UpKEY = UpKEY;
 		FlxG.save.data.RightKEY = RightKEY;
+
+		FlxG.save.data.Week2Unlocked = Week2Unlocked;
+		FlxG.save.data.Week3Unlocked = Week3Unlocked;
+		FlxG.save.data.Week4Unlocked = Week4Unlocked;
+		FlxG.save.data.Week5Unlocked = Week5Unlocked;
+		FlxG.save.data.Week6Unlocked = Week6Unlocked;
+		FlxG.save.data.Week7Unlocked = Week7Unlocked;
 	}
 
 	public static function LoadSettings() {
@@ -98,6 +112,25 @@ class Settings extends MusicBeatSubstate
 		}
 		if(FlxG.save.data.RightKEY != null) {
 			RightKEY = FlxG.save.data.RightKEY;
+		}
+
+		if(FlxG.save.data.Week2Unlocked != null) {
+			Week2Unlocked = FlxG.save.data.Week2Unlocked;
+		}
+		if(FlxG.save.data.Week3Unlocked != null) {
+			Week3Unlocked = FlxG.save.data.Week3Unlocked;
+		}
+		if(FlxG.save.data.Week4Unlocked != null) {
+			Week4Unlocked = FlxG.save.data.Week4Unlocked;
+		}
+		if(FlxG.save.data.Week5Unlocked != null) {
+			Week5Unlocked = FlxG.save.data.Week5Unlocked;
+		}
+		if(FlxG.save.data.Week6Unlocked != null) {
+			Week6Unlocked = FlxG.save.data.Week6Unlocked;
+		}
+		if(FlxG.save.data.Week7Unlocked != null) {
+			Week7Unlocked = FlxG.save.data.Week7Unlocked;
 		}
 
 		SaveShit();

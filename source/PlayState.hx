@@ -2186,6 +2186,33 @@ class PlayState extends MusicBeatState
 		#end
 	}
 
+	function UnlockWeek() {
+		if (storyWeek == 1) {
+			Settings.Week2Unlocked = true;
+		}
+
+		if (storyWeek == 2) {
+			Settings.Week3Unlocked = true;
+		}
+
+		if (storyWeek == 3) {
+			Settings.Week4Unlocked = true;
+		}
+
+		if (storyWeek == 4) {
+			Settings.Week5Unlocked = true;
+		}
+
+		if (storyWeek == 5) {
+			Settings.Week6Unlocked = true;
+		}
+
+		if (storyWeek == 6) {
+			Settings.Week7Unlocked = true;
+		}
+		Settings.SettingsSave();
+	}
+
 	function endSong():Void
 	{
 		deathCounter = 0;
@@ -2201,6 +2228,12 @@ class PlayState extends MusicBeatState
 
 		if (isStoryMode)
 		{
+			if (storyWeek == 0) {
+                trace('already unlocked lol');
+			}
+			else {
+				UnlockWeek();
+			}
 			campaignScore += songScore;
 
 			storyPlaylist.remove(storyPlaylist[0]);
@@ -2491,10 +2524,12 @@ class PlayState extends MusicBeatState
 		}
 		add(notesplash);
 
-		FlxTween.tween(notesplash, {alpha: 0}, 0.4);/*, {
+		FlxTween.tween(notesplash, {alpha: 0}, 0.35, {
 			onComplete: function(tween:FlxTween)
 			{
-				notesplash.destroy();
+				if (Settings.Cache) {
+					notesplash.destroy();
+				}
 			},
 		});
 
