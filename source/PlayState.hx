@@ -2228,12 +2228,6 @@ class PlayState extends MusicBeatState
 
 		if (isStoryMode)
 		{
-			if (storyWeek == 0) {
-                trace('already unlocked lol');
-			}
-			else {
-				UnlockWeek();
-			}
 			campaignScore += songScore;
 
 			storyPlaylist.remove(storyPlaylist[0]);
@@ -2244,6 +2238,13 @@ class PlayState extends MusicBeatState
 
 				transIn = FlxTransitionableState.defaultTransIn;
 				transOut = FlxTransitionableState.defaultTransOut;
+
+				if (storyWeek == 0) {
+					trace('already unlocked lol');
+				}
+				else {
+					UnlockWeek();
+				}
 
 				FlxG.switchState(new StoryMenuState());
 
