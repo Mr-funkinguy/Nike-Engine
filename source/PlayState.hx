@@ -60,6 +60,7 @@ class PlayState extends MusicBeatState
 	public static var storyPlaylist:Array<String> = [];
 	public static var storyDifficulty:Int = 1;
 	public static var deathCounter:Int = 0;
+	public var songStarted = false;
 
 	var halloweenLevel:Bool = false;
 
@@ -1112,7 +1113,7 @@ class PlayState extends MusicBeatState
 		}
 		*/
 
-		function playCutscene(name:String, atEndOfSong:Bool = false)
+		function playCutscene(name:String, atEndOfSong:Bool = false, ?isCutscene:Bool = true)
 		{
 			var blackScreen:FlxSprite = new FlxSprite(0, 0).makeGraphic(Std.int(FlxG.width * 2), Std.int(FlxG.height * 2), FlxColor.BLACK);
 			blackScreen.cameras = [camHUD];
@@ -1120,6 +1121,7 @@ class PlayState extends MusicBeatState
 			blackScreen.scrollFactor.set();
 			
 			inCutscene = true;
+			this.inCutscene = isCutscene;
 			FlxG.sound.music.stop();
 			
 			#if !html5
@@ -1127,6 +1129,14 @@ class PlayState extends MusicBeatState
 			video.finishCallback = function()
 			{
 				FlxTween.tween(blackScreen, {alpha: 0}, 1);
+
+				// patch for mid-song videos
+				if (isCutscene && songStarted)
+				{
+					persistentUpdate = false;
+					persistentDraw = true;
+					paused = true;
+				}
 
 				if (atEndOfSong)
 				{
@@ -1451,9 +1461,10 @@ class PlayState extends MusicBeatState
 	var lastReportedPlayheadPosition:Int = 0;
 	var songTime:Float = 0;
 
-	function startSong():Void
+	public function startSong():Void
 	{
 		startingSong = false;
+		songStarted = true;
 
 		previousFrameTime = FlxG.game.ticks;
 		lastReportedPlayheadPosition = 0;
