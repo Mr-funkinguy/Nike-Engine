@@ -20,6 +20,7 @@ class DialogueBox extends FlxSpriteGroup
 
 	var dialogue:Alphabet;
 	var dialogueList:Array<String> = [];
+	var inCutscene:Bool = false;
 
 	// SECOND DIALOGUE FOR THE PIXEL SHIT INSTEAD???
 	var swagDialogue:FlxTypeText;
@@ -35,6 +36,16 @@ class DialogueBox extends FlxSpriteGroup
 
 	var handSelect:FlxSprite;
 	var bgFade:FlxSprite;
+
+	function playCutscene(name:String)
+	{
+		inCutscene = true;
+		FlxG.sound.music.stop();
+		
+		var video:VideoHandler = new VideoHandler();
+		video.finishCallback = function()
+		video.playVideo(Paths.video(name));
+	}
 
 	public function new(talkingRight:Bool = true, ?dialogueList:Array<String>)
 	{
@@ -53,7 +64,7 @@ class DialogueBox extends FlxSpriteGroup
 				FlxG.sound.music.fadeIn(1, 0, 0.8);
 				PixelSONG = true;
 			default:
-				if (PlayState.inCutscene) {
+				if (inCutscene) {
 					FlxG.sound.playMusic(Paths.music('breakfast', 'shared'), 0);
 					FlxG.sound.music.fadeIn(1, 0, 0.8);
 				}
