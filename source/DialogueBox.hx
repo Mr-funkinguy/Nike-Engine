@@ -20,6 +20,7 @@ class DialogueBox extends FlxSpriteGroup
 
 	var dialogue:Alphabet;
 	var dialogueList:Array<String> = [];
+	var inCutscene:Bool = false;
 
 	// SECOND DIALOGUE FOR THE PIXEL SHIT INSTEAD???
 	var swagDialogue:FlxTypeText;
