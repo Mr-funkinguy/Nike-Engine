@@ -97,7 +97,7 @@ class FreeplayState extends MusicBeatState
 		if (Settings.Week7Unlocked || isDebug)
 			addWeek(['Ugh', 'Guns', 'Stress'], 7, ['tankman']);
 
-		addSTANDALONESong('Ferocious', 8, 'garrett-animal'); //add a song alone lol
+		addSong('Ferocious', 8, 'garrett-animal');
 
 		/*
 		if (sys.FileSystem.exists('assets/editable/weeks/week.txt')) {
@@ -182,7 +182,7 @@ class FreeplayState extends MusicBeatState
 		super.create();
 	}
 
-	public function addSTANDALONESong(songName:String, weekNum:Int, songCharacter:String)
+	public function addSong(songName:String, weekNum:Int, songCharacter:String)
 	{
 		songs.push(new SongMetadata(songName, weekNum, songCharacter));
 
@@ -200,11 +200,6 @@ class FreeplayState extends MusicBeatState
 			//needed because lag sucks lol
 		}
 		#end
-	}
-
-	public function addSong(songName:String, weekNum:Int, songCharacter:String)
-	{
-		songs.push(new SongMetadata(songName, weekNum, songCharacter));
 	}
 
 	public function addWeek(songs:Array<String>, weekNum:Int, ?songCharacters:Array<String>)
