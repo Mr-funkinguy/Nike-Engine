@@ -81,7 +81,12 @@ class Note extends FlxSprite
 				updateHitbox();
 
 			default:
-				frames = Paths.getSparrowAtlas('NOTE_assets');
+				if (daStage != 'garrett-school') {
+					frames = Paths.getSparrowAtlas('NOTE_assets');
+				}
+				else if (daStage == 'garrett-school') {
+					frames = Paths.getSparrowAtlas('NOTE_assets_3D');
+				}
 
 				animation.addByPrefix('greenScroll', 'green0');
 				animation.addByPrefix('redScroll', 'red0');

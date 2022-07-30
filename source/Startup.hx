@@ -32,18 +32,21 @@ class Startup extends MusicBeatState
 	var bg:FlxSprite;
 	public static var e:String = 'icons/icon-';
 	var songs = ['tutorial', 'bopeebo', 'fresh', 'dadbattle', 'spookeez', 'south', 'monster', 'pico', 'philly', 'blammed', 'satin-panties',
-    'high', 'milf', 'cocoa', 'eggnog', 'winter-horrorland', 'senpai', 'roses', 'thorns', 'ugh', 'guns', 'stress'];
+    'high', 'milf', 'cocoa', 'eggnog', 'winter-horrorland', 'senpai', 'roses', 'thorns', 'ugh', 'guns', 'stress', 'ferocious'];
 
 	var bitmapData:Map<String, FlxGraphic>;
 	public static var images = ['iconGrid', 'logoBumpin', 'gfDanceTitle', 'alphabet', 'newgrounds_logo', 'menuBG', 'menuBGBlue', 'menuBGMagenta', 'menuBGDesat', 
 	'funkay', 'FNF_main_menu_assets', 'num0', 'num1', 'num2', 'num3', 'num4', 'num5', 'num6', 'num7', 'num8', 'num9', e + 'bf', e + 'gf', e + 'dad', e + 'spooky',
 	e + 'monster', e + 'pico', e + 'mom', e + 'parents-christmas', e + 'bf-pixel', e + 'gf-pixel', e + 'senpai-pixel', e + 'spirit-pixel', e + 'tankman', e + 'face'];
 
-	public static var imagesSHARED = ['sick', 'good', 'bad', 'shit', 'noteSplashes', 'NOTE_assets', 'ready', 'set', 'go', 'speech_bubble_talking'];
+	public static var imagesSHARED = ['sick', 'good', 'bad', 'shit', 'noteSplashes', 'NOTE_assets', 'ready', 'set', 'go', 'speech_bubble_talking', 'funnyAnimal/padFront', 
+    'funnyAnimal/palooseCar', 'funnyAnimal/zunkity'];
 
 	public static var imagesCHARS = ['characters/BOYFRIEND', 'characters/GF_assets', 'characters/DADDY_DEAREST', 'characters/spooky_kids_assets', 'characters/Monster_Assets', 
 	'characters/Pico_FNF_assetss', 'characters/bfCar', 'characters/gfCar', 'characters/Mom_Assets', 'characters/bfChristmas', 'characters/gfChristmas', 'characters/mom_dad_christmas_assets', 
-	'characters/bfPixel', 'characters/gfPixel', 'characters/senpai', 'characters/spirit', 'characters/tankmanCaptain', 'characters/bfAndGF', 'characters/gfTankmen', 'characters/picoSpeaker'];
+	'characters/bfPixel', 'characters/gfPixel', 'characters/senpai', 'characters/spirit', 'characters/tankmanCaptain', 'characters/bfAndGF', 'characters/gfTankmen', 'characters/picoSpeaker',
+    'characters/3D_BF', 'characters/garrett_bf', 'characters/garrett', 'characters/future', 'characters/garrett_piss', 'characters/carThing', 'characters/playtime', 'characters/palooseMen',
+    'characters/wizard', 'characters/mrMusic', 'characters/do_you_accept'];
 
 	override function create()
 	{

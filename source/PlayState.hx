@@ -83,6 +83,7 @@ class PlayState extends MusicBeatState
 
 	private var strumLineNotes:FlxTypedGroup<FlxSprite>;
 	private var playerStrums:FlxTypedGroup<FlxSprite>;
+	private var opponentStrums:FlxTypedGroup<FlxSprite>;
 
 	private var camZooming:Bool = false;
 	private var curSong:String = "";
@@ -140,6 +141,7 @@ class PlayState extends MusicBeatState
 
 	var talking:Bool = true;
 	var songScore:Int = 0;
+	var songTxt:FlxText;
 	var missesTxt:FlxText;
 	var scoreTxt:FlxText;
 	var ratingTxt:FlxText;
@@ -189,6 +191,23 @@ class PlayState extends MusicBeatState
 	var detailsText:String = "";
 	var detailsPausedText:String = "";
 	#end
+
+	var camPos:FlxPoint;
+
+	var ForceCameraInCenter:Bool = false;
+
+	//LOL XD
+	var schoolSTATIC:FlxSprite;
+	var RUNBITCH:FlxSprite;
+	var RUNBITCHSTATIC:FlxSprite;
+	var BFLEGS2:FlxSprite;
+	var Jail:FlxSprite;
+	var blackScreen:FlxSprite;
+	var blackScreenBG:FlxSprite;
+	var IPADBG:FlxSprite;
+	var IPAD:FlxSprite;
+	var PEDOPHILESTATIC:FlxSprite;
+	var POLICECAR:FlxSprite;
 
 	override public function create()
 	{
@@ -727,6 +746,59 @@ class PlayState extends MusicBeatState
 				}
 				moveTank();
 			}
+			case 'ferocious': {
+				defaultCamZoom = 0.6;
+
+				curStage = 'garrett-school';
+
+				schoolSTATIC = new FlxSprite(-1670, -600).loadGraphic(Paths.image('funnyAnimal/schoolBG', 'shared'));
+				schoolSTATIC.scale.set(1.8, 1.8);
+				schoolSTATIC.updateHitbox();
+				add(schoolSTATIC);
+
+				RUNBITCH = new FlxSprite(-200, 100);
+				RUNBITCH.frames = Paths.getSparrowAtlas('funnyAnimal/runningThroughTheHalls', 'shared');
+				RUNBITCH.animation.addByPrefix('run', 'Symbol 2', 60, true);
+				RUNBITCH.animation.play('run');
+				RUNBITCH.scale.set(1.8, 1.8);
+				RUNBITCH.visible = false;
+				add(RUNBITCH);
+
+				RUNBITCHSTATIC = new FlxSprite(-200, 100);
+				RUNBITCHSTATIC.frames = Paths.getSparrowAtlas('funnyAnimal/runningThroughTheHalls', 'shared');
+				RUNBITCHSTATIC.animation.addByPrefix('run', 'Symbol 2', 60, false);
+				RUNBITCHSTATIC.animation.play('run');
+				RUNBITCHSTATIC.scale.set(1.8, 1.8);
+				RUNBITCHSTATIC.visible = false;
+				add(RUNBITCHSTATIC);
+
+				BFLEGS2 = new FlxSprite(-460, 720);
+				BFLEGS2.frames = Paths.getSparrowAtlas('funnyAnimal/leggi', 'shared');
+				BFLEGS2.animation.addByPrefix('LEGS', 'poop attack0', 24, true);
+				BFLEGS2.animation.addByPrefix('LEGSRUN', 'poop running down my leg', 24, true);
+				BFLEGS2.animation.play('LEGSRUN');
+				BFLEGS2.scale.set(0.7, 0.7);
+				BFLEGS2.visible = false;
+				add(BFLEGS2);
+
+				blackScreenBG = new FlxSprite(0, 0).makeGraphic(Std.int(FlxG.width * 2), Std.int(FlxG.height * 2), FlxColor.BLACK);
+				blackScreenBG.scale.set(5, 5);
+				blackScreenBG.visible = false;
+				add(blackScreenBG);
+
+				blackScreen = new FlxSprite(0, 0).makeGraphic(Std.int(FlxG.width * 2), Std.int(FlxG.height * 2), FlxColor.BLACK);
+				blackScreen.cameras = [camHUD];
+				blackScreen.scale.set(5, 5);
+				blackScreen.visible = false;
+				add(blackScreen);
+
+				Jail = new FlxSprite(0, 0).loadGraphic(Paths.image('funnyAnimal/jailCell', 'shared'));
+				Jail.scale.set(1.8, 1.8);
+				Jail.visible = false;
+				Jail.screenCenter();
+				Jail.updateHitbox();
+				add(Jail);
+			}
 		    default:  {
 		        defaultCamZoom = 0.9;
 		        curStage = 'stage';
@@ -850,9 +922,13 @@ class PlayState extends MusicBeatState
 		boyfriend = new Boyfriend(770, 450, SONG.player1);
 		dad = new Character(100, 100, SONG.player2);
 
-		var camPos:FlxPoint = new FlxPoint(dad.getGraphicMidpoint().x, dad.getGraphicMidpoint().y);
+		camPos = new FlxPoint(dad.getGraphicMidpoint().x, dad.getGraphicMidpoint().y);
 
 		switch (SONG.player1) {
+			case '3d-bf':
+				boyfriend.x += 80;
+				boyfriend.y -= 350;
+				boyfriend.y += 320; //somehow this works lol
 			case 'bf-holding-gf':
 				boyfriend.y -= 15;
 			default:
@@ -861,6 +937,9 @@ class PlayState extends MusicBeatState
 
 		switch (SONG.player2)
 		{
+			case 'garrett-animal':
+				dad.x -= 430;
+				dad.y -= 20;
 			case 'dad':
 				camPos.x += 400;
 				OpponentHealthbar = 0xFF9271FD;
@@ -964,8 +1043,12 @@ class PlayState extends MusicBeatState
 		add(gf);
 
 		// Shitty layering but whatev it works LOL
-
-		if (curStage == 'tank' && !Settings.LowDetail) {
+		if (curStage == 'garrett-school') {
+			gf.visible = false;
+			add(dad);
+			add(boyfriend);
+		}
+		else if (curStage == 'tank' && !Settings.LowDetail) {
 			add(dad);
 			add(boyfriend);
 
@@ -1002,6 +1085,7 @@ class PlayState extends MusicBeatState
 		add(strumLineNotes);
 
 		playerStrums = new FlxTypedGroup<FlxSprite>();
+		opponentStrums = new FlxTypedGroup<FlxSprite>();
 
 		// startCountdown();
 
@@ -1041,6 +1125,18 @@ class PlayState extends MusicBeatState
 		healthBar.createFilledBar(OpponentHealthbar, BFHealthbar);
 		// healthBar
 		add(healthBar);
+
+		trace(SONG.song);
+		songTxt = new FlxText(0, healthBarBG.y -60, 400, "", 24);
+		if (PixelSONG) {
+			songTxt.setFormat(Paths.font("pixel.otf"), 18, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		}
+		else {
+			songTxt.setFormat(Paths.font("comic.ttf"), 24, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		}
+		songTxt.borderSize = 3;
+		songTxt.scrollFactor.set();
+		add(songTxt);
 
 		missesTxt = new FlxText(0, healthBarBG.y -30, 400, "", 24);
 		if (PixelSONG) {
@@ -1089,15 +1185,13 @@ class PlayState extends MusicBeatState
 		iconP2.y = healthBar.y - (iconP2.height / 2);
 		add(iconP2);
 
-		iconP1.angle == 25;
-		iconP2.angle == 25;
-
 		strumLineNotes.cameras = [camHUD];
 		notes.cameras = [camHUD];
 		healthBar.cameras = [camHUD];
 		healthBarBG.cameras = [camHUD];
 		iconP1.cameras = [camHUD];
 		iconP2.cameras = [camHUD];
+		songTxt.cameras = [camHUD];
 		missesTxt.cameras = [camHUD];
 		scoreTxt.cameras = [camHUD];
 		ratingTxt.cameras = [camHUD];
@@ -1241,8 +1335,53 @@ class PlayState extends MusicBeatState
 					startCountdown();
 			}
 		}
-		else {
-			startCountdown();
+		else 
+		{
+			switch (curSong.toLowerCase()) 
+		    {
+				case 'ferocious':
+					var greenScreen:FlxSprite = new FlxSprite(0, 0).makeGraphic(Std.int(FlxG.width * 2), Std.int(FlxG.height * 2), FlxColor.GREEN);
+					greenScreen.scale.set(5, 5);
+					greenScreen.cameras = [camHUD];
+					add(greenScreen);
+
+					var Garrett:FlxSprite = new FlxSprite(0, 0).loadGraphic(Paths.image('funnyAnimal/fat_guy', 'shared'));
+					Garrett.cameras = [camHUD];
+					Garrett.screenCenter();
+					Garrett.updateHitbox();
+					add(Garrett);
+
+					var CanYou:FlxSprite = new FlxSprite(250, 450).loadGraphic(Paths.image('funnyAnimal/canYouBeat', 'shared'));
+					CanYou.cameras = [camHUD];
+					CanYou.updateHitbox();
+					add(CanYou);
+
+					new FlxTimer().start(6, function(tmr:FlxTimer) 
+					{
+						remove(Garrett);
+						var Garrett:FlxSprite = new FlxSprite(0, 0).loadGraphic(Paths.image('funnyAnimal/obese_guy', 'shared'));
+						Garrett.cameras = [camHUD];
+						Garrett.screenCenter();
+						Garrett.updateHitbox();
+						add(Garrett);
+
+						remove(CanYou);
+						var CanYou:FlxSprite = new FlxSprite(250, 450).loadGraphic(Paths.image('funnyAnimal/hooray', 'shared'));
+						CanYou.cameras = [camHUD];
+						CanYou.updateHitbox();
+						add(CanYou);
+
+						new FlxTimer().start(3, function(tmr:FlxTimer)
+						{
+							remove(greenScreen);
+							remove(Garrett);
+							remove(CanYou);
+							startCountdown();
+						});
+					});
+				default:
+					startCountdown();
+			}
 		}
 
 		super.create();
@@ -1348,6 +1487,55 @@ class PlayState extends MusicBeatState
 				remove(black);
 			}
 		});
+	}
+
+	function ReloadIcons() {
+		remove(iconP1);
+		iconP1 = new HealthIcon(boyfriend.curCharacter, true);
+		iconP1.y = healthBar.y - (iconP1.height / 2);
+		add(iconP1);
+		iconP1.cameras = [camHUD];
+
+		remove(iconP2);
+		iconP2 = new HealthIcon(dad.curCharacter, false);
+		iconP2.y = healthBar.y - (iconP2.height / 2);
+		add(iconP2);
+		iconP2.cameras = [camHUD];
+	}
+
+	function PlayANIMATION(Player:Int, AnimName:Dynamic) {
+		if (Player == 3){
+			gf.playAnim(AnimName, true);
+		}
+		else if (Player == 2) {
+			dad.playAnim(AnimName, true);
+		}
+		else if (Player == 1) {
+			boyfriend.playAnim(AnimName, true);
+		}
+	}
+
+	function ChangeCHAR(Player:Int, X:Dynamic, Y:Dynamic, NewCHAR:Dynamic) {
+		if (Player == 3){
+			gf.alpha = 0.0000001;
+			remove(gf);
+			gf = new Character(X, Y, NewCHAR);
+			add(gf);
+		}
+		else if (Player == 2) {
+			dad.alpha = 0.0000001;
+			remove(dad);
+			dad = new Character(X, Y, NewCHAR);
+			add(dad);
+		}
+		else if (Player == 1) {
+			boyfriend.alpha = 0.0000001;
+			remove(boyfriend);
+			boyfriend = new Boyfriend(X, Y, NewCHAR);
+			add(boyfriend);
+		}
+		ReloadIcons();
+		FlxG.camera.flash(FlxColor.WHITE, 0.35, null, true);
 	}
 
 	var startTimer:FlxTimer;
@@ -1629,7 +1817,12 @@ class PlayState extends MusicBeatState
 					}
 
 				default:
-					babyArrow.frames = Paths.getSparrowAtlas('NOTE_assets');
+					if (curStage != 'garrett-school') {
+						babyArrow.frames = Paths.getSparrowAtlas('NOTE_assets');
+					}
+					else if (curStage == 'garrett-school') {
+						babyArrow.frames = Paths.getSparrowAtlas('NOTE_assets_3D');
+					}
 					babyArrow.animation.addByPrefix('green', 'arrowUP');
 					babyArrow.animation.addByPrefix('blue', 'arrowDOWN');
 					babyArrow.animation.addByPrefix('purple', 'arrowLEFT');
@@ -1684,6 +1877,9 @@ class PlayState extends MusicBeatState
 				playerStrums.add(babyArrow);
 			}
 
+			if (player == 0) {
+				opponentStrums.add(babyArrow);
+			}
 			babyArrow.animation.play('static');
 			babyArrow.x += 50;
 			babyArrow.x += ((FlxG.width / 2) * player);
@@ -1824,6 +2020,7 @@ class PlayState extends MusicBeatState
 
 		super.update(elapsed);
 
+		songTxt.text = "" + SONG.song;
 		missesTxt.text = "Combo Breaks:" + misses;
 		scoreTxt.text = "Score:" + songScore;
 		if (misses == 0) {
@@ -1972,6 +2169,15 @@ class PlayState extends MusicBeatState
 					case 'senpai-angry':
 						camFollow.y = dad.getMidpoint().y - 430;
 						camFollow.x = dad.getMidpoint().x - 100;
+					case 'playtime':
+						camFollow.x = dad.getMidpoint().x -300;
+						camFollow.y = dad.getMidpoint().y -300;
+				    case 'garrett-ipad':
+						camFollow.x = dad.getMidpoint().x +350;
+						camFollow.y = dad.getMidpoint().y -150;
+					case 'pedophile':
+						camFollow.x = dad.getMidpoint().x +50;
+						camFollow.y = dad.getMidpoint().y -100;
 				}
 
 				if (dad.curCharacter == 'mom')
@@ -1986,6 +2192,12 @@ class PlayState extends MusicBeatState
 			if (PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection && camFollow.x != boyfriend.getMidpoint().x - 100)
 			{
 				camFollow.setPosition(boyfriend.getMidpoint().x - 100, boyfriend.getMidpoint().y - 100);
+
+				switch (boyfriend.curCharacter) {
+					case 'bf-ipad':
+						camFollow.x = dad.getMidpoint().x +350;
+						camFollow.y = dad.getMidpoint().y -150;
+				}
 
 				switch (curStage)
 				{
@@ -2368,6 +2580,11 @@ class PlayState extends MusicBeatState
 
 		var pixelShitPart1:String = "";
 		var pixelShitPart2:String = '';
+
+		if (SONG.song == 'Ferocious') {
+			pixelShitPart1 == "3dUI/";
+			pixelShitPart2 == '-3d';
+		}
 
 		if (curStage.startsWith('school'))
 		{
@@ -3026,6 +3243,194 @@ class PlayState extends MusicBeatState
 
 				trace('Changing alpha back to normal for strums...');
 			}
+		}
+
+		if (SONG.song.toLowerCase() == 'ferocious') {
+			if (curStep == 12) {
+				trace('THIS IS FOR TESTING LOL');
+			}
+
+			if (curStep == 1152) {
+				ChangeCHAR(2, -110, 220, 'playtime');
+				PlayANIMATION(2, 'garrett pulls out ass');
+				trace('garret summoned playtime out of ass');
+			}
+
+			if (curStep == 2159) {
+				RUNBITCH.visible = true;
+				BFLEGS2.visible = true;
+				defaultCamZoom = 0.75;
+				ChangeCHAR(2, 840, 840, 'palooseMen');
+				camPos = new FlxPoint(dad.getGraphicMidpoint().x, dad.getGraphicMidpoint().y);
+				ChangeCHAR(1, -230, 625, '3d-bf-flipped');
+
+				trace('POLICE IS ON YOUR ASS RUN BITCH');
+			}
+
+			if (curStep == 3215) {
+				defaultCamZoom = 0.7;
+				RUNBITCH.visible = false;
+				BFLEGS2.visible = false;
+				Jail.visible = true;
+
+				var whereTonowlol:Float = dad.x +3800;
+
+				ChangeCHAR(2, 680, 620, 'palooseMen');
+				ChangeCHAR(1, 1340, 1020, '3d-bf');
+
+				FlxTween.tween(dad, {x: whereTonowlol}, 6.5, {
+					startDelay: 1.45, 
+					onComplete: function(twn:FlxTween) 
+					{
+						//dad.visible = false;
+						//this broke it lol
+					}
+				});
+			}
+
+			if (curStep == 3311) {
+				defaultCamZoom = 0.5;
+				Jail.visible = false;
+
+				/*
+				IPADBG = new FlxSprite(FlxG.width -1800, FlxG.height -1150).loadGraphic(Paths.image('funnyAnimal/futurePadBG', 'shared'));
+				IPADBG.visible = true;
+				IPADBG.scale.set(2, 2);
+				IPADBG.updateHitbox();
+				add(IPADBG);
+				*/
+
+				ChangeCHAR(2, -190, 300, 'garrett-ipad');
+				ChangeCHAR(1, 200, -150, 'bf-ipad');
+
+				blackScreenBG.visible = true;
+				IPAD = new FlxSprite(FlxG.width -1800, FlxG.height -1150).loadGraphic(Paths.image('funnyAnimal/futurePad', 'shared'));
+				IPAD.scale.set(2, 2);
+				IPAD.updateHitbox();
+				add(IPAD);
+				trace('GARRETT IS PISSED LOL');
+			}
+
+			if (curStep == 4719) {
+				defaultCamZoom = 0.8;
+				blackScreenBG.visible = false;
+				IPAD.visible = false;
+				RUNBITCHSTATIC.visible = true;
+				ChangeCHAR(2, -370, 240, 'wizard');
+				ChangeCHAR(1, 770, 875, '3d-bf');
+				trace('wizard!!!');
+			}
+
+			if (curStep == 5903) {
+				RUNBITCHSTATIC.visible = false;
+				RUNBITCH.visible = true;
+				var offsets:Float = boyfriend.x -580;
+				ChangeCHAR(2, offsets, 500, 'piano-guy');
+				ChangeCHAR(1, 770, 900, '3d-bf-flipped');
+				trace('piano guy?');
+			}
+
+			if (curStep == 7719) {
+				RUNBITCHSTATIC.visible = true;
+				RUNBITCH.visible = false;
+
+				var whereTonowlol:Float = dad.x -3800;
+				var offsets:Float = boyfriend.x +400;
+				FlxTween.tween(dad, {x: whereTonowlol}, 1.3, {
+					onComplete: function(twn:FlxTween) 
+					{
+						ChangeCHAR(2, offsets, 320, 'pedophile');
+						trace('OH NO ITS A PEDOPHILE RUN BITCH');
+					}
+				});
+			}
+
+			if (curStep == 8703) {
+				PEDOPHILESTATIC = new FlxSprite(dad.x, dad.y);
+				PEDOPHILESTATIC.frames = Paths.getSparrowAtlas('funnyAnimal/zunkity', 'shared');
+				PEDOPHILESTATIC.animation.addByPrefix('hey its the toddler', 'FAKE LOADING SCREEN0000', 24, false);
+				PEDOPHILESTATIC.animation.addByPrefix('hhmm', 'FAKE LOADING SCREEN0001', 24, false);
+				PEDOPHILESTATIC.animation.addByPrefix('smile', 'FAKE LOADING SCREEN0002', 24, false);
+				PEDOPHILESTATIC.animation.addByPrefix('im smile at you', 'FAKE LOADING SCREEN0003', 24, false);
+				PEDOPHILESTATIC.animation.addByPrefix('you ugly', 'FAKE LOADING SCREEN0004', 24, false);
+				PEDOPHILESTATIC.animation.addByPrefix('did you get uglier', 'FAKE LOADING SCREEN0005', 24, false);
+				PEDOPHILESTATIC.animation.addByPrefix('garrett is ugly', 'FAKE LOADING SCREEN0006', 24, false);
+				PEDOPHILESTATIC.animation.addByPrefix('bf is ugly', 'FAKE LOADING SCREEN0007', 24, false);
+				PEDOPHILESTATIC.animation.addByPrefix('like my cut', 'FAKE LOADING SCREEN0008', 24, false);
+				PEDOPHILESTATIC.animation.addByPrefix('i wear a mask with a smile', 'FAKE LOADING SCREEN0009', 24, false);
+				PEDOPHILESTATIC.animation.addByPrefix('wtf', 'FAKE LOADING SCREEN0010', 24, false);
+				PEDOPHILESTATIC.animation.addByPrefix('THERE IS A CAR COMING RUN BITCH', 'FAKE LOADING SCREEN0011', 24, false);
+				PEDOPHILESTATIC.animation.play('hey its the toddler');
+				PEDOPHILESTATIC.visible = false;
+				add(PEDOPHILESTATIC);
+
+				ChangeCHAR(2, -370, 420, 'garrett-angry');
+				ChangeCHAR(1, 770, 875, '3d-bf');
+
+				PEDOPHILESTATIC.animation.play('hey its the toddler');
+				PEDOPHILESTATIC.visible = true;
+			}
+		}
+
+		if (curStep == 8927) {
+			PEDOPHILESTATIC.animation.play('hhmm');
+		}
+
+		if (curStep == 9119) {
+			PEDOPHILESTATIC.animation.play('smile');
+		}
+
+		if (curStep == 9279) {
+			PEDOPHILESTATIC.animation.play('im smile at you');
+		}
+
+		if (curStep == 9347) {
+			PEDOPHILESTATIC.animation.play('you ugly');
+		}
+
+		if (curStep == 9420) {
+			PEDOPHILESTATIC.animation.play('did you get uglier');
+		}
+
+		if (curStep == 9503) {
+			PEDOPHILESTATIC.animation.play('garrett is ugly');
+		}
+
+		if (curStep == 9759) {
+			PEDOPHILESTATIC.animation.play('bf is ugly');
+		}
+
+		if (curStep == 10015) {
+			PEDOPHILESTATIC.animation.play('like my cut');
+		}
+
+		if (curStep == 10527) {
+			PEDOPHILESTATIC.animation.play('wtf');
+		}
+
+		if (curStep == 10863) {
+			PEDOPHILESTATIC.animation.play('THERE IS A CAR COMING RUN BITCH');
+		}
+
+		if (curStep == 11035) {
+			PEDOPHILESTATIC.visible = false;
+			blackScreen.visible = true;
+			RUNBITCHSTATIC.visible = false;
+			RUNBITCH.visible = true;
+			BFLEGS2.visible = true;
+			BFLEGS2.x += 1340;
+			ChangeCHAR(1, 1130, 625, '3d-bf');
+			ChangeCHAR(2, -230, 425, 'garrett-car');
+
+			POLICECAR = new FlxSprite(dad.x, dad.y);
+			POLICECAR.frames = Paths.getSparrowAtlas('funnyAnimal/palooseCar', 'shared');
+			POLICECAR.animation.addByPrefix('run', 'idle0', 24, true);
+			POLICECAR.animation.play('run');
+			add(POLICECAR);
+
+			new FlxTimer().start(0.6, function(tmr:FlxTimer) {
+				blackScreen.visible = false;
+			});
 		}
 	}
 

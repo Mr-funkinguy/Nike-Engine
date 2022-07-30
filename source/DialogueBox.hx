@@ -53,10 +53,8 @@ class DialogueBox extends FlxSpriteGroup
 				FlxG.sound.music.fadeIn(1, 0, 0.8);
 				PixelSONG = true;
 			default:
-				if (PlayState.inCutscene) {
-					FlxG.sound.playMusic(Paths.music('breakfast', 'shared'), 0);
-					FlxG.sound.music.fadeIn(1, 0, 0.8);
-				}
+				FlxG.sound.playMusic(Paths.music('breakfast', 'shared'), 0);
+				FlxG.sound.music.fadeIn(1, 0, 0.8);
 		}
 
 		bgFade = new FlxSprite(-200, -200).makeGraphic(Std.int(FlxG.width * 1.3), Std.int(FlxG.height * 1.3), 0xFFB3DFd8);

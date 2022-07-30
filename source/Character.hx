@@ -596,6 +596,254 @@ class Character extends FlxSprite
 				addOffset("singDOWN-alt", -30, -27);
 
 				playAnim('idle');
+			case '3d-bf':
+				var tex = Paths.getSparrowAtlas('characters/3D_BF', 'shared');
+				frames = tex;
+				animation.addByPrefix('idle', 'IDLE0', 24, false);
+				animation.addByPrefix('singUP', 'UP0', 24, false);
+				animation.addByPrefix('singLEFT', 'RIGHT0', 24, false);
+				animation.addByPrefix('singRIGHT', 'LEFT0', 24, false);
+				animation.addByPrefix('singDOWN', 'DOWN0', 24, false);
+				animation.addByPrefix('singUPmiss', 'MUP', 24, false);
+				animation.addByPrefix('singLEFTmiss', 'MLEFT', 24, false);
+				animation.addByPrefix('singRIGHTmiss', 'MRIGHT', 24, false);
+				animation.addByPrefix('singDOWNmiss', 'MDOWN', 24, false);
+
+				addOffset('idle', 0, 0);
+				addOffset("singUP", 74, 126);
+				addOffset("singRIGHT", -58, 17);
+				addOffset("singLEFT", -11, 13);
+				addOffset("singDOWN", -8, -3);
+
+				addOffset("singUPmiss", 74, 118);
+				addOffset("singRIGHTmiss", 74, 118);
+				addOffset("singLEFTmiss", 74, 118);
+				addOffset("singDOWNmiss", 74, 118);
+
+				playAnim('idle');
+
+				flipX = true;
+			case '3d-bf-flipped':
+				var tex = Paths.getSparrowAtlas('characters/3D_BF', 'shared');
+				frames = tex;
+				animation.addByPrefix('idle', 'IDLE0', 24, false);
+				animation.addByPrefix('singUP', 'UP0', 24, false);
+				animation.addByPrefix('singLEFT', 'LEFT0', 24, false);
+				animation.addByPrefix('singRIGHT', 'RIGHT0', 24, false);
+				animation.addByPrefix('singDOWN', 'DOWN0', 24, false);
+				animation.addByPrefix('singUPmiss', 'MUP', 24, false);
+				animation.addByPrefix('singLEFTmiss', 'MLEFT', 24, false);
+				animation.addByPrefix('singRIGHTmiss', 'MRIGHT', 24, false);
+				animation.addByPrefix('singDOWNmiss', 'MDOWN', 24, false);
+	
+				addOffset('idle', 0, 0);
+				addOffset("singUP", 74, 126);
+				addOffset("singRIGHT", -58, 17);
+				addOffset("singLEFT", -11, 13);
+				addOffset("singDOWN", -8, -3);
+	
+				addOffset("singUPmiss", 74, 118);
+				addOffset("singRIGHTmiss", 74, 118);
+				addOffset("singLEFTmiss", 74, 118);
+				addOffset("singDOWNmiss", 74, 118);
+	
+				playAnim('idle');
+	
+				flipX = false;
+			case 'garrett-animal':
+				// DAD ANIMATION LOADING CODE
+				tex = Paths.getSparrowAtlas('characters/garrett', 'shared');
+				frames = tex;
+				animation.addByPrefix('idle', 'idle0', 24);
+				animation.addByPrefix('singUP', 'up0', 24);
+				animation.addByPrefix('singRIGHT', 'right0', 24);
+				animation.addByPrefix('singDOWN', 'down0', 24);
+				animation.addByPrefix('singLEFT', 'left0', 24);
+	
+				addOffset('idle');
+				addOffset("singUP", 0, 4);
+				addOffset("singRIGHT", 0, -20);
+				addOffset("singLEFT", 0, -19);
+				addOffset("singDOWN", 0, -20);
+	
+				playAnim('idle');
+			case 'playtime':
+				// DAD ANIMATION LOADING CODE
+				tex = Paths.getSparrowAtlas('characters/playtime', 'shared');
+				frames = tex;
+				animation.addByPrefix('idle', 'idle0', 24);
+				animation.addByPrefix('singUP', 'up0', 24);
+				animation.addByPrefix('singRIGHT', 'right0', 24);
+				animation.addByPrefix('singDOWN', 'down0', 24);
+				animation.addByPrefix('singLEFT', 'left0', 24);
+				animation.addByPrefix('garrett pulls out ass', 'CHECK OUT MY LIL FRIENDO0', 24);
+		
+				addOffset('idle', 0, -1);
+				addOffset("singUP", -1, -1);
+				addOffset("singRIGHT", -1, -1);
+				addOffset("singLEFT", -1, -1);
+				addOffset("singDOWN", -1, -1);
+				addOffset("garrett pulls out ass", 601, 352);
+		
+				playAnim('idle');
+			case 'palooseMen':
+				// DAD ANIMATION LOADING CODE
+				tex = Paths.getSparrowAtlas('characters/palooseMen', 'shared');
+				frames = tex;
+				animation.addByPrefix('idle', 'idle0', 24);
+				animation.addByPrefix('singUP', 'up0', 24);
+				animation.addByPrefix('singRIGHT', 'right0', 24);
+				animation.addByPrefix('singDOWN', 'down0', 24);
+				animation.addByPrefix('singLEFT', 'left0', 24);
+			
+				addOffset('idle', 0, 0);
+				addOffset("singUP", -24, 107);
+				addOffset("singLEFT", 580, -40);
+				addOffset("singRIGHT", -41, -51);
+				addOffset("singDOWN", -27, -230);
+				
+				scale.set(1.3, 1.3);
+			
+				playAnim('idle');
+
+			case 'garrett-ipad':
+				// DAD ANIMATION LOADING CODE
+				tex = Paths.getSparrowAtlas('characters/future', 'shared');
+				frames = tex;
+				animation.addByPrefix('idle', 'idle0', 24);
+				animation.addByPrefix('singUP', 'up0', 24);
+				animation.addByPrefix('singRIGHT', 'right0', 24);
+				animation.addByPrefix('singDOWN', 'down0', 24);
+				animation.addByPrefix('singLEFT', 'left0', 24);
+		
+				addOffset('idle', -79, -144);
+				addOffset("singUP", -77, -141);
+				addOffset("singRIGHT", -56, -150);
+				addOffset("singLEFT", -74, -150);
+				addOffset("singDOWN", -78, -111);
+		
+				playAnim('idle');
+
+			case 'bf-ipad':
+				var tex = Paths.getSparrowAtlas('characters/garrett_bf', 'shared');
+				frames = tex;
+				animation.addByPrefix('idle', 'idle0', 24, false);
+				animation.addByPrefix('singUP', 'up0', 24, false);
+				animation.addByPrefix('singLEFT', 'left0', 24, false);
+				animation.addByPrefix('singRIGHT', 'right0', 24, false);
+				animation.addByPrefix('singDOWN', 'down0', 24, false);
+	
+				addOffset('idle', -79, -144);
+				addOffset("singUP", -50, -98);
+				addOffset("singRIGHT", -77, -133);
+				addOffset("singLEFT", 38, -112);
+				addOffset("singDOWN", -96, -193);
+
+				animation.addByPrefix('singUPmiss', 'up0', 24, false);
+				animation.addByPrefix('singLEFTmiss', 'left0', 24, false);
+				animation.addByPrefix('singRIGHTmiss', 'right0', 24, false);
+				animation.addByPrefix('singDOWNmiss', 'down0', 24, false);
+				addOffset("singUPmiss", -50, -98);
+				addOffset("singRIGHTmiss", -77, -133);
+				addOffset("singLEFTmiss", 38, -112);
+				addOffset("singDOWNmiss", -96, -193);
+	
+				playAnim('idle');
+
+				scale.set(0.6, 0.6);
+
+				flipX = true;
+
+			case 'wizard':
+				// DAD ANIMATION LOADING CODE
+				tex = Paths.getSparrowAtlas('characters/wizard', 'shared');
+				frames = tex;
+				animation.addByPrefix('idle', 'idle0', 24);
+				animation.addByPrefix('singUP', 'up0', 24);
+				animation.addByPrefix('singRIGHT', 'right0', 24);
+				animation.addByPrefix('singDOWN', 'down0', 24);
+				animation.addByPrefix('singLEFT', 'left0', 24);
+			
+				addOffset('idle', 1, -1);
+				addOffset("singUP", -1, -1);
+				addOffset("singRIGHT", -42, -11);
+				addOffset("singLEFT", -111, -21);
+				addOffset("singDOWN", -1, -1);
+			
+				playAnim('idle');
+			case 'piano-guy':
+				// DAD ANIMATION LOADING CODE
+				tex = Paths.getSparrowAtlas('characters/mrMusic', 'shared');
+				frames = tex;
+				animation.addByPrefix('idle', 'YEA0', 24);
+				animation.addByPrefix('singUP', 'up0', 24);
+				animation.addByPrefix('singRIGHT', 'right0', 24);
+				animation.addByPrefix('singDOWN', 'down0', 24);
+				animation.addByPrefix('singLEFT', 'left0', 24);
+				
+				addOffset('idle', -79, -141);
+				addOffset("singUP", -154, 48);
+				addOffset("singRIGHT", -66, -162);
+				addOffset("singLEFT", 182, -159);
+				addOffset("singDOWN", 20, -240);
+				
+				scale.set(4, 4);
+
+				playAnim('idle');
+
+			case 'pedophile':
+				// DAD ANIMATION LOADING CODE
+				tex = Paths.getSparrowAtlas('characters/do_you_accept', 'shared');
+				frames = tex;
+				animation.addByPrefix('idle', 'idle0', 24);
+				animation.addByPrefix('singUP', 'up0', 24);
+				animation.addByPrefix('singRIGHT', 'right0', 24);
+				animation.addByPrefix('singDOWN', 'down0', 24);
+				animation.addByPrefix('singLEFT', 'left0', 24);
+					
+				addOffset('idle', 0, 0);
+				addOffset("singUP", -1, 1);
+				addOffset("singRIGHT", 0, 0);
+				addOffset("singLEFT", 0, -1);
+				addOffset("singDOWN", 20, 0);
+					
+				playAnim('idle');
+
+			case 'garrett-angry':
+				// DAD ANIMATION LOADING CODE
+				tex = Paths.getSparrowAtlas('characters/garrett_piss', 'shared');
+				frames = tex;
+				animation.addByPrefix('idle', 'idle0', 24);
+				animation.addByPrefix('singUP', 'up0', 24);
+				animation.addByPrefix('singRIGHT', 'right0', 24);
+				animation.addByPrefix('singDOWN', 'down0', 24);
+				animation.addByPrefix('singLEFT', 'left0', 24);
+			
+				addOffset('idle', 0, 0);
+				addOffset("singUP", 0, 4);
+				addOffset("singRIGHT", 1, -20);
+				addOffset("singLEFT", 0, -19);
+				addOffset("singDOWN", 0, -20);
+			
+				playAnim('idle');
+
+		case 'garrett-car':
+			// DAD ANIMATION LOADING CODE
+			tex = Paths.getSparrowAtlas('characters/carThing', 'shared');
+			frames = tex;
+			animation.addByPrefix('idle', 'idle0', 24);
+			animation.addByPrefix('singUP', 'up0', 24);
+			animation.addByPrefix('singRIGHT', 'right0', 24);
+			animation.addByPrefix('singDOWN', 'down0', 24);
+			animation.addByPrefix('singLEFT', 'left0', 24);
+			
+			addOffset('idle', 0, 0);
+			addOffset("singUP", 0, 4);
+			addOffset("singRIGHT", 0, -20);
+			addOffset("singLEFT", 0, -19);
+			addOffset("singDOWN", 0, -20);
+			
+			playAnim('idle');
 		}
 
 		dance();

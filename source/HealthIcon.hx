@@ -32,6 +32,19 @@ class HealthIcon extends FlxSprite
 		animation.add('parents-christmas', [17], 0, false, isPlayer);
 		animation.add('monster', [19, 20], 0, false, isPlayer);
 		animation.add('monster-christmas', [19, 20], 0, false, isPlayer);
+
+		animation.add('3d-bf', [24, 25], 0, false, isPlayer);
+		animation.add('3d-bf-flipped', [24, 25], 0, false, isPlayer);
+		animation.add('garrett-animal', [26, 27], 0, false, isPlayer);
+		animation.add('garrett-angry', [26, 27], 0, false, isPlayer);
+		animation.add('garrett-car', [26, 27], 0, false, isPlayer);
+		animation.add('playtime', [28, 29], 0, false, isPlayer);
+		animation.add('palooseMen', [30, 31], 0, false, isPlayer);
+		animation.add('bf-ipad', [24, 25], 0, false, isPlayer);
+		animation.add('garrett-ipad', [26, 27], 0, false, isPlayer);
+		animation.add('wizard', [32, 33], 0, false, isPlayer);
+		animation.add('piano-guy', [34, 35], 0, false, isPlayer);
+		animation.add('pedophile', [36, 37], 0, false, isPlayer);
 		animation.play(char);
 	}
 
