@@ -25,6 +25,8 @@ class Note extends FlxSprite
 	public var sustainLength:Float = 0;
 	public var isSustainNote:Bool = false;
 
+	public var noteStyle:String = 'normal'
+
 	public var noteScore:Float = 1;
 
 	public static var swagWidth:Float = 160 * 0.7;
@@ -33,10 +35,10 @@ class Note extends FlxSprite
 	public static var BLUE_NOTE:Int = 1;
 	public static var RED_NOTE:Int = 3;
 
-	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false)
+	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false, noteStyle:String = 'normal')
 	{
 		super();
-
+		this.noteStyle = noteStyle;
 		if (prevNote == null)
 			prevNote = this;
 
@@ -81,12 +83,18 @@ class Note extends FlxSprite
 				updateHitbox();
 
 			default:
-				if (daStage != 'garrett-school') {
-					frames = Paths.getSparrowAtlas('NOTE_assets');
+				var daPath:String = 'NOTE_assets';
+				switch (noteStyle) {
+					case '3d':
+						daPath = 'NOTE_assets_3D';
+					case 'magic':
+					    daPath = 'funnyAnimal/magicNote ';
+					case 'police':
+						daPath = 'funnyAnimal/palooseNote';
+					default:
+						daPath = 'NOTE_assets';
 				}
-				else if (daStage == 'garrett-school') {
-					frames = Paths.getSparrowAtlas('NOTE_assets_3D');
-				}
+				frames = Paths.getSparrowAtlas(daPath);
 
 				animation.addByPrefix('greenScroll', 'green0');
 				animation.addByPrefix('redScroll', 'red0');

@@ -97,7 +97,7 @@ class FreeplayState extends MusicBeatState
 		if (Settings.Week7Unlocked || isDebug)
 			addWeek(['Ugh', 'Guns', 'Stress'], 7, ['tankman']);
 
-		addSTANDALONESong('Ferocious', 8, 'garrett-animal'); //add a song alone lol
+		addSong('Ferocious', 8, 'garrett-animal'); //add a song alone lol
 
 		/*
 		if (sys.FileSystem.exists('assets/editable/weeks/week.txt')) {
@@ -182,7 +182,7 @@ class FreeplayState extends MusicBeatState
 		super.create();
 	}
 
-	public function addSTANDALONESong(songName:String, weekNum:Int, songCharacter:String)
+	public function addSong(songName:String, weekNum:Int, songCharacter:String)
 	{
 		songs.push(new SongMetadata(songName, weekNum, songCharacter));
 
@@ -202,11 +202,6 @@ class FreeplayState extends MusicBeatState
 		#end
 	}
 
-	public function addSong(songName:String, weekNum:Int, songCharacter:String)
-	{
-		songs.push(new SongMetadata(songName, weekNum, songCharacter));
-	}
-
 	public function addWeek(songs:Array<String>, weekNum:Int, ?songCharacters:Array<String>)
 	{
 		if (songCharacters == null)
@@ -216,21 +211,6 @@ class FreeplayState extends MusicBeatState
 		for (song in songs)
 		{
 			addSong(song, weekNum, songCharacters[num]);
-
-			#if PRELOAD_ALL
-			if (Settings.Cache) {
-
-				if (FileSystem.exists('assets/songs/' +song.toLowerCase() +'/Inst.ogg')) {
-				    FlxG.sound.cache(Paths.inst(song.toLowerCase()));
-				}
-
-				if (FileSystem.exists('assets/songs/' +song.toLowerCase() +'/Voices.ogg')) {
-					FlxG.sound.cache(Paths.voices(song.toLowerCase()));
-				}
-				trace('Just loaded: ' + song.toLowerCase());
-				//needed because lag sucks lol
-			}
-			#end
 
 			if (songCharacters.length != 1)
 				num++;

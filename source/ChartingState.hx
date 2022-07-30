@@ -40,6 +40,11 @@ class ChartingState extends MusicBeatState
 
 	var UI_box:FlxUITabMenu;
 
+	var noteStyle:Int = 0;
+	var styles:Array<String> = ['normal', '3d', 'wizard', 'police'];
+
+	var noteTypeTEXT:FlxText = new FlxText(0, 0, 0, "Charting: ", 32)
+
 	/**
 	 * Array of notes showing when each section STARTS in STEPS
 	 * Usually rounded up??
@@ -951,8 +956,9 @@ class ChartingState extends MusicBeatState
 		var noteStrum = getStrumTime(dummyArrow.y) + sectionStartTime();
 		var noteData = Math.floor(FlxG.mouse.x / GRID_SIZE);
 		var noteSus = 0;
+		var noteStyle:String = styles[this.noteStyle];
 
-		_song.notes[curSection].sectionNotes.push([noteStrum, noteData, noteSus]);
+		_song.notes[curSection].sectionNotes.push([noteStrum, noteData, noteSus, noteStyle]);
 
 		curSelectedNote = _song.notes[curSection].sectionNotes[_song.notes[curSection].sectionNotes.length - 1];
 
